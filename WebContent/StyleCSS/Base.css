@@ -25,6 +25,14 @@ li > a {
 	text-decoration: none;
 }
 
+.submenu {
+	width: 120px;
+	float: left;
+}
+ .submenu > li {
+ 	width: 80px;
+ 	height: 50px;
+ }
 .title {
 	text-align: center;
 }
