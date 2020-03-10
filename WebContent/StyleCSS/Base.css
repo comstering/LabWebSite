@@ -9,8 +9,8 @@
 	list-style: none;
 	margin-left: auto;
 	margin-right: auto;
+	width: 1000px;
 }
-
 .menu > li {
 	width: 230px;
 	float: left;
@@ -19,12 +19,16 @@
 	font-weight: bold;
 	border-left: 1px solid #000;
 }
-
+.menu-box {
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #000;
+	border-top: 1px solid #000;
+}
 li > a {
 	color: black;
 	text-decoration: none;
 }
-
 .submenu {
 	width: 120px;
 	float: left;
@@ -32,6 +36,7 @@ li > a {
  .submenu > li {
  	width: 80px;
  	height: 50px;
+ 	font-weight: bold;
  }
 .title {
 	text-align: center;
