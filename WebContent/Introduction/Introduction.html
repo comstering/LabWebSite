@@ -13,7 +13,7 @@
 <body>
 	<div class="wrapper">
 		<h1 class="title">
-			<a href="index.html"> <img src="../Image/base/logo.png" alt="">
+			<a href="../index.html"> <img src="../Image/base/logo.png" alt="">
 			</a>
 		</h1>
 
@@ -27,51 +27,25 @@
 	</div>	
 	<div class="menu-box">
 		<ul class="menu">
-			<li><a href="Introduction/Introduction.html">INTRODUCTION</a></li>
-			<li><a href="Project/Project.html">PROJECT</a></li>
-			<li><a href="Activity/Institute.html">ACTIVITY</a></li>
-			<li style="border-right: 1px solid #000"><a href="Board/Notice.html">BOARD</a></li>
+			<li><a href="../Introduction/Introduction.html">INTRODUCTION</a></li>
+			<li><a href="../Project/Project.html">PROJECT</a></li>
+			<li><a href="../Activity/Institute.html">ACTIVITY</a></li>
+			<li style="border-right: 1px solid #000"><a href="../Board/Notice.html">BOARD</a></li>
 		</ul>
 	</div>
-	<div class="wrapper">	
-		<ul class="submenu">
-
-		</ul>
+	<div class="wrapper">
+		<div class="submenu-box">
+			<h2>INTODUCTION</h2>
+			<ul class="submenu">
+			
+			</ul>
+		</div>
 		
 		<article>
 		
 		</article>
 
-		<script>
-			function fetchPage(name) {
-				fetch(name).then(function(response) {
-					response.text().then(function(text) {
-						document.querySelector('article').innerHTML = text;
-					})
-				});
-			}
-			fetch('list').then(function(response) {
-				response.text().then(function(text) {
-					var items = text.split(',');
-					var i = 0;
-					var tags = '';
-					while (i < items.length) {
-						var item = items[i];
-						item = item.trim();
-						name = item.replace(".html", "");
-						var tag = '<li><a href="#!'+ name + '" onclick="fetchPage(\'' + item + '\')">' + name + '</a></li>';
-						tags = tags + tag;
-						i = i + 1;
-					}
-					document.querySelector('.submenu').innerHTML = tags;
-				})
-			});
-			
-			if(location.hash) {
-				fetchPage(location.hash.substr(2) + ".html");
-			} else {
-				fetchPage('NSLab.html');
-			}
+		<script src="Introduction.js">
 		</script>
 
 	</div>
