@@ -47,3 +47,9 @@ li > a {
 	right: 10px;
 	clear: both;
 }
+.contents {
+		border-left: 1px solid #000;
+		float: right;
+		padding-left: 20px;
+		width: 800px;
+}

@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +15,7 @@
 <body>
 	<div class="wrapper">
 		<h1 class="title">
-			<a href="../index.html"> <img src="../Image/base/logo.png" alt="">
+			<a href="../index.jsp"> <img src="../Image/base/logo.png" alt="">
 			</a>
 		</h1>
 
@@ -27,26 +29,25 @@
 	</div>	
 	<div class="menu-box">
 		<ul class="menu">
-			<li><a href="../Introduction/Introduction.html">INTRODUCTION</a></li>
-			<li><a href="../Project/Project.html">PROJECT</a></li>
-			<li><a href="../Activity/Institute.html">ACTIVITY</a></li>
-			<li style="border-right: 1px solid #000"><a href="../Board/Notice.html">BOARD</a></li>
+			<li><a href="../Introduction/NSLab.jsp">INTRODUCTION</a></li>
+			<li><a href="../Project/Project.jsp">PROJECT</a></li>
+			<li><a href="../Activity/Institute.jsp">ACTIVITY</a></li>
+			<li style="border-right: 1px solid #000"><a href="../Board/Notice.jsp">BOARD</a></li>
 		</ul>
 	</div>
 	<div class="wrapper">
 		<div class="submenu-box">
-			<h2>INTODUCTION</h2>
+			<h2>Board</h2>
 			<ul class="submenu">
-			
+				<li><a href="Notice.jsp">Notice</a></li>
+				<li><a href="Calendar.jsp">Calendar</a></li>
+				<li><a href="Data.jsp">Data</a></li>
 			</ul>
 		</div>
 		
-		<article>
-		
+		<article class="contents">
+			<h1>Data</h1>
 		</article>
-
-		<script src="Introduction.js">
-		</script>
 
 	</div>
 </body>
