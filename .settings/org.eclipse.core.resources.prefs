@@ -1,6 +1,14 @@
 eclipse.preferences.version=1
+encoding//WebContent/Activity/list=UTF-8
+encoding//WebContent/Activity/menu=UTF-8
+encoding//WebContent/Board/list=UTF-8
+encoding//WebContent/Board/menu=UTF-8
+encoding//WebContent/Index/index.jsp=UTF-8
 encoding//WebContent/Introduction/History.jsp=UTF-8
 encoding//WebContent/Introduction/Member.jsp=UTF-8
 encoding//WebContent/Introduction/NSLab.jsp=UTF-8
 encoding//WebContent/Introduction/Professor.jsp=UTF-8
-encoding//WebContent/index.jsp=UTF-8
+encoding//WebContent/Introduction/list=UTF-8
+encoding//WebContent/Introduction/menu=UTF-8
+encoding//WebContent/Project/list=UTF-8
+encoding//WebContent/Project/menu=UTF-8

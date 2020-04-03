@@ -13,43 +13,14 @@
 </style>
 </head>
 <body>
+	<script src="../Menu.js"></script>
 	<div class="wrapper">
-		<h1 class="title">
-			<a href="../index.jsp"> <img src="../Image/base/logo.png" alt="">
-			</a>
-		</h1>
-
-		<div style="height: 30px">
-			<div class="login">
-				<button>로그인</button>
-				<button>회원가입</button>
-			</div>
-		</div>
-		<p style="clear: both"></p>
-	</div>	
-	<div class="menu-box">
-		<ul class="menu">
-			<li><a href="../Introduction/NSLab.jsp">INTRODUCTION</a></li>
-			<li><a href="../Project/Project.jsp">PROJECT</a></li>
-			<li><a href="../Activity/Institute.jsp">ACTIVITY</a></li>
-			<li style="border-right: 1px solid #000"><a href="../Board/Notice.jsp">BOARD</a></li>
-		</ul>
-	</div>
-	<div class="wrapper">
-		<div class="submenu-box">
-			<h2>INTODUCTION</h2>
-			<ul class="submenu">
-				<li><a href="NSLab.jsp">NSLab</a></li>
-				<li><a href="Professor.jsp">Professor</a></li>
-				<li><a href="History.jsp">History</a></li>
-				<li><a href="Member.jsp">Member</a></li>
-			</ul>
-		</div>
+		<script src="../Submenu.js"></script>
 		
 		<article class="contents">
-			<h1>Professor</h1>
+			<h1>교수님</h1>
 			<div style="display: block;">
-				<img src="Professor.png" style="float: left; margin-right: 50px; width: 120px;">
+				<img src="../Image/Introduction/Professor.png" style="float: left; margin-right: 50px; width: 120px;">
 				<div>
 					<p>김황래 교수님</p>
 					<p>전화번호 041-521-9227</p>

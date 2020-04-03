@@ -18,8 +18,7 @@
 		<script src="../Submenu.js"></script>
 		
 		<article class="contents">
-			<h1>구성원</h1>
-			<img src="../Image/Introduction/mem.jpg" style="width: 640px;">
+			<h1>학술대회</h1>
 		</article>
 
 	</div>

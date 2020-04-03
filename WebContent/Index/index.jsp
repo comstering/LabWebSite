@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Network Security Lab</title>
-<link rel="stylesheet" href="StyleCSS/Base.css">
+<link rel="stylesheet" href="../StyleCSS/Base.css">
 <style>
 	div > h2 {
 		display: inline;
@@ -13,28 +13,7 @@
 </style>
 </head>
 <body>
-	<div class="wrapper">
-		<h1 class="title">
-			<a href="index.jsp"> <img src="Image/base/logo.png" alt="">
-			</a>
-		</h1>
-
-		<div style="height: 30px">
-			<div class="login">
-				<button>로그인</button>
-				<button>회원가입</button>
-			</div>
-		</div>
-		<p style="clear: both"></p>
-	</div>	
-	<div class="menu-box">
-		<ul class="menu">
-			<li><a href="Introduction/NSLab.jsp">INTRODUCTION</a></li>
-			<li><a href="Project/Project.jsp">PROJECT</a></li>
-			<li><a href="Activity/Institute.jsp">ACTIVITY</a></li>
-			<li style="border-right: 1px solid #000"><a href="Board/Notice.jsp">BOARD</a></li>
-		</ul>
-	</div>
+	<script src="../Menu.js"></script>
 		
 	<div class="wrapper">
 		<div>
