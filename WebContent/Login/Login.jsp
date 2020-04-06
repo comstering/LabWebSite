@@ -17,28 +17,29 @@
 	});
 </script>
 <style>
+	.form-signin {
+		width: 100%;
+		max-width: 450px;
+		padding: 15px;
+		margin: auto;
+	}
 </style>
 </head>
 <body>
 	<div id="menu"></div>
-	<div class="container">
-		<div class="row">
-			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="max-width: 200px">
-				<h4 style="text-align: center;">INTRODUCTION</h4>
-				<div class="sidebar-stick">
-					<ul class="nav flex-column" style="text-align: center;">
-						<script src="../Submenu.js">
-						</script>
-					</ul>
-				</div>
-			</nav>
-			<main role="main" class="col-md-9 px-4" style="max-width: 72%">
-				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
-				pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">연혁</h1>
-				</div>
-			</main>
-		</div>
+	<div class="text-center">
+		<form class="form-signin" method="post" action="LoginAction.jsp">
+			<h1 class="h3 mb-4 font-weight-normal text-center">로그인</h1>
+			<div class=form-group>
+				<label for="ID">아이디</label>
+				<input type="text" id="ID" name="userID" class="form-control" placeholder="아이디(학번)" maxlength="20" required autofocus>
+			</div>
+			<div class="form-group">
+				<label for="Password">비밀번호</label>
+				<input type="password" id="Password" name="userPassword" class="form-control" placeholder="비밀번호" maxlength="20" required>
+			</div>
+			<button class="btn btn-lg btn-secondary btn-block mt-4" type="submit">Sign in</button>
+		</form>
 	</div>
 </body>
 </html>

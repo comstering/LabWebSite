@@ -24,28 +24,9 @@ function list(file1, file2) {
 	var itemssub = submenu.split(',');
 	var itemsmenu = menuname.split(',');
 	var str='';
-
-	for(var name in itemssub) {
-		str += '<li><a href="' + itemssub[name] + '.jsp">' + itemsmenu[name] + '</a></li>'
+		for(var name in itemssub) {
+		str += '<li class="nav-item"><a class="nav-link" href="' + itemssub[name] + '.jsp">' + itemsmenu[name] + '</a></li>'
 	}
 	document.write(str);
 }
-
-document.write(
-	"<div class=\"submenu-box\">" +
-	"<h2>"
-)
-var url = window.location.pathname;
-var menu = url.split('/');
-document.write(menu[2]);
-document.write(
-	"	</h2>" +
-	"	<ul class=\"submenu\">" 
-)
-
 list("list", "menu");
-
-document.write(
-	"	</ul>" +
-	"</div>"
-)
