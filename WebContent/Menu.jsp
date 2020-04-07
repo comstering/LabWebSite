@@ -39,10 +39,22 @@
 				<img src="../Image/Base/logo.png" style="height: 100px;"alt="">
 			</a>
 		</div>
+		<%
+			if(session.getAttribute("userID") == null) {    //  로그인이 안되어 있을경우
+		%>
 		<div class="col-11 d-flex justify-content-end align-item-center">
 			<a class="btn btn-outline-secondary mr-3" href="../Login/Login.jsp">Sign In</a>
 			<a class="btn btn-outline-primary" href="../Login/Join.jsp">Sign Up</a>
 		</div>
+		<%
+			} else if(session.getAttribute("userID") != null &&
+			session.getAttribute("userName") != null
+			&& session.getAttribute("userAuthority") != null) {    //  로그인이 되어있을경우
+		%>
+		<div class="col-11 d-flex justify-content-end align-item-center">
+			<a class="btn btn-outline-primary" href="../Login/LogoutAction.jsp">Sign Out</a>
+		</div>
+		<%} %>
 	</div>
 	
 	</div>

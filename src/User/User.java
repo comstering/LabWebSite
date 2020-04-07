@@ -51,5 +51,19 @@ public class User {
 	public void setUserAuthority(String userAuthority) {
 		this.userAuthority = userAuthority;
 	}
+	public User() {
+		
+	}
+	public User(String userID, String userPassword, String userName, String userPhoneNumber, String userEmail,
+			String userGender, String userAuthority) {
+		super();
+		this.userID = userID;
+		this.userPassword = userPassword;
+		this.userName = userName;
+		this.userPhoneNumber = userPhoneNumber;
+		this.userEmail = userEmail;
+		this.userGender = userGender;
+		this.userAuthority = userAuthority;
+	}
 	
 }
