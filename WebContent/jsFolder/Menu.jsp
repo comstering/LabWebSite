@@ -16,7 +16,7 @@
 						<a class="nav-link" href="../Project/Project.jsp">PROJECT</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="../Activity/Contest(Univ).jsp">ACTIVITY</a>
+						<a class="nav-link" href="../Activity/UnivContest.jsp">ACTIVITY</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../Board/Notice.jsp">BOARD</a>
@@ -35,7 +35,7 @@
 	<div class="container">
 	<div class="row flex-nowrab justify-content-between align-items-center">
 		<div class="text-center" style="width: 100%; position: relative; padding-right: 15px; padding-left: 15px;">
-			<a class="blog-header-logo text-dark" href="../Index/index.jsp">
+			<a class="blog-header-logo text-dark" href="../index.jsp">
 				<img src="../Image/Base/logo.png" style="height: 100px;"alt="">
 			</a>
 		</div>
@@ -64,7 +64,7 @@
 	<div class="container d-flex flex-column flex-md-row justify-content-between">
 		<a class="py-2 d-md-inline-block" href="../Introduction/NSLab.jsp">INTRODUCTION</a>
 		<a class="py-2 d-md-inline-block" href="../Project/Project.jsp">PROJECT</a>
-		<a class="py-2 d-md-inline-block" href="../Activity/Contest(Univ).jsp">ACTIVITY</a>
+		<a class="py-2 d-md-inline-block" href="../Activity/UnivContest.jsp">ACTIVITY</a>
 		<a class="py-2 d-md-inline-block" href="../Board/Notice.jsp">BOARD</a>
 	</div>
 </nav>

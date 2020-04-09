@@ -1,5 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="java.io.PrintWriter" %>
+<%
+	if(session.getAttribute("userID") == null) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('로그인 후 이용해주세요.')");
+		script.println("location.href = '../Login/Login.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +25,7 @@
 <title>Network Security Lab</title>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#menu").load("../Menu.jsp")
+		$("#menu").load("../jsFolder/Menu.jsp")
 	});
 </script>
 <style>
@@ -27,7 +39,7 @@
 				<h4 style="text-align: center;">BOARD</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
-						<script src="../Submenu.js">
+						<script src="../jsFolder/Submenu.js">
 						</script>
 					</ul>
 				</div>
@@ -50,7 +62,7 @@
 											</div>
 											<select class="custom-select" id="inputGroupSelect01" name="category">
 												<option selected value="Notice">공지사항</option>
-												<option value="Data">자료실</option>
+												<option value="Library">자료실</option>
 											</select>
 										</div>
 									</td>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Board.PostDAO" %>
+<%@ page import="Activity.PostDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.File" %>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
@@ -18,7 +18,7 @@
 	}
 %>
 <% request.setCharacterEncoding("UTF-8"); %>
-<jsp:useBean id="postDTO" class="Board.PostDTO" scope="page" />
+<jsp:useBean id="postDTO" class="Activity.PostDTO" scope="page" />
 <jsp:setProperty name="postDTO" property="category" />
 <jsp:setProperty name="postDTO" property="title" />
 <jsp:setProperty name="postDTO" property="content" />
@@ -40,7 +40,7 @@
 			*/
 			PrintWriter script = response.getWriter();
 			script.println("<script>");
-			script.println("location.href = '../Board/"+ postDTO.getCategory() +".jsp'");
+			script.println("location.href = '../Activity/"+ postDTO.getCategory() +".jsp'");
 			script.println("</script>");
 			script.close();
 			return;

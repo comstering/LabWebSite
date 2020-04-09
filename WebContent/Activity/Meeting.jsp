@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="Activity.PostDTO" %>
+<%@ page import="Activity.PostDAO" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +16,7 @@
 <title>Network Security Lab</title>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#menu").load("../Menu.jsp")
+		$("#menu").load("../jsFolder/Menu.jsp")
 	});
 </script>
 <style>
@@ -27,112 +30,69 @@
 				<h4 style="text-align: center;">Activity</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
-						<script src="../Submenu.js">
+						<script src="../jsFolder/Submenu.js">
 						</script>
 					</ul>
 				</div>
 			</nav>
 			<main role="main" class="col-md-9 px-4" style="max-width: 72%">
+				<%
+					int pageNumber = 1;
+					if(request.getParameter("pageNumber") != null) {
+						pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+					}
+				%>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">모임</h1>
 				</div>
 				<div class="row">
+					<%
+						PostDAO postDAO = new PostDAO();
+						ArrayList<PostDTO> list = postDAO.getList("Meeting", pageNumber);
+						if(list.size() == 0) {
+					%>
+					<div class="text-center">
+						데이터가 없습니다.
+					</div>
+					<%
+						} else {
+							for(int i = 0; i < list.size(); i++) {
+					%>
 					<div class="col-md-4">
 						<div class="card mb-4 shadow-sm">
-							<svg class="bd-placeholder-img card-img-top" width="100%" height=225" xmlns=http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-								<title>Placeholder</title>
-								<rect width="100%" height="100%" fill="#55595c"></rect>
-								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-							</svg>
+							<img  src="../Image/Introduction/Professor.png" class="bd-placeholder-img card-img-top" width="100%">
 							<div class="card-body">
-								<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+								<p class="card-text"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
 										<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
 									</div>
-									<small class="text-muted">9 mins</small>
+									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>
 							</div>
 						</div>
 					</div>
-					<div class="col-md-4">
-						<div class="card mb-4 shadow-sm">
-							<svg class="bd-placeholder-img card-img-top" width="100%" height=225" xmlns=http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-								<title>Placeholder</title>
-								<rect width="100%" height="100%" fill="#55595c"></rect>
-								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-							</svg>
-							<div class="card-body">
-								<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-										<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-									</div>
-									<small class="text-muted">9 mins</small>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card mb-4 shadow-sm">
-							<svg class="bd-placeholder-img card-img-top" width="100%" height=225" xmlns=http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-								<title>Placeholder</title>
-								<rect width="100%" height="100%" fill="#55595c"></rect>
-								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-							</svg>
-							<div class="card-body">
-								<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-										<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-									</div>
-									<small class="text-muted">9 mins</small>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card mb-4 shadow-sm">
-							<svg class="bd-placeholder-img card-img-top" width="100%" height=225" xmlns=http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-								<title>Placeholder</title>
-								<rect width="100%" height="100%" fill="#55595c"></rect>
-								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-							</svg>
-							<div class="card-body">
-								<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-										<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-									</div>
-									<small class="text-muted">9 mins</small>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="card mb-4 shadow-sm">
-							<svg class="bd-placeholder-img card-img-top" width="100%" height=225" xmlns=http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
-								<title>Placeholder</title>
-								<rect width="100%" height="100%" fill="#55595c"></rect>
-								<text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
-							</svg>
-							<div class="card-body">
-								<p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-								<div class="d-flex justify-content-between align-items-center">
-									<div class="btn-group">
-										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-										<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-									</div>
-									<small class="text-muted">9 mins</small>
-								</div>
-							</div>
-						</div>
-					</div>
+					<%
+							}
+						}
+					%>
+				</div>
+				<%
+					if(pageNumber != 1) {
+				%>
+					<a href="Meeting.jsp?pageNumber=<%= pageNumber - 1 %>" class="btn btn-success btn-arraw-left">이전</a>
+				<%
+					}
+					if(postDAO.nextPage("Meeting", pageNumber + 1)) {
+				%>
+					<a href="Meeting.jsp?pageNumber=<%= pageNumber + 1 %>" class="btn btn-success btn-arraw-left">다음</a>
+				<%
+					}
+				%>
+				<div class="text-right">
+					<a href="write.jsp" class="btn btn-primary">글쓰기</a>
 				</div>
 			</main>
 		</div>

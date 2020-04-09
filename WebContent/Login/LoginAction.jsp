@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="User.User" %>
 <%@ page import="User.UserDAO" %>
+<%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
 	if(session.getAttribute("userID") != null) {
@@ -12,22 +12,17 @@
 		script.close();
 		return;
 	}
-	request.setCharacterEncoding("UTF-8");
-	String ID = null;
-	String Password = null;
-	
-	if(request.getParameter("userID") != null) {
-		ID = request.getParameter("userID");
-	}
-	if(request.getParameter("userPassword") != null) {
-		Password = request.getParameter("userPassword");
-	}
-	
+%>
+<% request.setCharacterEncoding("UTF-8"); %>
+<jsp:useBean id="user" class="User.User" scope="page" />
+<jsp:setProperty name="user" property="userID" />
+<jsp:setProperty name="user" property="userPassword" />
+<%
 	UserDAO userDAO = new UserDAO();
-	String log = userDAO.login(ID, Password);
+	String log = userDAO.login(user.getUserID(), user.getUserPassword());
 	String result[] = log.split(",");
 	if(result[0].equals("success")) {
-		session.setAttribute("userID", ID);
+		session.setAttribute("userID", user.getUserID());
 		session.setAttribute("userName", result[1]);
 		session.setAttribute("userAuthority", result[2]);
 		PrintWriter script = response.getWriter();

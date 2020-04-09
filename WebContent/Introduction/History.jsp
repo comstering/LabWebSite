@@ -13,7 +13,7 @@
 <title>Network Security Lab</title>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#menu").load("../Menu.jsp")
+		$("#menu").load("../jsFolder/Menu.jsp")
 	});
 </script>
 <style>
@@ -27,7 +27,7 @@
 				<h4 style="text-align: center;">INTRODUCTION</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
-						<script src="../Submenu.js">
+						<script src="../jsFolder/Submenu.js">
 						</script>
 					</ul>
 				</div>

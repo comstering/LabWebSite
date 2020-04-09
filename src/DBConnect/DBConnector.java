@@ -83,9 +83,9 @@ public class DBConnector {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			return DriverManager.getConnection(dbURL, dbID, dbPassword);
 		} catch (ClassNotFoundException e) {
-			System.err.println("DBConnector ClassNotFoundException error");
+			System.err.println("DBConnector getConnection ClassNotFoundException error");
 		} catch (SQLException e) {
-			System.err.println("DBConnector SQLException error");
+			System.err.println("DBConnector getConnection SQLException error");
 		}
 		return null;
 	}

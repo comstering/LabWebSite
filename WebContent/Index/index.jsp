@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="Board.PostDTO" %>
+<%@ page import="Board.PostDAO" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,11 +27,16 @@
 		max-width: 100%;
 		height: auto;
 	}
+	
+	a, a:hover {
+		color: black;
+		text-decoration: none;
+	}
 </style>
 
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#menu").load("../Menu.jsp")
+		$("#menu").load("../jsFolder/Menu.jsp")
 	});
 </script>
 </head>
@@ -65,19 +73,73 @@
 		</div>
 		
 		<div class="row justify-content-between" style="padding: 3rem 6rem">
-			<div class="jumbotron col-md-5">
-				<h2>공지사항</h2>
-				<a class="btn btn-dark" href="../Board/Notice.jsp">+더보기</a>
-				<ul>
-					<li>list</li>
-					<li>list</li>
-					<li>list</li>
-					<li>list</li>
-				</ul>
+			<div class="jumbotron col-md-5" style="padding: 2rem 1rem;">
+				<div class="d-flex justify-content-between align-items-center">
+					<h2>공지사항</h2>
+					<a class="btn btn-dark" href="../Board/Notice.jsp">+더보기</a>
+				</div>
+				<table class="table table-striped table-sm mt-4">
+					<tbody>
+						<%
+							PostDAO postDAO = new PostDAO();
+							ArrayList<PostDTO> list = postDAO.getList("Notice", 1);
+							if(list.size() == 0) {
+						%>
+							<tr>
+								<td class="pl-3">데이터가 없습니다.</td>
+							</tr>
+						<%
+							} else {
+								for(int i = 0; i < list.size(); i++) {
+						%>					
+							<tr>
+								<td class="pl-3"><a href="../Board/view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
+							</tr>
+						<%
+								}
+								
+							}
+						%>
+					</tbody>
+				</table>
 			</div>
-			<div class="jumbotron col-md-5">
-				<h2>Activity</h2>
-				<a class="btn btn-dark" href="../Activity/Contest(Univ).jsp">+더보기</a>
+			<div class="jumbotron col-md-6" style="padding: 2rem 1rem">
+				<div class="d-flex justify-content-between align-items-center">
+					<h2>Activity</h2>
+					<a class="btn btn-dark" href="../Activity/UnivContest.jsp">+더보기</a>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="card mb-4 shadow-sm">
+							<img  src="../Image/Introduction/Professor.png" class="bd-placeholder-img card-img-top" width="100%">
+							<div class="card-body">
+								<p class="card-text">test</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<a href="view.jsp?category=UnivContest&ID=1" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+									</div>
+									<small class="text-muted">0min</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+						<div class="card mb-4 shadow-sm">
+							<img  src="../Image/Introduction/Professor.png" class="bd-placeholder-img card-img-top" width="100%">
+							<div class="card-body">
+								<p class="card-text">test</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<a href="view.jsp?category=UnivContest&ID=1" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+									</div>
+									<small class="text-muted">0min</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 				<img src=""> <img src="">
 			</div>
 		</div>

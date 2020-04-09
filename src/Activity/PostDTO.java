@@ -1,4 +1,4 @@
-package Board;
+package Activity;
 
 public class PostDTO {
 	private String category;

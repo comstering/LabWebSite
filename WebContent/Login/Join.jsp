@@ -24,7 +24,7 @@
 <title>Network Security Lab</title>
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#menu").load("../Menu.jsp")
+		$("#menu").load("../jsFolder/Menu.jsp")
 	});
 	function inputPhoneNumber(obj) {
 	    var number = obj.value.replace(/[^0-9]/g, "");

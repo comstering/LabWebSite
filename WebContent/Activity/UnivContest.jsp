@@ -20,6 +20,9 @@
 	});
 </script>
 <style>
+	a {
+		color: black;
+	}
 </style>
 </head>
 <body>
@@ -44,12 +47,12 @@
 				%>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">학술대회</h1>
+					<h1 class="h2">교내공모전</h1>
 				</div>
 				<div class="row">
 					<%
 						PostDAO postDAO = new PostDAO();
-						ArrayList<PostDTO> list = postDAO.getList("Institute", pageNumber);
+						ArrayList<PostDTO> list = postDAO.getList("UnivContest", pageNumber);
 						if(list.size() == 0) {
 					%>
 					<div class="text-center">
@@ -66,8 +69,8 @@
 								<p class="card-text"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-										<button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+										<a href="view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
 									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>
@@ -82,12 +85,12 @@
 				<%
 					if(pageNumber != 1) {
 				%>
-					<a href="Institute.jsp?pageNumber=<%= pageNumber - 1 %>" class="btn btn-success btn-arraw-left">이전</a>
+					<a href="UnivContest.jsp?pageNumber=<%= pageNumber - 1 %>" class="btn btn-success btn-arraw-left">이전</a>
 				<%
 					}
-					if(postDAO.nextPage("Institute", pageNumber + 1)) {
+					if(postDAO.nextPage("UnivContest", pageNumber + 1)) {
 				%>
-					<a href="Institute.jsp?pageNumber=<%= pageNumber + 1 %>" class="btn btn-success btn-arraw-left">다음</a>
+					<a href="UnivContest.jsp?pageNumber=<%= pageNumber + 1 %>" class="btn btn-success btn-arraw-left">다음</a>
 				<%
 					}
 				%>

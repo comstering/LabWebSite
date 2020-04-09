@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Board.PostDTO" %>
-<%@ page import="Board.PostDAO" %>
+<%@ page import="Activity.PostDTO" %>
+<%@ page import="Activity.PostDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
 	<div class="container">
 		<div class="row">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="max-width: 200px">
-				<h4 style="text-align: center;">BOARD</h4>
+				<h4 style="text-align: center;">Activity</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
 						<script src="../jsFolder/Submenu.js">

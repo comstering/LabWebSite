@@ -1,4 +1,4 @@
-package Board;
+package Activity;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -95,13 +95,13 @@ public class PostDAO {
 	}
 	
 	public ArrayList<PostDTO> getList(String category, int pageNumber) {
-		String sql = "select bi.ID, bi.Title, ui.Name, bi.Date, u.Name, bi.ReDate, bi.Content, bi.Count from " + category + " as bi join User as ui on ui.id = bi.Writer join User as u on u.id = bi.ReWriter where bi.ID < ? AND Available = 1 order by ID desc limit 10";
+		String sql = "select ai.ID, ai.Title, ui.Name, ai.Date, u.Name, ai.ReDate, ai.Content, ai.Count from " + category + " as ai join User as ui on ui.id = ai.Writer join User as u on u.id = ai.ReWriter where ai.ID < ? AND Available = 1 order by ID desc limit 6";
 		conn = dbConnector.getConnection();
 		ArrayList<PostDTO> list = new ArrayList<PostDTO>();
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
+			pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 6);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				PostDTO postDTO = new PostDTO(category, rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
@@ -119,7 +119,7 @@ public class PostDAO {
 				System.err.println("PostDAO getList close SQLException error");
 			}
 		}
-		return list;    //  DB 오류
+		return list;
 	}
 	
 	public boolean nextPage(String category, int pageNumber) {
@@ -128,7 +128,7 @@ public class PostDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
+			pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 6);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true;
@@ -160,7 +160,7 @@ public class PostDAO {
 		} catch (SQLException e) {
 			System.err.println("PostDAO setCount SQLException error");
 		}
-		return -1;
+		return -1;    //  DB 오류
 	}
 	private String setNewLine(String Content) {
 		String newContent = Content.replaceAll("\r\n", "<br>");
@@ -168,7 +168,7 @@ public class PostDAO {
 	}
 	
 	public PostDTO getPost(String category, int ID) {
-		String sql = "select bi.ID, bi.Title, ui.Name, bi.Date, u.Name, bi.ReDate, bi.Content, bi.Count from " + category + " as bi join User as ui on ui.id = bi.Writer join User as u on u.id = bi.ReWriter where bi.ID = ?";
+		String sql = "select ai.ID, ai.Title, ui.Name, ai.Date, u.Name, ai.ReDate, ai.Content, ai.Count from " + category + " as ai join User as ui on ui.id = ai.Writer join User as u on u.id = ai.ReWriter where ai.ID = ?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
 		try {
