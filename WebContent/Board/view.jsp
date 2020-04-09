@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="Board.PostDTO" %>
 <%@ page import="Board.PostDAO" %>
-<%@ page import="java.util.ArrayList" %>
+<%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,10 +41,27 @@
 			</nav>
 			<main role="main" class="col-md-9 px-4" style="max-width: 72%">
 				<%
-					int pageNumber = 1;
-					if(request.getParameter("pageNumber") != null) {
-						pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
-					}
+					String category = null;
+					int ID = 0;
+				if(request.getParameter("category") != null && request.getParameter("ID") != null) {
+					category = request.getParameter("category");
+					ID = Integer.parseInt(request.getParameter("ID"));
+				}
+				if(category == null) {
+					PrintWriter script = response.getWriter();
+					script.println("<script>");
+					script.println("alert('유효하지 않은 카테고리')");
+					script.println("history.back()");
+					script.println("</script>");
+				}
+				if(ID == 0) {
+					PrintWriter script = response.getWriter();
+					script.println("<script>");
+					script.println("alert('유효하지 않은 글입니다.')");
+					script.println("history.back()");
+					script.println("</script>");
+				}
+				PostDTO postDTO = new PostDAO().getPost(category, ID);
 				%>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
@@ -55,54 +72,35 @@
 					<table class="table table-striped table-sm">
 						<thead  class="table-info">
 							<tr>
-								<th style="background-color #eee; text-align: center;">번호</th>
-								<th style="background-color #eee; text-align: center;">제목</th>
-								<th style="background-color #eee; text-align: center;">작성자</th>
-								<th style="background-color #eee; text-align: center;">등록일</th>
-								<th style="background-color #eee; text-align: center;">조회수</th>
+								<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>
 							</tr>
 						</thead>
 						<tbody>
-							<%
-								PostDAO postDAO = new PostDAO();
-								ArrayList<PostDTO> list = postDAO.getList("Notice", pageNumber);
-								if(list.size() == 0) {
-							%>
 							<tr>
-								<td colspan="5" class="text-center">데이터가 없습니다.</td>
+								<td style="width: 20%";>등록일</td>
+								<td><%= postDTO.getDate() %></td>
 							</tr>
-							<%
-								} else {
-									for(int i = 0; i < list.size(); i++) {
-							%>
 							<tr>
-								<td style="background-color #eee; text-align: center;"><%= list.get(i).getID() %></td>
-								<td style="background-color #eee; text-align: center;"><a href="view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
-								<td style="background-color #eee; text-align: center;"><%= list.get(i).getWriter() %></td>
-								<td style="background-color #eee; text-align: center;"><%= list.get(i).getDate().substring(0,11) %></td>
-								<td style="background-color #eee; text-align: center;"><%= list.get(i).getCount() %></td>
+								<td style="width: 20%";>작성자</td>
+								<td><%= postDTO.getWriter() %></td>
 							</tr>
-							<%
-									}
-								}
-							%>
+							<tr>
+								<td style="width: 20%";>최종 수정일</td>
+								<td><%= postDTO.getReDate() %></td>
+							</tr>
+							<tr>
+								<td style="width: 20%";>최종 수정자</td>
+								<td><%= postDTO.getReWriter() %></td>
+							</tr>
+							<tr>
+								<td style="width: 20%";>조회수</td>
+								<td><%= postDTO.getCount() %></td>
+							</tr>
+							<tr>
+								<td colspan="2"><br><%= postDTO.getContent() %></td>
+							</tr>
 						</tbody>
 					</table>
-					<%
-						if(pageNumber != 1) {
-					%>
-						<a href="Notice.jsp?pageNumber=<%= pageNumber - 1 %>" class="btn btn-success btn-arraw-left">이전</a>
-					<%
-						}
-						if(postDAO.nextPage("Notice", pageNumber + 1)) {
-					%>
-						<a href="Notice.jsp?pageNumber=<%= pageNumber + 1 %>" class="btn btn-success btn-arraw-left">다음</a>
-					<%
-						}
-					%>
-					<div class="text-right">
-						<a href="write.jsp" class="btn btn-primary">글쓰기</a>
-					</div>
 				</div>
 			</div>
 			</main>

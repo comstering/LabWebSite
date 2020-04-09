@@ -22,10 +22,9 @@ public class UserDAO {
 	}
 	
 	public int join(User user) {
-		sql = "select ID form User where ID = ?";
+		sql = "insert into User (ID, Password, Name, PhoneNumber, Email, Gender, Authority) values(?,?,?,?,?,?,?)";
 		conn = dbConnector.getConnection();
 		try {
-			sql = "insert into User (ID, Password, Name, PhoneNumber, Email, Gender, Authority) values(?,?,?,?,?,?,?)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, user.getUserID());
 			pstmt.setString(2, user.getUserPassword());
@@ -35,14 +34,13 @@ public class UserDAO {
 			pstmt.setString(6, user.getUserGender());
 			pstmt.setString(7, user.getUserAuthority());
 			return pstmt.executeUpdate();    //  회원가입 성공
-		} catch (SQLException e) {
+		} catch(SQLException e) {
 			System.err.println("UserDAO SQLException error");
 		} finally {
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
-				if(rs != null) {rs.close();}
-			} catch (SQLException e) {
+			} catch(SQLException e) {
 				System.err.println("UserDAO close SQLException error");
 			}
 		}
@@ -64,9 +62,45 @@ public class UserDAO {
 				}
 			}
 			return "error,ID";    //  아이디 오류
-		} catch (SQLException e) {
+		} catch(SQLException e) {
 			System.err.println("UserDAO SQLException error");
+		} finally {
+			try {
+				if(conn != null) {conn.close();}
+				if(pstmt != null) {pstmt.close();}
+				if(rs != null) {rs.close();}
+			} catch(SQLException e) {
+				System.err.println("UserDAO close SQLException error");
+			}
 		}
 		return "error,DB";    //  DB 오류
+	}
+	
+	public boolean checkAuthority(String userID, String userAuthority) {
+		sql = "select Authority from User where ID = ?";
+		conn = dbConnector.getConnection();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userID);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(rs.getString(1).equals("test1") || rs.getString(1).equals("test2")) {
+					return true;
+				} else {
+					return false;
+				}
+			}
+		} catch(SQLException e) {
+			System.err.println("UserDAO SQLException error");
+		} finally {
+			try {
+				if(conn != null) {conn.close();}
+				if(pstmt != null) {pstmt.close();}
+				if(rs != null) {rs.close();}
+			} catch(SQLException e) {
+				System.err.println("UserDAO close SQLException error");
+			}
+		}
+		return false;
 	}
 }

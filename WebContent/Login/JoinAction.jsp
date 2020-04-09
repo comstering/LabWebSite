@@ -4,6 +4,14 @@
 <%@ page import="User.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
+	if(session.getAttribute("userID") != null) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("history.back()");
+		script.println("</script>");
+		script.close();
+		return;
+	}
 	request.setCharacterEncoding("UTF-8");
 	String ID = null;
 	String Password = null;

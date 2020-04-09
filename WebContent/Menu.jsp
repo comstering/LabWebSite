@@ -3,23 +3,23 @@
 <header>
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: skyblue;">
 		<div class="container">
-			<a class="navbar-brand" href="#">Home</a>
+			<a class="navbar-brand" href="../index.jsp">Home</a>
 			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
 			<div class="navbar-collapse collapse show" id="navbarColor01" style>
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="#">INTRODUCTION</a>
+						<a class="nav-link" href="../Introduction/NSLab.jsp">INTRODUCTION</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">PROJECT</a>
+						<a class="nav-link" href="../Project/Project.jsp">PROJECT</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">ACTIVITY</a>
+						<a class="nav-link" href="../Activity/Contest(Univ).jsp">ACTIVITY</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#">BOARD</a>
+						<a class="nav-link" href="../Board/Notice.jsp">BOARD</a>
 					</li>
 				</ul>
 				<form class="form-inline">
