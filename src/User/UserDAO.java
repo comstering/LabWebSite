@@ -1,11 +1,17 @@
 package User;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Properties;
 
 import DBConnect.DBConnector;
+import Security.XSS;
 import Security.org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO {
@@ -17,6 +23,10 @@ public class UserDAO {
 	private String sql = "";
 	private PreparedStatement pstmt;
 	private ResultSet rs;
+	
+	//  관리자 확인 변수
+	private Properties authority;
+	private FileInputStream fis_authority;
 	
 	public UserDAO() {
 		dbConnector = new DBConnector();
@@ -30,18 +40,42 @@ public class UserDAO {
 		return BCrypt.checkpw(plainPassword, hashedPassword);
 	}
 	
-	public int join(User user) {
-		sql = "insert into User (ID, Password, Name, PhoneNumber, Email, Gender, Authority) values(?,?,?,?,?,?,?)";
+	private String getDate() {    //  회원가입 시간
+		String sql = "select now()";
+		conn = dbConnector.getConnection();
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				return rs.getString(1);
+			}
+		} catch (SQLException e) {
+			System.err.println("PostDAO getDate SQLExceptoin error");
+		} finally {
+			try {
+				if(conn != null) {conn.close();}
+				if(pstmt != null) {pstmt.close();}
+				if(rs != null) {rs.close();}
+			} catch(SQLException e) {
+				System.err.println("PostDAO getDate close SQLException error");
+			}
+		}
+		return "";    //  DB 오류
+	}
+	public int join(User user) {    //  회원가입
+		sql = "insert into User (ID, Password, Name, PhoneNumber, Email, Gender, Authority, Date) values(?,?,?,?,?,?,?,?)";
 		conn = dbConnector.getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, user.getUserID());
-			pstmt.setString(2, hashPassword(user.getUserPassword()));
-			pstmt.setString(3, user.getUserName());
-			pstmt.setString(4, user.getUserPhoneNumber());
-			pstmt.setString(5, user.getUserEmail());
-			pstmt.setString(6, user.getUserGender());
-			pstmt.setString(7, user.getUserAuthority());
+			pstmt.setString(1, XSS.prevention(user.getUserID()));
+			pstmt.setString(2, hashPassword(XSS.prevention(user.getUserPassword())));
+			pstmt.setString(3, XSS.prevention(user.getUserName()));
+			pstmt.setString(4, XSS.prevention(user.getUserPhoneNumber()));
+			pstmt.setString(5, XSS.prevention(user.getUserEmail()));
+			pstmt.setString(6, XSS.prevention(user.getUserGender()));
+			pstmt.setString(7, XSS.prevention(user.getUserAuthority()));
+			pstmt.setString(8, getDate());
 			return pstmt.executeUpdate();    //  회원가입 성공
 		} catch(SQLException e) {
 			System.err.println("UserDAO join SQLException error");
@@ -56,15 +90,15 @@ public class UserDAO {
 		return 0;    //  회원가입 실패(아이디 중복, DB 오류)
 	}
 	
-	public String login(String userID, String userPassword) {
+	public String login(String userID, String userPassword) {    //  로그인
 		sql = "select Password, Name, Authority from User where ID = ?";
 		conn = dbConnector.getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userID);
+			pstmt.setString(1, XSS.prevention(userID));
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				if(checkPass(userPassword, rs.getString(1))) {
+				if(checkPass(XSS.prevention(userPassword), rs.getString(1))) {
 					return "success," + rs.getString(2) + "," + rs.getString(3);    //  로그인 성공
 				} else {
 					return "error,password";    //  비밀번호 오류
@@ -85,29 +119,28 @@ public class UserDAO {
 		return "error,DB";    //  DB 오류
 	}
 	
-	public boolean checkAuthority(String userID, String userAuthority) {
-		sql = "select Authority from User where ID = ?";
-		conn = dbConnector.getConnection();
+	public boolean checkAuthority(String userAuthority) {    //  권한 확인
 		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userID);
-			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				if(rs.getString(1).equals("test1") || rs.getString(1).equals("test2")) {
-					return true;
-				} else {
-					return false;
-				}
+			authority = new Properties();
+			fis_authority = new FileInputStream("/volume1/Security/LabWebSite/authority.properties");
+			authority.load(new BufferedInputStream(fis_authority));
+			
+			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
+				return true;
+			} else {
+				return false;
 			}
-		} catch(SQLException e) {
-			System.err.println("UserDAO checkAuthority SQLException error");
+		} catch (FileNotFoundException e) {
+			System.err.println("UserDAO checkAuthority FileNotFoundException error");
+		} catch (IOException e) {
+			System.err.println("UserDAO checkAuthority IOException error");
 		} finally {
 			try {
-				if(conn != null) {conn.close();}
-				if(pstmt != null) {pstmt.close();}
-				if(rs != null) {rs.close();}
-			} catch(SQLException e) {
-				System.err.println("UserDAO checkAuthority close SQLException error");
+				if(fis_authority != null) {
+					fis_authority.close();
+				}
+			} catch (IOException e) {
+				System.err.println("UserDAO checkAuthority close IOException error");
 			}
 		}
 		return false;

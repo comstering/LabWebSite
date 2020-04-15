@@ -51,7 +51,7 @@
 				</div>
 				<div>
 				<div>
-					<form method="post" action="writeAction.jsp" enctype="multipart/form.data">
+					<form method="post" action="writeAction.jsp" enctype="multipart/form-data">
 						<table class="table table-striped table-sm">
 							<thead  class="table-info">
 								<tr>
@@ -71,13 +71,12 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td colspan="2"><textarea type="text" class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
+									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
 								</tr>
 							</tbody>
 						</table>
-						<%
-						//첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br/><br/>
-						%>
+						<hr>
+						첨부파일: <input multiple="multiple" type="file" id="file" name="file[]"><br><br>
 						<input type="submit" class="btn btn-primary" value="글쓰기">
 					</form>
 				</div>

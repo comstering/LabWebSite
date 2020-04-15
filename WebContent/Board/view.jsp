@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="Board.PostDTO" %>
 <%@ page import="Board.PostDAO" %>
+<%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
@@ -44,26 +45,25 @@
 				<%
 					String category = null;
 					int ID = 0;
-				if(request.getParameter("category") != null && request.getParameter("ID") != null) {
-					XSS xss= new XSS();
-					category = xss.prevention(request.getParameter("category"));
-					ID = Integer.parseInt(request.getParameter("ID"));
-				}
-				if(category == null) {
-					PrintWriter script = response.getWriter();
-					script.println("<script>");
-					script.println("alert('유효하지 않은 카테고리')");
-					script.println("history.back()");
-					script.println("</script>");
-				}
-				if(ID == 0) {
-					PrintWriter script = response.getWriter();
-					script.println("<script>");
-					script.println("alert('유효하지 않은 글입니다.')");
-					script.println("history.back()");
-					script.println("</script>");
-				}
-				PostDTO postDTO = new PostDAO().getPost(category, ID);
+					if(request.getParameter("category") != null && request.getParameter("ID") != null) {
+						category = XSS.prevention(request.getParameter("category"));
+						ID = Integer.parseInt(request.getParameter("ID"));
+					}
+					if(category == null) {
+						PrintWriter script = response.getWriter();
+						script.println("<script>");
+						script.println("alert('유효하지 않은 카테고리')");
+						script.println("history.back()");
+						script.println("</script>");
+					}
+					if(ID == 0) {
+						PrintWriter script = response.getWriter();
+						script.println("<script>");
+						script.println("alert('유효하지 않은 글입니다.')");
+						script.println("history.back()");
+						script.println("</script>");
+					}
+					PostDTO postDTO = new PostDAO().getPost(category, ID);
 				%>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
@@ -74,6 +74,10 @@
 				</div>
 				<div>
 				<div>
+					<div class="text-right">
+						<a href="reWrite.jsp?category=<%= category %>&id=<%= ID %>&title=<%=postDTO.getTitle() %>&content=<%= postDTO.getContent() %>" class="btn btn-secondary">글수정</a>
+						<a href="delete.jsp?category=<%= category %>&id=<%= ID %>" class="btn btn-danger">글삭제</a>
+					</div>
 					<table class="table table-striped table-sm">
 						<thead  class="table-info">
 							<tr>
@@ -100,6 +104,27 @@
 							<tr>
 								<td style="width: 20%";>조회수</td>
 								<td><%= postDTO.getCount() %></td>
+							</tr>
+							<tr>
+								<td style="width: 20%;">첨부파일</td>
+								<td>
+								<%
+									FileDAO fileDAO = new FileDAO();
+									String file[] = fileDAO.getFile(category, ID).split(",");
+									if(file[0].equals("have")) {
+								%>
+								<a style="" href="<%= request.getContextPath() %>/downloadAction?file=
+									<%= java.net.URLEncoder.encode(file[2], "UTF-8") %>
+									&fileName=<%= java.net.URLEncoder.encode(file[1], "UTF-8")%>">
+									<%= file[1] %></a>
+								<%
+									} else {
+								%>
+								첨부파일이 업습니다.
+								<%		
+									}
+								%>
+								</td>
 							</tr>
 							<tr>
 								<td colspan="2"><br><%= postDTO.getContent() %></td>

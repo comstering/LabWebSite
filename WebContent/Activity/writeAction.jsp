@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Activity.PostDAO" %>
+<%@ page import="Board.PostDAO" %>
+<%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.File" %>
 <%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
 <%@ page import="com.oreilly.servlet.MultipartRequest" %>
+<%@ page import="java.util.Enumeration" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
 	if(session.getAttribute("userID") == null) {
@@ -16,33 +18,63 @@
 		script.close();
 		return;
 	}
-%>
-<% request.setCharacterEncoding("UTF-8"); %>
-<jsp:useBean id="postDTO" class="Activity.PostDTO" scope="page" />
-<jsp:setProperty name="postDTO" property="category" />
-<jsp:setProperty name="postDTO" property="title" />
-<jsp:setProperty name="postDTO" property="content" />
-<%
-		PostDAO postDAO = new PostDAO();
-		int result = postDAO.write(postDTO.getCategory(), postDTO.getTitle(), (String)session.getAttribute("userID"), postDTO.getContent());
+	
+	String value[] = new String[3];    //  0: content, 1: category, 2: title
+	
+	FileDAO fileDAO = new FileDAO();
+	//  파일 경로
+//	String directory = fileDAO.getPath();
+	
+	//  파일 경로: 테스트 환경
+	String directory = "D:/Programming/test/";
+	
+	int maxSize = 1024 * 1024 * 100;
+	String encoding = "UTF-8";
+	MultipartRequest multipartRequest = new MultipartRequest(request, directory, maxSize, encoding,
+			new DefaultFileRenamePolicy());
+	Enumeration<?> params = multipartRequest.getParameterNames();
+	
+	int i = 0;
+	while(params.hasMoreElements()) {
+		String name = (String)params.nextElement();
+		value[i++] = XSS.prevention(multipartRequest.getParameter(name));
+	}
+	
+	Enumeration<?> files = multipartRequest.getFileNames();
+	System.out.println(files);
+	
+	String fileName = null;
+	String fileRealName = null;
+	
+	while(files.hasMoreElements()) {
+		String name = (String)files.nextElement();
+		fileRealName = multipartRequest.getFilesystemName(name);
+		fileName = multipartRequest.getOriginalFileName(name);
+		String type = multipartRequest.getContentType(name);
+		i++;
+		System.out.println("name " + name);
+		System.out.println("filename " + fileName);
+		System.out.println("fileRealName " + fileRealName);
+		System.out.println("type " + type);
+	}
+	
+	PostDAO postDAO = new PostDAO();
+	int result = postDAO.write(value[1], value[2], (String)session.getAttribute("userID"), value[0]);
+	
+	if(fileName != null) {
+		fileDAO.upload(value[1], postDAO.getNext(value[1]) - 1, fileName, fileRealName);
+	}
+	
+	if(result == 1) {
 		
-		if(result == 1) {
-			String directory = application.getRealPath("Path");
-			int maxSize = 1024 * 1024 * 100;
-			String encoding = "UTF-8";
-			/*
-			MultipartRequest multipartRequest = new MultipartRequest(request, directory, maxSize, encoding,
-					new DefaultFileRenamePolicy());
-			
-			String fileName = multipartRequest.getOriginalFileName("file");
-			
-			int BoardID = postDAO.getNext(Category) - 1;
-			*/
-			PrintWriter script = response.getWriter();
-			script.println("<script>");
-			script.println("location.href = '../Activity/"+ postDTO.getCategory() +".jsp'");
-			script.println("</script>");
-			script.close();
-			return;
-		}
+		//int BoardID = postDAO.getNext(XSS.prevention(postDTO.getCategory())) - 1;
+		
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("location.href = '../Board/"+ value[1] +".jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	
 %>

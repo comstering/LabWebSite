@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
 	if(session.getAttribute("userID") == null) {
@@ -50,37 +51,36 @@
 					<h1 class="h2">게시판 글쓰기</h1>
 				</div>
 				<div>
-				<div>
-					<form method="post" action="writeAction.jsp" enctype="multipart/form-data">
-						<table class="table table-striped table-sm">
-							<thead  class="table-info">
-								<tr>
-									<td style="width: 250px">
-										<div class="input-group mb-1">
-											<div class="input-group-prepend">
-												<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
-											</div>
-											<select class="custom-select" id="inputGroupSelect01" name="category">
-												<option selected value="Notice">공지사항</option>
-												<option value="Library">자료실</option>
-											</select>
-										</div>
-									</td>
-									<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" required></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
-								</tr>
-							</tbody>
-						</table>
-						<hr>
-						첨부파일: <input multiple="multiple" type="file" id="file" name="file[]"><br><br>
-						<input type="submit" class="btn btn-primary" value="글쓰기">
-					</form>
+					<%
+						request.setCharacterEncoding("UTF-8");
+						String category = XSS.prevention(request.getParameter("category"));
+						int ID = Integer.parseInt(XSS.prevention(request.getParameter("id")));
+						System.out.println("title: " + request.getParameter("title"));
+						String title = XSS.prevention(request.getParameter("title"));
+						String content = XSS.prevention(request.getParameter("content"));
+					%>
+					<div>
+						<form method="post" action="reWriteAction.jsp?category=<%= category %>&id=<%= ID %>" enctype="multipart/form.data">
+							<table class="table table-striped table-sm">
+								<thead  class="table-info">
+									<tr>
+										<td class="text-center" width="15%"><label class="col-form-label">글제목</label></td>
+										<td><input type="text" class="form-control" placeholder="글 제목" value="<%= title %>" name="title" maxlength="50" required></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required><%= content %></textarea></td>
+									</tr>
+								</tbody>
+							</table>
+							<%
+							//첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br/><br/>
+							%>
+							<input type="submit" class="btn btn-primary" value="글쓰기">
+						</form>
+					</div>
 				</div>
-			</div>
 			</main>
 		</div>
 	</div>

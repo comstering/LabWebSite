@@ -21,35 +21,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+<script src="../jsFolder/join.js"></script>
 <title>Network Security Lab</title>
 <script type="text/javascript">
 	$(document).ready(function() {
 		$("#menu").load("../jsFolder/Menu.jsp")
 	});
-	function inputPhoneNumber(obj) {
-	    var number = obj.value.replace(/[^0-9]/g, "");
-	    var phone = "";
-	    if(number.length < 4) {
-	        return number;
-	    } else if(number.length < 7) {
-	        phone += number.substr(0, 3);
-	        phone += "-";
-	        phone += number.substr(3);
-	    } else if(number.length < 11) {
-	        phone += number.substr(0, 3);
-	        phone += "-";
-	        phone += number.substr(3, 3);
-	        phone += "-";
-	        phone += number.substr(6);
-	    } else {
-	        phone += number.substr(0, 3);
-	        phone += "-";
-	        phone += number.substr(3, 4);
-	        phone += "-";
-	        phone += number.substr(7);
-	    }
-	    obj.value = phone;
-	}
 </script>
 <style>
 	.form-signup {
@@ -63,15 +40,34 @@
 <body>
 	<div id="menu"></div>
 	<div class="text-center">
-		<form class="form-signup" method="post" action="JoinAction.jsp">
+		<form class="form-signup">
 			<h1 class="h3 mb-4 font-weight-normal text-center">회원가입</h1>
-			<div class="form-group">
-				<label for="ID">아이디</label>
-				<input type="text" id="ID" name="userID" class="form-control" placeholder="아이디(학번)" maxlength="20" required autofocus>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="ID">아이디</label>
+					<input type="text" id="ID" name="userID" class="form-control" placeholder="아이디(학번)" maxlength="20" required autofocus>
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="Password">비밀번호</label>
-				<input type="password" id="Password" name="userPassword" class="form-control" placeholder="비밀번호" maxlength="20" required>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="Password">비밀번호</label>
+					<input type="password" onKeyup="checkPass()" id="Password" name="userPassword" class="form-control" placeholder="비밀번호" maxlength="20" required>
+				</div>
+				<div class="col-md-6 themed-container text-center" >
+					<br>
+					<small id="checkPass1"></small>
+					<small id="checkPass2"></small>
+				</div>
+			</div>
+			<div class="form-row">
+				<div class="form-group col-md-6">
+					<label for="Password">비밀번호확인</label>
+					<input type="password" onKeyup="doubleCheckPass()" id="checkPassword" class="form-control" placeholder="비밀번호확인" maxlength="20" required>
+				</div>
+				<div class="col-md-6 themed-container text-center" >
+					<br>
+					<small id="doublePass"></small>
+				</div>
 			</div>
 			<div class="form-row">
 				<div class="form-group col-md-6">
@@ -109,5 +105,28 @@
 			<button class="btn btn-lg btn-primary btn-block mt-4" type="submit">Sign up</button>
 		</form>
 	</div>
+	
+	<script>		
+		var form = document.forms[0];
+		
+		form.onsubmit = function() {
+			event.preventDefault();    //  일단 멈춤
+			
+			if(!checkPassword($("#Password").val())) {
+				document.getElementById("Password").focus();
+				return;
+			}
+			if(!doubleCheck($("#checkPassword").val())) {
+				document.getElementById("checkPassword").focus();
+				return;
+			}
+			
+			this.action = "JoinAction.jsp";
+			this.method = "post";
+			this.submit();
+		}
+	</script>
+	
+	
 </body>
 </html>

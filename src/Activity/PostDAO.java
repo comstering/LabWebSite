@@ -42,7 +42,7 @@ public class PostDAO {
 		return "";    //  DB 오류
 	}
 
-	public int getNext(String category) {
+	public int getNext(String category) {    //  게시글 저장시 게시글 번호 획득
 		String sql = "select ID from " + category + " order by ID desc";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -67,7 +67,7 @@ public class PostDAO {
 		return -1;    //  DB 오류
 	}
 	
-	public int write(String category, String title, String writer, String content) {
+	public int write(String category, String title, String writer, String content) {    //  게시글 작성
 		String sql = "insert into "+ category +"(ID, Title, Writer, Date, ReWriter, ReDate, Content) values(?, ?, ?, ?, ?, ?, ?)";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -94,7 +94,7 @@ public class PostDAO {
 		return -1;    //  DB 오류
 	}
 	
-	public ArrayList<PostDTO> getList(String category, int pageNumber) {
+	public ArrayList<PostDTO> getList(String category, int pageNumber) {    //  게시글 리스트 획득
 		String sql = "select ai.ID, ai.Title, ui.Name, ai.Date, u.Name, ai.ReDate, ai.Content, ai.Count from " + category + " as ai join User as ui on ui.id = ai.Writer join User as u on u.id = ai.ReWriter where ai.ID < ? AND Available = 1 order by ID desc limit 6";
 		conn = dbConnector.getConnection();
 		ArrayList<PostDTO> list = new ArrayList<PostDTO>();
@@ -122,7 +122,7 @@ public class PostDAO {
 		return list;
 	}
 	
-	public boolean nextPage(String category, int pageNumber) {
+	public boolean nextPage(String category, int pageNumber) {    //  게시글 리스트 다음 페이지 확인
 		String sql = "select * from "+ category +" where ID < ? AND Available = 1";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -147,7 +147,7 @@ public class PostDAO {
 		return false;    //  DB 오류
 	}
 
-	private int setCount(String category, int ID, int count) {
+	private int setCount(String category, int ID, int count) {    //  조회수 세트
 		String sql = "update " + category + " set Count = ? where ID = ?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -162,12 +162,12 @@ public class PostDAO {
 		}
 		return -1;    //  DB 오류
 	}
-	private String setNewLine(String Content) {
+	private String setNewLine(String Content) {    //  view에서 줄바꿈 적용을 위한 함수
 		String newContent = Content.replaceAll("\r\n", "<br>");
 		return newContent;
 	}
 	
-	public PostDTO getPost(String category, int ID) {
+	public PostDTO getPost(String category, int ID) {    //  게시글 확인
 		String sql = "select ai.ID, ai.Title, ui.Name, ai.Date, u.Name, ai.ReDate, ai.Content, ai.Count from " + category + " as ai join User as ui on ui.id = ai.Writer join User as u on u.id = ai.ReWriter where ai.ID = ?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;

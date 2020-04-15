@@ -20,7 +20,6 @@
 	}
 	.carousel-inner {
 		width: 100%;
-		height: 450px;
 		overflow: hidden;
 	}
 	.carousel-item a {
@@ -41,7 +40,6 @@
 </script>
 </head>
 <body>
-	
 	<div id="menu"></div>
 	<div class="container mt-4">
 		<div id="carouselExampleFade" class="carousel slide carousel-fade"
@@ -53,13 +51,13 @@
 			</ol>
 			<div class="carousel-inner">
 				<div class="carousel-item active">
-					<img src="../Image/Index/img1.jpg" class="d-block w-100" alt="...">
+					<img src="../Image/Index/img1.jpg" class="d-block w-100" height="450" alt="...">
 				</div>
 				<div class="carousel-item">
-					<img src="../Image/Index/img2.jpg" class="d-block w-100" alt="...">
+					<img src="../Image/Index/img2.jpg" class="d-block w-100" height="450" alt="...">
 				</div>
 				<div class="carousel-item">
-					<img src="../Image/Index/img3.jpg" class="d-block w-100" alt="...">
+					<img src="../Image/Index/img3.jpg" class="d-block w-100" height="450" alt="...">
 				</div>
 			</div>
 			<a class="carousel-control-prev" href="#carouselExampleFade" role="button" data-slide="prev">
@@ -109,36 +107,58 @@
 					<a class="btn btn-dark" href="../Activity/UnivContest.jsp">+더보기</a>
 				</div>
 				<div class="row">
+					<%
+						list = postDAO.getList("UnivContest", 1);
+						if(list.size() == 0) {
+					%>
+					<div class="text-center">
+						데이터가 없습니다.
+					</div>
+					<%
+						} else {
+							if(list.size() > 2) {
+								for(int i = 0; i < 2; i++) {
+					%>
 					<div class="col-md-6">
-						<div class="card mb-4 shadow-sm">
-							<img  src="../Image/Introduction/Professor.png" class="bd-placeholder-img card-img-top" width="100%">
+						<div class="card mt-4 shadow-sm">
+							<img src="../Image/Index/img1.jpg" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
-								<p class="card-text">test</p>
+								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="view.jsp?category=UnivContest&ID=1" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a href="../Activity/view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
 										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
-									<small class="text-muted">0min</small>
+									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>
 							</div>
 						</div>
 					</div>
+					<%	
+								}
+							} else {
+								for(int i = 0; i < list.size(); i++) {
+					%>
 					<div class="col-md-6">
-						<div class="card mb-4 shadow-sm">
-							<img  src="../Image/Introduction/Professor.png" class="bd-placeholder-img card-img-top" width="100%">
+						<div class="card mt-4 shadow-sm">
+							<img src="../Image/Index/img1.jpg" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
-								<p class="card-text">test</p>
+								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="view.jsp?category=UnivContest&ID=1" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a href="../Activity/view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
 										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
-									<small class="text-muted">0min</small>
+									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>
 							</div>
 						</div>
 					</div>
+					<%
+								}
+							}
+						}
+					%>
 				</div>
 				<img src=""> <img src="">
 			</div>

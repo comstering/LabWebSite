@@ -45,9 +45,8 @@
 					String category = null;
 					int ID = 0;
 				if(request.getParameter("category") != null && request.getParameter("ID") != null) {
-					XSS xss= new XSS();
-					category = xss.prevention(request.getParameter("category"));
-					ID = Integer.parseInt(request.getParameter("ID"));
+					category = XSS.prevention(request.getParameter("category"));
+					ID = Integer.parseInt(XSS.prevention(request.getParameter("ID")));
 				}
 				if(category == null) {
 					PrintWriter script = response.getWriter();
@@ -74,6 +73,10 @@
 				</div>
 				<div>
 				<div>
+					<div class="text-right">
+						<a href="reWrite.jsp?category=<%= category %>&id=<%= ID %>&title=<%=postDTO.getTitle() %>&content=<%= postDTO.getContent() %>" class="btn btn-secondary">글수정</a>
+						<a href="delete.jsp?category=<%= category %>&id=<%= ID %>" class="btn btn-danger">글삭제</a>
+					</div>
 					<table class="table table-striped table-sm">
 						<thead  class="table-info">
 							<tr>

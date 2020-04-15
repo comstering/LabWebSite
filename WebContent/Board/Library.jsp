@@ -34,7 +34,7 @@
 				<h4 style="text-align: center;">BOARD</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
-						<script src="../Submenu.js">
+						<script src="../jsFolder/Submenu.js">
 						</script>
 					</ul>
 				</div>
