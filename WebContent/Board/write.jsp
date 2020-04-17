@@ -1,11 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
 	if(session.getAttribute("userID") == null) {
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인 후 이용해주세요.')");
+		script.println("location.href = '../Login/Login.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	UserDAO userDAO = new UserDAO();
+	
+	if(!userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('권한이 없습니다.')");
 		script.println("location.href = '../Login/Login.jsp'");
 		script.println("</script>");
 		script.close();
@@ -76,7 +88,8 @@
 							</tbody>
 						</table>
 						<hr>
-						첨부파일: <input multiple="multiple" type="file" id="file" name="file[]"><br><br>
+						첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br><br>
+						<input type="hidden" id="filesname" name="filesname">
 						<input type="submit" class="btn btn-primary" value="글쓰기">
 					</form>
 				</div>
@@ -84,5 +97,17 @@
 			</main>
 		</div>
 	</div>
+	<script>
+		$('#file').change(function() {
+			var filesname = "";
+			var files = $('#file').get(0).files;
+			for(var i = 0; i < files.length; i++) {
+				filesname += files[i].name;
+				filesname += ",";
+			}
+			filesname = filesname.substr(0, filesname.length - 1);
+			$('#filesname').val(filesname);
+		});
+	</script>
 </body>
 </html>

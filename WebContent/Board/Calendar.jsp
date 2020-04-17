@@ -1,11 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="Board.CalendarDTO" %>
+<%@ page import="Board.CalendarDAO" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width", initial-scale="1">
 <link rel="stylesheet" href="../StyleCSS/Base.css">
+<link rel="stylesheet" href="../StyleCSS/Calendar.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -36,6 +41,98 @@
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">일정</h1>
+				</div>
+				<div class="text-right">
+					<a href="#" class="btn btn-info">일정등록</a>
+				</div>
+				<%
+					Calendar start_day = Calendar.getInstance();
+					Calendar end_day = Calendar.getInstance();
+					Calendar cal = Calendar.getInstance();
+					start_day.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), 1);
+					end_day.set(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), start_day.getActualMaximum(Calendar.DATE));
+					int sday = start_day.get(Calendar.DAY_OF_WEEK);
+					CalendarDAO calDAO = new CalendarDAO();
+					ArrayList<CalendarDTO> list = calDAO.getSchedule(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH) + 1);
+				%>
+				<div class="container">
+					<div class="calendar shadow bg-white p-5">
+						<div class="d-flex align-items-center pb-3">
+							<h2 class="month font-weight-bold mb-0 text-uppercase"><%= cal.get(Calendar.YEAR) %>년 <%= cal.get(Calendar.MONTH) + 1 %>월</h2>
+						</div>
+						<ol class="day-names list-unstyled">
+							<li class="font-weight-bold text-uppercase text-center">Sun</li>
+							<li class="font-weight-bold text-uppercase text-center">Mon</li>
+							<li class="font-weight-bold text-uppercase text-center">Tue</li>
+							<li class="font-weight-bold text-uppercase text-center">Wed</li>
+							<li class="font-weight-bold text-uppercase text-center">Thu</li>
+							<li class="font-weight-bold text-uppercase text-center">Fri</li>
+							<li class="font-weight-bold text-uppercase text-center">Sat</li>
+						</ol>
+
+						<ol class="days list-unstyled">
+							<%
+								int day = 1;
+								for(int i = 1; i < sday; i++) {
+									day++;
+							%>
+							<li style="min-height: 10rem;">
+								<div class="date"></div>
+							</li>
+							<%
+								}
+								for(int i = 1; i <= end_day.get(Calendar.DATE); i++) {
+							%>
+							<li style="min-height: 10rem;">
+								<div class="date"><%= i %></div>
+							<%
+									for(int j = 0; j < list.size(); j++) {
+										if(list.get(j).getStart_month() != (start_day.get(Calendar.MONTH) + 1)) {
+											continue;
+										}
+										int start = list.get(j).getStart_day();
+										int end = list.get(j).getEnd_day();
+										String content = list.get(j).getContent();
+										if(i == start) {
+											if(start == end) {
+							%>
+      							<div class="event bg-success"><%= content %></div>
+							<%
+											} else if(day % 7 == 0) {
+							%>
+								<div class="event all-day begin bg-success"><%= content %></div>
+							<%
+											} else {
+												if((end - start + 1) <= (8 - (day % 7))) {
+							%>
+								<div class="event all-day bg-success" style="width: <%= end - start + 1 %>00%"><%= content %></div>
+							<%
+												} else {
+							%>
+								<div class="event all-day begin bg-success" style="width: <%= 8 - day % 7 %>00%"><%= content %></div>
+							<%
+												}
+											}
+										} else if(day % 7 == 1) {
+											if(i > start && end >= i && end < i + 7) {
+							%>
+								<div class="event all-day end bg-success" style="width: <%= end - i + 1 %>00%"><%= content %></div>
+							<%
+											} else if(start < i && end >= i + 7) {
+							%>
+								<div class="event all-day bg-success" style="width: <%= 7 %>00%; border-radius: 0 0 0 0;"><%= content %></div>
+							<%
+											}
+										}
+									}
+							%>
+							</li>
+							<%
+									day++;
+								}
+							%>
+						</ol>
+					</div>
 				</div>
 			</main>
 		</div>

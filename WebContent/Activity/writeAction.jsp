@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="Board.PostDAO" %>
 <%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
@@ -18,15 +19,26 @@
 		script.close();
 		return;
 	}
+	UserDAO userDAO = new UserDAO();
+
+	if(!userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('권한이 없습니다.')");
+		script.println("location.href = '../Login/Login.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
 	
 	String value[] = new String[3];    //  0: content, 1: category, 2: title
 	
 	FileDAO fileDAO = new FileDAO();
 	//  파일 경로
-//	String directory = fileDAO.getPath();
+	String directory = fileDAO.getPath();
 	
 	//  파일 경로: 테스트 환경
-	String directory = "D:/Programming/test/";
+//	String directory = "D:/Programming/test/";
 	
 	int maxSize = 1024 * 1024 * 100;
 	String encoding = "UTF-8";

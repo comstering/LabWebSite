@@ -22,10 +22,16 @@
 	});
 </script>
 <style>
- a, a:hover {
- 	color: black;
- 	text-decoration: none;
- }
+	a, a:hover {
+		color: black;
+		text-decoration: none;
+	}
+	.table-striped tbody tr:nth-of-type(even) {
+		background-color: rgba(0, 0, 0, .05);
+	}
+	.table-striped tbody tr:nth-of-type(odd) {
+		background-color:rgba(255, 255, 255, 0);
+	}
 </style>
 </head>
 <body>
@@ -43,6 +49,7 @@
 			</nav>
 			<main role="main" class="col-md-9 px-4" style="max-width: 72%">
 				<%
+					request.setCharacterEncoding("UTF-8");
 					String category = null;
 					int ID = 0;
 					if(request.getParameter("category") != null && request.getParameter("ID") != null) {
@@ -78,7 +85,7 @@
 						<a href="reWrite.jsp?category=<%= category %>&id=<%= ID %>&title=<%=postDTO.getTitle() %>&content=<%= postDTO.getContent() %>" class="btn btn-secondary">글수정</a>
 						<a href="delete.jsp?category=<%= category %>&id=<%= ID %>" class="btn btn-danger">글삭제</a>
 					</div>
-					<table class="table table-striped table-sm">
+					<table class="table table-striped">
 						<thead  class="table-info">
 							<tr>
 								<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>

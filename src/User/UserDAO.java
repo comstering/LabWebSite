@@ -41,7 +41,7 @@ public class UserDAO {
 	}
 	
 	private String getDate() {    //  회원가입 시간
-		String sql = "select now()";
+		sql = "select now()";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -120,12 +120,15 @@ public class UserDAO {
 	}
 	
 	public boolean checkAuthority(String userAuthority) {    //  권한 확인
+		//권한확인
 		try {
 			authority = new Properties();
 			fis_authority = new FileInputStream("/volume1/Security/LabWebSite/authority.properties");
 			authority.load(new BufferedInputStream(fis_authority));
 			
 			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
+//			//  권한확인: 테스트환경
+//			if(XSS.prevention(userAuthority).equals("zWhhvAqRxVNg1cgomXiQew==")) {
 				return true;
 			} else {
 				return false;

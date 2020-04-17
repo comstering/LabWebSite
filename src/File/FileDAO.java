@@ -32,7 +32,7 @@ public class FileDAO {
 		try {
 			//  파일 저장경로 불러오기
 			path = new Properties();
-			fis_path = new FileInputStream("/volume1/Secutiry/LabWebSite/path.properties");
+			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
 			path.load(new BufferedInputStream(fis_path));
 			
 			return path.getProperty("path");
@@ -49,7 +49,10 @@ public class FileDAO {
 				System.err.println("FileDAO getPath close IOException error");
 			}
 		}
-		return "";
+		return "error";
+		
+		//테스트환경
+//		return "D:/Programming/test/";
 	}
 	
 	public int upload(String category, int BoardID, String fileName, String fileRealName) {
@@ -76,7 +79,7 @@ public class FileDAO {
 	}
 	
 	public String getFile(String category, int BoardID) {
-		sql = "select FileName, FileRealName from " + category + "File where BoardID = ?";
+		sql = "select FileName, FileRealName from " + category + "File where BoardID = ? and Available = 1";
 		conn = dbConnector.getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);

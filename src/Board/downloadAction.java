@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import File.FileDAO;
+
 /**
  * Servlet implementation class downloadAction
  */
@@ -22,12 +24,8 @@ public class downloadAction extends HttpServlet {
 		String fileName = request.getParameter("fileName");
 		
 		//  파일 경로
-//		FileDAO fileDAO = new FileDAO();
-//		
-//		String directory = fileDAO.getPath();
-		
-		//파일 경로: 테스트환경
-		String directory = "D:/Programming/test/";
+		FileDAO fileDAO = new FileDAO();
+		String directory = fileDAO.getPath();
 		
 		File file = new File(directory + fileRealName);
 		

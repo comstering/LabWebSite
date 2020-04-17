@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
@@ -7,6 +8,17 @@
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('로그인 후 이용해주세요.')");
+		script.println("location.href = '../Login/Login.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	UserDAO userDAO = new UserDAO();
+	
+	if(!userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('권한이 없습니다.')");
 		script.println("location.href = '../Login/Login.jsp'");
 		script.println("</script>");
 		script.close();
@@ -64,7 +76,7 @@
 								<thead  class="table-info">
 									<tr>
 										<td class="text-center" width="15%"><label class="col-form-label">글제목</label></td>
-										<td><input type="text" class="form-control" placeholder="글 제목" value="<%= title.toString() %>" name="title" maxlength="50" required></td>
+										<td><input type="text" class="form-control" placeholder="글 제목" value="<%= title %>" name="title" maxlength="50" required></td>
 									</tr>
 								</thead>
 								<tbody>

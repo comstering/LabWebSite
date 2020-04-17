@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="Board.PostDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.File" %>
@@ -16,8 +17,19 @@
 		script.close();
 		return;
 	}
-%>
-<%
+	
+	UserDAO userDAO = new UserDAO();
+	
+	if(!userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+		PrintWriter script = response.getWriter();
+		script.println("<script>");
+		script.println("alert('권한이 없습니다.')");
+		script.println("location.href = '../Login/Login.jsp'");
+		script.println("</script>");
+		script.close();
+		return;
+	}
+	
 	request.setCharacterEncoding("UTF-8");
 	String category = XSS.prevention(request.getParameter("category"));
 	int id = Integer.parseInt(XSS.prevention(request.getParameter("id")));
@@ -26,19 +38,9 @@
 	int result = postDAO.delete(category, id);
 	
 	if(result == 1) {
-		String directory = application.getRealPath("Path");
-		int maxSize = 1024 * 1024 * 100;
-		String encoding = "UTF-8";
-		/*
-		MultipartRequest multipartRequest = new MultipartRequest(request, directory, maxSize, encoding,
-				new DefaultFileRenamePolicy());
-		
-		String fileName = multipartRequest.getOriginalFileName("file");
-		
-		int BoardID = postDAO.getNext(Category) - 1;
-		*/
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
+		script.println("alert('삭제되었습니다.')");
 		script.println("location.href = '../Board/"+ category +".jsp'");
 		script.println("</script>");
 		script.close();

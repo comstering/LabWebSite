@@ -72,7 +72,7 @@ public class User {
 //			key.load(new BufferedInputStream(fis_key));
 
 			//  권한 획득
-			authority = AES.aesEncryption(this.userAuthority, key.getProperty("key"));
+//			authority = AES.aesEncryption(this.userAuthority, key.getProperty("key"));
 			//  권한 획득: 테스트환경
 			authority = AES.aesEncryption(this.userAuthority, "secucomstering!#");
 //		} catch (FileNotFoundException e) { //예외처리 ,대응부재 제거

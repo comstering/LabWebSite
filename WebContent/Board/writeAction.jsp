@@ -19,14 +19,10 @@
 		return;
 	}
 	
-	String value[] = new String[3];    //  0: content, 1: category, 2: title
+	String value[] = new String[4];    //  0: content, 1: category, 2: filesname, 3: title
 	
 	FileDAO fileDAO = new FileDAO();
-	//  파일 경로
-//	String directory = fileDAO.getPath();
-	
-	//  파일 경로: 테스트 환경
-	String directory = "D:/Programming/test/";
+	String directory = fileDAO.getPath();
 	
 	int maxSize = 1024 * 1024 * 100;
 	String encoding = "UTF-8";
@@ -41,10 +37,9 @@
 	}
 	
 	Enumeration<?> files = multipartRequest.getFileNames();
-	System.out.println(files);
-	
-	String fileName = null;
+
 	String fileRealName = null;
+	String fileName = null;
 	
 	while(files.hasMoreElements()) {
 		String name = (String)files.nextElement();
@@ -53,13 +48,13 @@
 		String type = multipartRequest.getContentType(name);
 		i++;
 		System.out.println("name " + name);
-		System.out.println("filename " + fileName);
 		System.out.println("fileRealName " + fileRealName);
+		System.out.println("filename " + fileName);
 		System.out.println("type " + type);
 	}
 	
 	PostDAO postDAO = new PostDAO();
-	int result = postDAO.write(value[1], value[2], (String)session.getAttribute("userID"), value[0]);
+	int result = postDAO.write(value[1], value[3], (String)session.getAttribute("userID"), value[0]);
 	
 	if(fileName != null) {
 		fileDAO.upload(value[1], postDAO.getNext(value[1]) - 1, fileName, fileRealName);

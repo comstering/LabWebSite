@@ -70,7 +70,7 @@
 			</a>
 		</div>
 		
-		<div class="row justify-content-between" style="padding: 3rem 6rem">
+		<div class="row justify-content-between" style="padding: 3rem 1rem">
 			<div class="jumbotron col-md-5" style="padding: 2rem 1rem;">
 				<div class="d-flex justify-content-between align-items-center">
 					<h2>공지사항</h2>
@@ -92,6 +92,7 @@
 						%>					
 							<tr>
 								<td class="pl-3"><a href="../Board/view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
+								<td><%= list.get(i).getDate().substring(0,11) %></td>
 							</tr>
 						<%
 								}

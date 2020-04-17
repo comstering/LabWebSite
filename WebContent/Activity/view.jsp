@@ -77,7 +77,7 @@
 						<a href="reWrite.jsp?category=<%= category %>&id=<%= ID %>&title=<%=postDTO.getTitle() %>&content=<%= postDTO.getContent() %>" class="btn btn-secondary">글수정</a>
 						<a href="delete.jsp?category=<%= category %>&id=<%= ID %>" class="btn btn-danger">글삭제</a>
 					</div>
-					<table class="table table-striped table-sm">
+					<table class="table table-striped">
 						<thead  class="table-info">
 							<tr>
 								<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>

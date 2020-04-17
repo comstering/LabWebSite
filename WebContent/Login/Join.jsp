@@ -76,7 +76,7 @@
 				</div>
 				<div class="form-group col-md-6">
 					<label for="Phnoe">핸드폰번호</label>
-					<input type="text" onKeyup="inputPhoneNumber(this)" id="Phone" name="userPhoneNumber" class="form-control" placeholder="010-1234-5678" maxlength="13" required>
+					<input type="text" id="Phone" name="userPhoneNumber" class="form-control" placeholder="010-1234-5678" maxlength="13" required>
 				</div>
 			</div>
 			<div class="form-group">
