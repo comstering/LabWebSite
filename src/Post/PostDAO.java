@@ -1,4 +1,4 @@
-package Board;
+package Post;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,18 +10,18 @@ import DBConnect.DBConnector;
 import Security.XSS;
 
 public class PostDAO {
-	//  DB ¿¬°áº¯¼ö
+	//  DB ì—°ê²° ë³€ìˆ˜
 	private DBConnector dbConnector;
 	private Connection conn;
 	
-	//  SQL ÁúÀÇ °á°úº¯¼ö
+	//  SQL ì§ˆì˜ ê²°ê³¼ ë³€ìˆ˜
 	private ResultSet rs;
 	
 	public PostDAO() {
 		dbConnector = new DBConnector();
 	}
 	
-	private String getDate() {    //  °Ô½Ã±Û µî·Ï ½Ã°£ È¹µæ
+	private String getDate() {    //  ê²Œì‹œê¸€ ë“±ë¡ ì„œë²„ ì‹œê°„ íšë“
 		String sql = "select now()";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -42,10 +42,10 @@ public class PostDAO {
 				System.err.println("PostDAO getDate close SQLException error");
 			}
 		}
-		return "";    //  DB ¿À·ù
+		return "";    //  DB ì˜¤ë¥˜
 	}
 
-	public int getNext(String category) {    //  °Ô½Ã±Û ÀúÀå½Ã °Ô½Ã±Û ¹øÈ£ È®ÀÎ
+	public int getNext(String category) {    //  ê²Œì‹œíŒ ì €ì¥ì‹œ ê²Œì‹œê¸€ ë²ˆí˜¸ íšë“
 		String sql = "select ID from " + XSS.prevention(category) + " order by ID desc";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -53,9 +53,9 @@ public class PostDAO {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				return rs.getInt(1) + 1;    //  DB¿¡ ÀúÀåµÇ¾î ÀÖ´Â °Ô½Ã±Û¹øÈ£ + 1
+				return rs.getInt(1) + 1;    //  DBì— ì €ì¥ë˜ì–´ ìˆëŠ” ê²Œì‹œê¸€ë²ˆí˜¸ + 1
 			}
-			return 1;    //  Ã¹¹øÂ° °Ô½Ã±ÛÀÏ °æ¿ì
+			return 1;    //  ì²«ë²ˆì§¸ ê²Œì‹œê¸€ì¼ ê²½ìš°
 		} catch (SQLException e) {
 			System.err.println("PostDAO getNext SQLExceptoin error");
 		} finally {
@@ -67,7 +67,7 @@ public class PostDAO {
 				System.err.println("PostDAO getNext close SQLException error");
 			}
 		}
-		return -1;    //  DB ¿À·ù
+		return -1;    //  DB ì˜¤ë¥˜
 	}
 	
 	public int write(String category, String title, String writer, String content) {
@@ -95,10 +95,10 @@ public class PostDAO {
 				System.err.println("PostDAO write close SQLException error");
 			}
 		}
-		return -1;    //  DB ¿À·ù
+		return -1;    //  DB ì˜¤ë¥˜
 	}
 	
-	public int update(String category, int id, String title, String writer, String content) {
+	public int update(String category, int id, String title, String writer, String content) {    //  ê²Œì‹œê¸€ ìˆ˜ì •
 		String sql = "update " + category + " set Title=?, ReWriter=?, ReDate=?, Content=? where ID=?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -123,7 +123,7 @@ public class PostDAO {
 		return -1;
 	}
 	
-	public int delete(String category, int id) {    //  °Ô½Ã±Û »èÁ¦
+	public int delete(String category, int id) {    //  ê²Œì‹œê¸€ ì‚­ì œ
 		String sql = "select ID from " + category + " where Available=0";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -131,18 +131,18 @@ public class PostDAO {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			PreparedStatement pstmt2 = null;
-			if(rs.next()) {    //  »èÁ¦µÈ ÆÄÀÏÀÌ ÀÖÀ»°æ¿ì
+			if(rs.next()) {    //  ì‚­ì œëœ íŒŒì¼ì´ ìˆì„ ê²½ìš°
 				int delID = rs.getInt(1) - 1;
 				sql = "update " + category + " set ID=?, Available=0 where ID=?";
 				pstmt2 = conn.prepareStatement(sql);
 				pstmt2.setInt(1, delID);
 				pstmt2.setInt(2, id);
-				return pstmt2.executeUpdate();    //  »èÁ¦ ¼º°ø ½Ã
-			} else {    //  »èÁ¦µÈ ÆÄÀÏÀÌ ¾øÀ» °æ¿ì
+				return pstmt2.executeUpdate();    //  ì‚­ì œ ì„±ê³µì‹œ
+			} else {    //  ì‚­ì œëœ íŒŒì¼ì´ ì—†ì„ ê²½ìš°
 				sql = "update " + category + " set ID=-1, Available=0 where ID=?";
 				pstmt2 = conn.prepareStatement(sql);
 				pstmt2.setInt(1, id);
-				return pstmt2.executeUpdate();    //  »èÁ¦ ¼º°ø ½Ã
+				return pstmt2.executeUpdate();    //  ì‚­ì œ ì„±ê³µì‹œ
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO delete SQLException error");
@@ -155,20 +155,26 @@ public class PostDAO {
 				System.err.println("PostDAO delete close SQLException error");
 			}
 		}
-		return -1;    //  »èÁ¦ ½ÇÆĞ ½Ã
+		return -1;    //  ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
 	}
 	
-	public ArrayList<PostDTO> getList(String category, int pageNumber) {    //  °Ô½Ã±Û ¸®½ºÆ® È¹µæ
+	public ArrayList<PostDTO> getList(String category, int pageNumber) {    //  ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ íšë“
 		String sql = "select bi.ID, bi.Title, ui.Name, bi.Date, u.Name, bi.ReDate, bi.Content, bi.Count "
 				+ "from " + category + " bi join User ui on ui.ID = bi.Writer "
 				+ "join User u on u.ID = bi.ReWriter where bi.ID < ? AND Available = 1 "
-				+ "order by ID desc limit 10";
+				+ "order by ID desc limit ?";
 		conn = dbConnector.getConnection();
 		ArrayList<PostDTO> list = new ArrayList<PostDTO>();
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
+			if(category.equals("Notice") || category.equals("Library")) {    //  Boardì˜ ì¹´í…Œê³ ë¦¬ì¼ ê²½ìš°
+				pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
+				pstmt.setInt(2, 10);
+			} else {    //  Activityì˜ ì¹´í…Œê³ ë¦¬ì¼ ê²½ìš°
+				pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 6);
+				pstmt.setInt(2, 6);
+			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				PostDTO postDTO = new PostDTO(category, rs.getInt(1), rs.getString(2), rs.getString(3),
@@ -189,13 +195,17 @@ public class PostDAO {
 		return list;
 	}
 	
-	public boolean nextPage(String category, int pageNumber) {    //  °Ô½Ã±Û ¸®½ºÆ® ´ÙÀ½ ÆäÀÌÁö È®ÀÎ
+	public boolean nextPage(String category, int pageNumber) {    // ê²Œì‹œê¸€ ë¦¬ìŠ¤íŠ¸ ë‹¤ìŒ í˜ì´ì§€ í™•ì¸
 		String sql = "select * from "+ category +" where ID < ? AND Available = 1";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
+			if(category.equals("Notice") || category.equals("Library")) {
+				pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
+			} else {
+				pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 6);
+			}
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				return true;
@@ -211,10 +221,10 @@ public class PostDAO {
 				System.err.println("PostDAO nextPage close SQLException error");
 			}
 		}
-		return false;    //  DB ¿À·ù
+		return false;    //  DB ì˜¤ë¥˜
 	}
 
-	private int setCount(String category, int ID, int count) {    //  Á¶È¸¼ö ¼¼Æ®
+	private int setCount(String category, int ID, int count) {    // ì¡°íšŒìˆ˜ ì„¤ì •
 		String sql = "update " + category + " set Count = ? where ID = ?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -229,12 +239,12 @@ public class PostDAO {
 		}
 		return -1;
 	}
-	private String setNewLine(String Content) {    //  view¿¡¼­ ÁÙ¹Ù²Ş Àû¿ëÀ» À§ÇÑ ÇÔ¼ö
+	private String setNewLine(String Content) {    //  viewì—ì„œ ì¤„ë°”ê¿ˆ ì ìš©ì„ ìœ„í•œ í•¨ìˆ˜
 		String newContent = Content.replaceAll("\r\n", "<br>");
 		return newContent;
 	}
 	
-	public PostDTO getPost(String category, int ID) {    //  °Ô½Ã±Û È®ÀÎ
+	public PostDTO getPost(String category, int ID) {    //  ê²Œì‹œê¸€ í™•ì¸
 		String sql = "select bi.ID, bi.Title, ui.Name, bi.Date, u.Name, bi.ReDate, bi.Content, bi.Count from " + category + " as bi join User as ui on ui.id = bi.Writer join User as u on u.id = bi.ReWriter where bi.ID = ?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -257,10 +267,10 @@ public class PostDAO {
 				System.err.println("PostDAO getPost close SQLException error");
 			}
 		}
-		return null;    //  DB ¿À·ù
+		return null;    //  DB ì˜¤ë¥˜
 	}
 	
-	public boolean checkWriter(String category, int BoardID, String userID) {
+	public boolean checkWriter(String category, int BoardID, String userID) {    //  ê²Œì‹œê¸€ ì‘ì„±ì í™•ì¸
 		String sql = "select Writer from " + category + " where ID = ?";
 		String writer = "";
 		conn = dbConnector.getConnection();

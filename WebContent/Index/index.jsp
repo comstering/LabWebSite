@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Board.PostDTO" %>
-<%@ page import="Board.PostDAO" %>
+<%@ page import="Post.PostDTO" %>
+<%@ page import="Post.PostDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -128,7 +128,6 @@
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<a href="../Activity/view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
 									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>

@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Activity.PostDTO" %>
-<%@ page import="Activity.PostDAO" %>
+<%@ page import="Post.PostDTO" %>
+<%@ page import="Post.PostDAO" %>
+<%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.io.PrintWriter" %>
 <!DOCTYPE html>
 <html>

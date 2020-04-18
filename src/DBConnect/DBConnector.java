@@ -19,63 +19,63 @@ import javax.crypto.NoSuchPaddingException;
 import Security.AES;
 
 public class DBConnector {
-	//  DB ¡¢º” ∫Øºˆ: ≈◊Ω∫∆Æ»Ø∞Ê
-//	private String dbURL = "jdbc:mysql://localhost:3306/labwebsite?serverTimezone=UTC";
-//	private String dbID = "root";
-//	private String dbPassword = "zjatm1!01";
+	//  DB Ï†ëÏÜç Î≥ÄÏàò: ÌÖåÏä§Ìä∏ÌôòÍ≤Ω
+	private String dbURL = "jdbc:mysql://localhost:3306/labwebsite?serverTimezone=UTC";
+	private String dbID = "root";
+	private String dbPassword = "zjatm1!01";
 
-	//  DB ¡¢º” ∫Øºˆ
-	private String dbURL = "jdbc:mysql://localhost:3307/LabWebSite?serverTimezone=UTC";
-	private String dbID = "comstering";
-	private String dbPassword = "";
-	
-	//  DB ∆–Ω∫øˆµÂ ∫Øºˆ
-	private Properties password;
-	private FileInputStream fis_password;
-	private Properties key;
-	private FileInputStream fis_key;
+	//  DB Ï†ëÏÜç Î≥ÄÏàò
+//	private String dbURL = "jdbc:mysql://localhost:3307/LabWebSite?serverTimezone=UTC";
+//	private String dbID = "comstering";
+//	private String dbPassword = "";
+//	
+//	//  DB Ìå®Ïä§ÏõåÎìú Î≥ÄÏàò
+//	private Properties password;
+//	private FileInputStream fis_password;
+//	private Properties key;
+//	private FileInputStream fis_key;
 	
 	public DBConnector() {
-		try {
-			//  æœ»£»≠µ» DB password read
-			password = new Properties();
-			fis_password = new FileInputStream("/volume1/Tomcat/LabWebSite/WEB-INF/classes/Security/password.properties");
-			password.load(new BufferedInputStream(fis_password));
-
-			//ø‹∫Œø° ¿˙¿Âµ» ∫Òπ–≈∞ read
-			key = new Properties();
-			fis_key = new FileInputStream("/volume1/Security/key.properties");
-			key.load(new BufferedInputStream(fis_key));
-			
-			dbPassword = AES.aesDecryption(password.getProperty("password"), key.getProperty("key"));
-		} catch (FileNotFoundException e) { //øπø‹√≥∏Æ ,¥Î¿¿∫Œ¿Á ¡¶∞≈
-			System.err.println("DBConnector FileNotFoundException error");
-		} catch (IOException e) {
-			System.err.println("DBConnector IOException error");
-		} catch (InvalidKeyException e) {
-			System.err.println("DBConnector InvalidKeyException error");
-		} catch (NoSuchAlgorithmException e) {
-			System.err.println("DBConnector NoSuchAlgorithmException error");
-		} catch (NoSuchPaddingException e) {
-			System.err.println("DBConnector NoSuchPaddingException error");
-		} catch (InvalidAlgorithmParameterException e) {
-			System.err.println("DBConnector InvalidAlgorithmParameterException error");
-		} catch (IllegalBlockSizeException e) {
-			System.err.println("DBConnector IllegalBlockSizeException error");
-		} catch (BadPaddingException e) {
-			System.err.println("DBConnector BadPaddingException error");
-		} finally {    //  ¿⁄ø¯ «ÿ¡¶
-			try {
-				if(fis_password != null) {
-					fis_password.close();
-				}
-				if(fis_key != null) {
-					fis_key.close();
-				}
-			} catch (IOException e) {
-				System.err.println("DBConnector close IOException error");
-			}
-		}
+//		try {
+//			//  ÏïîÌò∏ÌôîÎêú DB password read
+//			password = new Properties();
+//			fis_password = new FileInputStream("/volume1/Tomcat/LabWebSite/WEB-INF/classes/Security/password.properties");
+//			password.load(new BufferedInputStream(fis_password));
+//
+//			//  Ïô∏Î∂ÄÏóê Ï†ÄÏû•Îêú ÎπÑÎ∞ÄÌÇ§read
+//			key = new Properties();
+//			fis_key = new FileInputStream("/volume1/Security/key.properties");
+//			key.load(new BufferedInputStream(fis_key));
+//			
+//			dbPassword = AES.aesDecryption(password.getProperty("password"), key.getProperty("key"));
+//		} catch (FileNotFoundException e) { //ÏòàÏô∏Ï≤òÎ¶¨, ÎåÄÏùëÎ∂ÄÏû¨ Ï†úÍ±∞
+//			System.err.println("DBConnector FileNotFoundException error");
+//		} catch (IOException e) {
+//			System.err.println("DBConnector IOException error");
+//		} catch (InvalidKeyException e) {
+//			System.err.println("DBConnector InvalidKeyException error");
+//		} catch (NoSuchAlgorithmException e) {
+//			System.err.println("DBConnector NoSuchAlgorithmException error");
+//		} catch (NoSuchPaddingException e) {
+//			System.err.println("DBConnector NoSuchPaddingException error");
+//		} catch (InvalidAlgorithmParameterException e) {
+//			System.err.println("DBConnector InvalidAlgorithmParameterException error");
+//		} catch (IllegalBlockSizeException e) {
+//			System.err.println("DBConnector IllegalBlockSizeException error");
+//		} catch (BadPaddingException e) {
+//			System.err.println("DBConnector BadPaddingException error");
+//		} finally {    //  ÏûêÏõê Ìï¥Ï†ú
+//			try {
+//				if(fis_password != null) {
+//					fis_password.close();
+//				}
+//				if(fis_key != null) {
+//					fis_key.close();
+//				}
+//			} catch (IOException e) {
+//				System.err.println("DBConnector close IOException error");
+//			}
+//		}
 	}
 	
 	public Connection getConnection() {

@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Properties;
 
 import DBConnect.DBConnector;
@@ -29,30 +30,30 @@ public class FileDAO {
 	}
 	
 	public String getPath() {
-		try {
-			//  ÆÄÀÏ ÀúÀå°æ·Î ºÒ·¯¿À±â
-			path = new Properties();
-			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
-			path.load(new BufferedInputStream(fis_path));
-			
-			return path.getProperty("path");
-		} catch (FileNotFoundException e) { //¿¹¿ÜÃ³¸® ,´ëÀÀºÎÀç Á¦°Å
-			System.err.println("FileDAO getPath FileNotFoundException error");
-		} catch (IOException e) {
-			System.err.println("FileDAO getPath IOException error");
-		} finally {    //  ÀÚ¿ø ÇØÁ¦
-			try {
-				if(fis_path != null) {
-					fis_path.close();
-				}
-			} catch (IOException e) {
-				System.err.println("FileDAO getPath close IOException error");
-			}
-		}
-		return "error";
+//		try {
+//			//  íŒŒì¼ ì €ì¥ê²½ë¡œ ë¶ˆëŸ¬ì˜¤ê¸°
+//			path = new Properties();
+//			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
+//			path.load(new BufferedInputStream(fis_path));
+//			
+//			return path.getProperty("path");
+//		} catch (FileNotFoundException e) { //  ì˜ˆì™¸ì²˜ë¦¬, ëŒ€ì‘ë¶€ì¬ ì œê±°
+//			System.err.println("FileDAO getPath FileNotFoundException error");
+//		} catch (IOException e) {
+//			System.err.println("FileDAO getPath IOException error");
+//		} finally {    //  ìì› í•´ì œ
+//			try {
+//				if(fis_path != null) {
+//					fis_path.close();
+//				}
+//			} catch (IOException e) {
+//				System.err.println("FileDAO getPath close IOException error");
+//			}
+//		}
+//		return "error";
 		
-		//Å×½ºÆ®È¯°æ
-//		return "D:/Programming/test/";
+		//í…ŒìŠ¤íŠ¸ í™˜ê²½
+		return "D:/Programming/test/";
 	}
 	
 	public int upload(String category, int BoardID, String fileName, String fileRealName) {
@@ -78,17 +79,16 @@ public class FileDAO {
 		return -1;
 	}
 	
-	public String getFile(String category, int BoardID) {
+	public ArrayList<String> getFile(String category, int BoardID) {
 		sql = "select FileName, FileRealName from " + category + "File where BoardID = ? and Available = 1";
 		conn = dbConnector.getConnection();
+		ArrayList<String> file = new ArrayList<String>();
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, BoardID);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
-				return "have," + rs.getString(1) + "," + rs.getString(2);
-			} else {
-				return "nohave";
+			while(rs.next()) {
+				file.add(rs.getString(1) + "," + rs.getString(2));
 			}
 		} catch (SQLException e) {
 			System.err.println("FileDAO getFile SQLException error");
@@ -102,6 +102,6 @@ public class FileDAO {
 			}
 		}
 		
-		return "error";
+		return file;
 	}
 }

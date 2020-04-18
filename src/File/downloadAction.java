@@ -1,4 +1,4 @@
-package Board;
+package File;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import File.FileDAO;
+import Security.XSS;
 
 /**
  * Servlet implementation class downloadAction
@@ -20,12 +20,13 @@ public class downloadAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String category = request.getParameter("category");
 		String fileRealName = request.getParameter("file");
 		String fileName = request.getParameter("fileName");
 		
-		//  ∆ƒ¿œ ∞Ê∑Œ
+		//  ÌååÏùº Í≤ΩÎ°ú
 		FileDAO fileDAO = new FileDAO();
-		String directory = fileDAO.getPath();
+		String directory = fileDAO.getPath() + category + "/";
 		
 		File file = new File(directory + fileRealName);
 		

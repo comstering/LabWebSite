@@ -1,4 +1,4 @@
-package Activity;
+package Post;
 
 public class PostDTO {
 	private String category;

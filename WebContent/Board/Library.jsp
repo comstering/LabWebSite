@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Board.PostDTO" %>
-<%@ page import="Board.PostDAO" %>
+<%@ page import="Post.PostDTO" %>
+<%@ page import="Post.PostDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>

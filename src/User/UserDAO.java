@@ -15,16 +15,16 @@ import Security.XSS;
 import Security.org.mindrot.jbcrypt.BCrypt;
 
 public class UserDAO {
-	//  DB ¿¬°á º¯¼ö
+	//  DB ì—°ê²° ë³€ìˆ˜
 	private DBConnector dbConnector;
 	private Connection conn;
 	
-	//  SQL ÁúÀÇ º¯¼ö
+	//  SQL ì§ˆì˜ ë³€ìˆ˜
 	private String sql = "";
 	private PreparedStatement pstmt;
 	private ResultSet rs;
 	
-	//  °ü¸®ÀÚ È®ÀÎ º¯¼ö
+	//  ê´€ë¦¬ì í™•ì¸ ë³€ìˆ˜
 	private Properties authority;
 	private FileInputStream fis_authority;
 	
@@ -40,7 +40,7 @@ public class UserDAO {
 		return BCrypt.checkpw(plainPassword, hashedPassword);
 	}
 	
-	private String getDate() {    //  È¸¿ø°¡ÀÔ ½Ã°£
+	private String getDate() {    //  íšŒì›ê°€ì… ì‹œê°„
 		sql = "select now()";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -61,9 +61,9 @@ public class UserDAO {
 				System.err.println("PostDAO getDate close SQLException error");
 			}
 		}
-		return "";    //  DB ¿À·ù
+		return "";    //  DB ì˜¤ë¥˜
 	}
-	public int join(User user) {    //  È¸¿ø°¡ÀÔ
+	public int join(User user) {    // íšŒì›ê°€ì…
 		sql = "insert into User (ID, Password, Name, PhoneNumber, Email, Gender, Authority, Date) values(?,?,?,?,?,?,?,?)";
 		conn = dbConnector.getConnection();
 		try {
@@ -76,7 +76,7 @@ public class UserDAO {
 			pstmt.setString(6, XSS.prevention(user.getUserGender()));
 			pstmt.setString(7, XSS.prevention(user.getUserAuthority()));
 			pstmt.setString(8, getDate());
-			return pstmt.executeUpdate();    //  È¸¿ø°¡ÀÔ ¼º°ø
+			return pstmt.executeUpdate();    //  íšŒì›ê°€ì… ì„±ê³µ
 		} catch(SQLException e) {
 			System.err.println("UserDAO join SQLException error");
 		} finally {
@@ -87,10 +87,10 @@ public class UserDAO {
 				System.err.println("UserDAO join close SQLException error");
 			}
 		}
-		return 0;    //  È¸¿ø°¡ÀÔ ½ÇÆĞ(¾ÆÀÌµğ Áßº¹, DB ¿À·ù)
+		return 0;    //  íšŒì›ê°€ì… ì‹¤íŒ¨(ì•„ì´ë”” ì¤‘ë³µ, DB ì˜¤ë¥˜)
 	}
 	
-	public String login(String userID, String userPassword) {    //  ·Î±×ÀÎ
+	public String login(String userID, String userPassword) {    //  ë¡œê·¸ì¸
 		sql = "select Password, Name, Authority from User where ID = ?";
 		conn = dbConnector.getConnection();
 		try {
@@ -99,12 +99,12 @@ public class UserDAO {
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				if(checkPass(XSS.prevention(userPassword), rs.getString(1))) {
-					return "success," + rs.getString(2) + "," + rs.getString(3);    //  ·Î±×ÀÎ ¼º°ø
+					return "success," + rs.getString(2) + "," + rs.getString(3);    //  ë¡œê·¸ì¸ ì„±ê³µ
 				} else {
-					return "error,password";    //  ºñ¹Ğ¹øÈ£ ¿À·ù
+					return "error,password";    //  ë¹„ë°€ë²ˆí˜¸ ì˜¤ë¥˜
 				}
 			}
-			return "error,ID";    //  ¾ÆÀÌµğ ¿À·ù
+			return "error,ID";    // ì•„ì´ë”” ì˜¤ë¥˜
 		} catch(SQLException e) {
 			System.err.println("UserDAO login SQLException error");
 		} finally {
@@ -116,36 +116,35 @@ public class UserDAO {
 				System.err.println("UserDAO login close SQLException error");
 			}
 		}
-		return "error,DB";    //  DB ¿À·ù
+		return "error,DB";    //  DB ì˜¤ë¥˜
 	}
 	
-	public boolean checkAuthority(String userAuthority) {    //  ±ÇÇÑ È®ÀÎ
-		//±ÇÇÑÈ®ÀÎ
-		try {
-			authority = new Properties();
-			fis_authority = new FileInputStream("/volume1/Security/LabWebSite/authority.properties");
-			authority.load(new BufferedInputStream(fis_authority));
-			
-			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
-//			//  ±ÇÇÑÈ®ÀÎ: Å×½ºÆ®È¯°æ
-//			if(XSS.prevention(userAuthority).equals("zWhhvAqRxVNg1cgomXiQew==")) {
+	public boolean checkAuthority(String userAuthority) {    // ê¶Œí•œ í™•ì¸
+//		try {
+//			authority = new Properties();
+//			fis_authority = new FileInputStream("/volume1/Security/LabWebSite/authority.properties");
+//			authority.load(new BufferedInputStream(fis_authority));
+//			
+//			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
+			// ê¶Œí•œ í™•ì¸: í…ŒìŠ¤íŠ¸í™˜ê²½
+			if(XSS.prevention(userAuthority).equals("zWhhvAqRxVNg1cgomXiQew==")) {
 				return true;
 			} else {
 				return false;
 			}
-		} catch (FileNotFoundException e) {
-			System.err.println("UserDAO checkAuthority FileNotFoundException error");
-		} catch (IOException e) {
-			System.err.println("UserDAO checkAuthority IOException error");
-		} finally {
-			try {
-				if(fis_authority != null) {
-					fis_authority.close();
-				}
-			} catch (IOException e) {
-				System.err.println("UserDAO checkAuthority close IOException error");
-			}
-		}
-		return false;
+//		} catch (FileNotFoundException e) {
+//			System.err.println("UserDAO checkAuthority FileNotFoundException error");
+//		} catch (IOException e) {
+//			System.err.println("UserDAO checkAuthority IOException error");
+//		} finally {
+//			try {
+//				if(fis_authority != null) {
+//					fis_authority.close();
+//				}
+//			} catch (IOException e) {
+//				System.err.println("UserDAO checkAuthority close IOException error");
+//			}
+//		}
+//		return false;
 	}
 }

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Board.PostDTO" %>
-<%@ page import="Board.PostDAO" %>
+<%@ page import="Post.PostDTO" %>
+<%@ page import="Post.PostDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
@@ -76,7 +76,7 @@
 						%>
 						<tr>
 							<td style="background-color #eee; text-align: center;"><%= list.get(i).getID() %></td>
-							<td style="background-color #eee; text-align: center;"><a href="view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
+							<td width="45%" style="background-color #eee; text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><a href="view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
 							<td style="background-color #eee; text-align: center;"><%= list.get(i).getWriter() %></td>
 							<td style="background-color #eee; text-align: center;"><%= list.get(i).getDate().substring(0,11) %></td>
 							<td style="background-color #eee; text-align: center;"><%= list.get(i).getCount() %></td>

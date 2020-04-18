@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Activity.PostDTO" %>
-<%@ page import="Activity.PostDAO" %>
+<%@ page import="Post.PostDTO" %>
+<%@ page import="Post.PostDAO" %>
+<%@ page import="File.FileDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -30,7 +31,7 @@
 	<div class="container">
 		<div class="row">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="max-width: 200px">
-				<h4 style="text-align: center;">Activity</h4>
+				<h4 style="text-align: center;">ACTIVITY</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
 						<script src="../jsFolder/Submenu.js">
@@ -52,6 +53,7 @@
 				<div class="row">
 					<%
 						PostDAO postDAO = new PostDAO();
+						FileDAO fileDAO = new FileDAO();
 						ArrayList<PostDTO> list = postDAO.getList("UnivContest", pageNumber);
 						if(list.size() == 0) {
 					%>
@@ -61,16 +63,16 @@
 					<%
 						} else {
 							for(int i = 0; i < list.size(); i++) {
+								ArrayList<String> fileNames = fileDAO.getFile("UnivContest", list.get(i).getID());
 					%>
 					<div class="col-md-4">
 						<div class="card mb-4 shadow-sm">
-							<img src="../Image/Index/img1.jpg" class="bd-placeholder-img card-img-top" width="100%" height=250 >
+							<img src="<%= fileDAO.getPath() %>UnivContest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=250 >
 							<div class="card-body">
 								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<a href="view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
 									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>

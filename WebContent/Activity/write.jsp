@@ -49,7 +49,7 @@
 	<div class="container">
 		<div class="row">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="max-width: 200px">
-				<h4 style="text-align: center;">BOARD</h4>
+				<h4 style="text-align: center;">ACTIVITY</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
 						<script src="../jsFolder/Submenu.js">
@@ -64,7 +64,7 @@
 				</div>
 				<div>
 				<div>
-					<form method="post" action="writeAction.jsp" enctype="multipart/form-data">
+					<form method="post" action="<%= application.getContextPath() %>/fileUpload" enctype="multipart/form-data">
 						<table class="table table-striped table-sm">
 							<thead  class="table-info">
 								<tr>
@@ -74,8 +74,11 @@
 												<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 											</div>
 											<select class="custom-select" id="inputGroupSelect01" name="category">
-												<option selected value="Notice">공지사항</option>
-												<option value="Library">자료실</option>
+												<option selected value="UnivContest">교내공모전</option>
+												<option value="Contest">교외공모전</option>
+												<option value="Institute">학술대회</option>
+												<option value="Event">행사</option>
+												<option value="Meeting">모임</option>
 											</select>
 										</div>
 									</td>
@@ -88,8 +91,9 @@
 								</tr>
 							</tbody>
 						</table>
+						<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
 						<hr>
-						첨부파일: <input multiple="multiple" type="file" id="file" name="file[]"><br><br>
+						첨부파일: <input multiple="multiple" type="file" id="file" name="file" accept="image/*"><br><br>
 						<input type="submit" class="btn btn-primary" value="글쓰기">
 					</form>
 				</div>

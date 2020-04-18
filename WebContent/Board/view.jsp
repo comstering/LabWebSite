@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Board.PostDTO" %>
-<%@ page import="Board.PostDAO" %>
+<%@ page import="Post.PostDTO" %>
+<%@ page import="Post.PostDAO" %>
 <%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.io.PrintWriter" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -93,41 +95,45 @@
 						</thead>
 						<tbody>
 							<tr>
-								<td style="width: 20%";>등록일</td>
+								<td class="text-center">등록일</td>
 								<td><%= postDTO.getDate() %></td>
 							</tr>
 							<tr>
-								<td style="width: 20%";>작성자</td>
+								<td class="text-center">작성자</td>
 								<td><%= postDTO.getWriter() %></td>
 							</tr>
 							<tr>
-								<td style="width: 20%";>최종 수정일</td>
+								<td class="text-center">최종 수정일</td>
 								<td><%= postDTO.getReDate() %></td>
 							</tr>
 							<tr>
-								<td style="width: 20%";>최종 수정자</td>
+								<td class="text-center">최종 수정자</td>
 								<td><%= postDTO.getReWriter() %></td>
 							</tr>
 							<tr>
-								<td style="width: 20%";>조회수</td>
+								<td class="text-center">조회수</td>
 								<td><%= postDTO.getCount() %></td>
 							</tr>
 							<tr>
-								<td style="width: 20%;">첨부파일</td>
+								<td class="text-center"">첨부파일</td>
 								<td>
 								<%
 									FileDAO fileDAO = new FileDAO();
-									String file[] = fileDAO.getFile(category, ID).split(",");
-									if(file[0].equals("have")) {
+									ArrayList<String> file = new ArrayList<String>();
+									file = fileDAO.getFile(category, ID);
+									if(file.size() > 0) {
+										for(int i = 0; i < file.size(); i++) {
+											String[] fileNames = file.get(i).split(",");
 								%>
-								<a style="" href="<%= request.getContextPath() %>/downloadAction?file=
-									<%= java.net.URLEncoder.encode(file[2], "UTF-8") %>
-									&fileName=<%= java.net.URLEncoder.encode(file[1], "UTF-8")%>">
-									<%= file[1] %></a>
+								<a style="" href="<%= application.getContextPath() %>/downloadAction?
+									category=<%= category %>>&file=<%= java.net.URLEncoder.encode(fileNames[1], "UTF-8") %>
+									&fileName=<%= java.net.URLEncoder.encode(fileNames[0], "UTF-8")%>">
+									<%= fileNames[0] %></a><br>
 								<%
+										}
 									} else {
 								%>
-								첨부파일이 업습니다.
+								첨부파일이 없습니다.
 								<%		
 									}
 								%>

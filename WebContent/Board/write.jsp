@@ -63,7 +63,7 @@
 				</div>
 				<div>
 				<div>
-					<form method="post" action="writeAction.jsp" enctype="multipart/form-data">
+					<form method="post" action="<%= application.getContextPath() %>/fileUpload" enctype="multipart/form-data">
 						<table class="table table-striped table-sm">
 							<thead  class="table-info">
 								<tr>
@@ -87,9 +87,9 @@
 								</tr>
 							</tbody>
 						</table>
+						<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
 						<hr>
 						첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br><br>
-						<input type="hidden" id="filesname" name="filesname">
 						<input type="submit" class="btn btn-primary" value="글쓰기">
 					</form>
 				</div>
@@ -97,17 +97,5 @@
 			</main>
 		</div>
 	</div>
-	<script>
-		$('#file').change(function() {
-			var filesname = "";
-			var files = $('#file').get(0).files;
-			for(var i = 0; i < files.length; i++) {
-				filesname += files[i].name;
-				filesname += ",";
-			}
-			filesname = filesname.substr(0, filesname.length - 1);
-			$('#filesname').val(filesname);
-		});
-	</script>
 </body>
 </html>

@@ -16,7 +16,7 @@ import org.apache.commons.codec.binary.Base64;
 
 public class AES {
 
-	//AES ¾ÏÈ£È­
+	//AES ì•”í˜¸í™”
 	public static String aesEncryption(String str, String key) throws UnsupportedEncodingException,
 	NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
 	InvalidKeyException, BadPaddingException, IllegalBlockSizeException
@@ -30,19 +30,19 @@ public class AES {
 		int len = b.length;
 		if(len > keyBytes.length)
 			len = keyBytes.length;
-		System.arraycopy(b, 0, keyBytes, 0, len); // bÀÇ 0¹øÁö ºÎÅÍ len±æÀÌ ¸¸Å­ keybytes 0¹øÁöºÎÅÍ º¹»ç
+		System.arraycopy(b, 0, keyBytes, 0, len);    //  bì˜ 0ë²ˆì§€ ë¶€í„° lenê¸¸ì´ ë§Œí¼ keybytes 0ë²ˆì§€ë¶€í„° ë³µì‚¬
 		keySpec = new SecretKeySpec(keyBytes, "AES");
 
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-		cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes())); // ¾ÏÈ£È­ ÁØºñ
+		cipher.init(Cipher.ENCRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes()));    //  ì•”í˜¸í™” ì¤€ë¹„
 
-		// AES ¾ÏÈ£È­
+		// AES ì•”í˜¸í™”
 		byte[] encrypted = cipher.doFinal(str.getBytes("UTF-8"));
 
 		return Base64.encodeBase64String(encrypted);
 	}
 	
-	//  AES º¹È£È­
+	//  AES ë³µí˜¸í™”
 	public static String aesDecryption(String str, String key) throws UnsupportedEncodingException,
 	NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException,
 	InvalidKeyException, BadPaddingException, IllegalBlockSizeException {
@@ -56,16 +56,16 @@ public class AES {
 		int len = b.length;
 		if(len > keyBytes.length)
 			len = keyBytes.length;
-		System.arraycopy(b, 0, keyBytes, 0, len); // bÀÇ 0¹øÁö ºÎÅÍ len±æÀÌ ¸¸Å­ keybytes 0¹øÁöºÎÅÍ º¹»ç
+		System.arraycopy(b, 0, keyBytes, 0, len);    //  bì˜ 0ë²ˆì§€ ë¶€í„° lenê¸¸ì´ ë§Œí¼ keybytes 0ë²ˆì§€ë¶€í„° ë³µì‚¬
 		keySpec = new SecretKeySpec(keyBytes, "AES");
 
 
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-		cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes("UTF-8"))); // º¹È£È­ ÁØºñ
+		cipher.init(Cipher.DECRYPT_MODE, keySpec, new IvParameterSpec(iv.getBytes("UTF-8")));    //  ë³µí˜¸í™” ì¤€ë¹„
 
-		// ¾ÏÈ£È­µÈ ÀÎÄÚµù µ¥ÀÌÅÍ, µğÄÚµù º¯È¯
+		//  ì•”í˜¸í™”ëœ ì¸ì½”ë”© ë°ì´í„°, ë””ì½”ë”© ë³€í™˜
 		byte[] byteStr = Base64.decodeBase64(str.getBytes());
-		// µğÄÚµùµÈ ¾ÏÈ£È­ µ¥ÀÌÅÍ, º¹È£È­ ÈÄ 'String'À¸·Î ¹İÈ¯
+		//  ë””ì½”ë”©ëœ ì•”í˜¸í™” ë°ì´í„°, ë³µí˜¸í™” í›„ 'String'ìœ¼ë¡œ ë°˜í™˜
 		return new String(cipher.doFinal(byteStr),"UTF-8");
 	}
 }

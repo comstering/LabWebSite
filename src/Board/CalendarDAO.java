@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import DBConnect.DBConnector;
 
 public class CalendarDAO {
-	//  DB ¿¬°á º¯¼ö
+	//  DB ì—°ê²° ë³€ìˆ˜
 	private DBConnector dbConnector;
 	private Connection conn;
 	
-	//  SQL ÁúÀÇ º¯¼ö
+	//  SQL ì§ˆì˜ ë³€ìˆ˜
 	private String sql = "";
 	private PreparedStatement pstmt;
 	private ResultSet rs;
@@ -40,7 +40,9 @@ public class CalendarDAO {
 				String[] start = rs.getString(1).split("-");
 				String[] end = rs.getString(2).split("-");
 				String content = rs.getString(3);
-				CalendarDTO calDTO = new CalendarDTO(Integer.parseInt(start[1]), Integer.parseInt(start[2]), Integer.parseInt(end[1]), Integer.parseInt(end[2]), content);
+				CalendarDTO calDTO = new CalendarDTO(Integer.parseInt(start[1]),
+						Integer.parseInt(start[2]), Integer.parseInt(end[1]),
+						Integer.parseInt(end[2]), content);
 				list.add(calDTO);
 			}
 		} catch (SQLException e) {
