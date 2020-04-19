@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DBConnect.DBConnector;
+import Post.PostDAO;
 
 public class CalendarDAO {
 	//  DB 연결 변수
@@ -57,5 +58,29 @@ public class CalendarDAO {
 			}
 		}
 		return list;
+	}
+	
+	public int registration(String start, String end, String content) {
+		sql = "insert into Calendar(ID, StartDate, EndDate, Content) values(?, ?, ?, ?)";
+		conn = dbConnector.getConnection();
+		try {
+			PostDAO postDAO = new PostDAO();
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, postDAO.getNext("Calendar"));
+			pstmt.setString(2, start);
+			pstmt.setString(3, end);
+			pstmt.setString(4, content);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("Calendar registrationSQLException error");
+		} finally {
+			try {
+				if(conn != null) {conn.close();}
+				if(pstmt != null) {pstmt.close();}
+			} catch(SQLException e) {
+				System.err.println("Calendar registration close SQLException error");
+			}
+		}
+		return -1;
 	}
 }

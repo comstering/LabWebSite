@@ -30,30 +30,30 @@ public class FileDAO {
 	}
 	
 	public String getPath() {
-//		try {
-//			//  파일 저장경로 불러오기
-//			path = new Properties();
-//			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
-//			path.load(new BufferedInputStream(fis_path));
-//			
-//			return path.getProperty("path");
-//		} catch (FileNotFoundException e) { //  예외처리, 대응부재 제거
-//			System.err.println("FileDAO getPath FileNotFoundException error");
-//		} catch (IOException e) {
-//			System.err.println("FileDAO getPath IOException error");
-//		} finally {    //  자원 해제
-//			try {
-//				if(fis_path != null) {
-//					fis_path.close();
-//				}
-//			} catch (IOException e) {
-//				System.err.println("FileDAO getPath close IOException error");
-//			}
-//		}
-//		return "error";
+		try {
+			//  파일 저장경로 불러오기
+			path = new Properties();
+			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
+			path.load(new BufferedInputStream(fis_path));
+			
+			return path.getProperty("path");
+		} catch (FileNotFoundException e) { //  예외처리, 대응부재 제거
+			System.err.println("FileDAO getPath FileNotFoundException error");
+		} catch (IOException e) {
+			System.err.println("FileDAO getPath IOException error");
+		} finally {    //  자원 해제
+			try {
+				if(fis_path != null) {
+					fis_path.close();
+				}
+			} catch (IOException e) {
+				System.err.println("FileDAO getPath close IOException error");
+			}
+		}
+		return "error";
 		
 		//테스트 환경
-		return "D:/Programming/test/";
+//		return "D:/Programming/test/";
 	}
 	
 	public int upload(String category, int BoardID, String fileName, String fileRealName) {

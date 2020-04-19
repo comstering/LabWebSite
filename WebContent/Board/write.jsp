@@ -63,7 +63,7 @@
 				</div>
 				<div>
 				<div>
-					<form method="post" action="<%= application.getContextPath() %>/fileUpload" enctype="multipart/form-data">
+					<form method="post" action="<%= application.getContextPath() %>/Write" enctype="multipart/form-data">
 						<table class="table table-striped table-sm">
 							<thead  class="table-info">
 								<tr>

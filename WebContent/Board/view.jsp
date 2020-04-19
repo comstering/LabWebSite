@@ -126,7 +126,7 @@
 											String[] fileNames = file.get(i).split(",");
 								%>
 								<a style="" href="<%= application.getContextPath() %>/downloadAction?
-									category=<%= category %>>&file=<%= java.net.URLEncoder.encode(fileNames[1], "UTF-8") %>
+									category=<%= category %>&file=<%= java.net.URLEncoder.encode(fileNames[1], "UTF-8") %>
 									&fileName=<%= java.net.URLEncoder.encode(fileNames[0], "UTF-8")%>">
 									<%= fileNames[0] %></a><br>
 								<%

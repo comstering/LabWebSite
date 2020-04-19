@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ page import="Post.PostDTO" %>
 <%@ page import="Post.PostDAO" %>
+<%@ page import="File.FileDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -117,12 +118,14 @@
 					</div>
 					<%
 						} else {
+							FileDAO fileDAO = new FileDAO();
 							if(list.size() > 2) {
 								for(int i = 0; i < 2; i++) {
+									ArrayList<String> fileNames = fileDAO.getFile("UnivContest", list.get(i).getID());
 					%>
 					<div class="col-md-6">
 						<div class="card mt-4 shadow-sm">
-							<img src="../Image/Index/img1.jpg" class="bd-placeholder-img card-img-top" width="100%" height=210>
+							<img src="/filepath<%= fileDAO.getPath() %>UnivContest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
 								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
@@ -138,16 +141,16 @@
 								}
 							} else {
 								for(int i = 0; i < list.size(); i++) {
+									ArrayList<String> fileNames = fileDAO.getFile("UnivContest", list.get(i).getID());
 					%>
 					<div class="col-md-6">
 						<div class="card mt-4 shadow-sm">
-							<img src="../Image/Index/img1.jpg" class="bd-placeholder-img card-img-top" width="100%" height=210>
+							<img src="/filepath<%= fileDAO.getPath() %>UnivContest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
 								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<a href="../Activity/view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
-										<a type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
 									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>

@@ -26,7 +26,7 @@ public class downloadAction extends HttpServlet {
 		
 		//  파일 경로
 		FileDAO fileDAO = new FileDAO();
-		String directory = fileDAO.getPath() + category + "/";
+		String directory = "/volume1" + fileDAO.getPath() + category + "/";
 		
 		File file = new File(directory + fileRealName);
 		

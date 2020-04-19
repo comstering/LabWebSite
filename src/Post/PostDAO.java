@@ -125,9 +125,14 @@ public class PostDAO {
 	
 	public int delete(String category, int id) {    //  게시글 삭제
 		String sql = "select ID from " + category + " where Available=0";
+		String filesql = "update " + category + "File set Available = 0 where BoardID = ?";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
+		PreparedStatement filepstmt = null;
 		try {
+			filepstmt = conn.prepareStatement(filesql);
+			filepstmt.setInt(1, id);
+			filepstmt.executeUpdate();
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			PreparedStatement pstmt2 = null;

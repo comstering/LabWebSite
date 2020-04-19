@@ -107,7 +107,23 @@
 								<td><%= postDTO.getCount() %></td>
 							</tr>
 							<tr>
-								<td colspan="2"><br><%= postDTO.getContent() %></td>
+								<td colspan="2" class="text-center"><br>
+									<div>
+										<%
+											FileDAO fileDAO = new FileDAO();
+											ArrayList<String> fileNames = fileDAO.getFile(category, ID);
+											for(int i = 0; i < fileNames.size(); i++) {
+										%>
+										<img src="/filepath<%= fileDAO.getPath() %><%= category %>/<%= fileNames.get(i).substring(fileNames.get(i).lastIndexOf(",") + 1, fileNames.get(i).length()) %>" >
+										<%
+											}
+										%>
+									</div>
+									<br><br>
+									<div>
+										<%= postDTO.getContent() %>
+									</div>
+								</td>
 							</tr>
 						</tbody>
 					</table>

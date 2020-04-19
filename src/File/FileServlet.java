@@ -23,7 +23,7 @@ import Post.PostDAO;
 /**
  * Servlet implementation class FileServlet
  */
-@WebServlet("/fileUpload")
+@WebServlet("/Write")
 public class FileServlet extends HttpServlet {
 	private FileDAO fileDAO = new FileDAO();
 	private int MAX_SIZE = 1024 * 1024 * 100;
@@ -36,7 +36,8 @@ public class FileServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		PrintWriter script = response.getWriter();
-        File attachesDir = new File(fileDAO.getPath());
+		String directory = "/volume1" + fileDAO.getPath();
+        File attachesDir = new File(directory);
         
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
         fileItemFactory.setRepository(attachesDir);
@@ -64,7 +65,7 @@ public class FileServlet extends HttpServlet {
                         int index =  item.getName().lastIndexOf(separator);
                         String fileName = item.getName().substring(index  + 1);
                         String fileSysName = overlap + "_" + fileName;
-                        File uploadFile = new File(fileDAO.getPath() + category +  separator + fileSysName);
+                        File uploadFile = new File(directory + category + separator + fileSysName);
                         item.write(uploadFile);
                         fileNames.add(fileName);
                         fileSysNames.add(fileSysName);
@@ -95,8 +96,14 @@ public class FileServlet extends HttpServlet {
             
 		} catch (FileUploadException e) {
 			System.err.println("FileServlet FileUploadexception error");
+			script.println("<script>");
+			script.println("alert('fileupload error')");
+			script.println("</script>");
 		} catch (Exception e) {
 			System.err.println("FileServlet Exception error write");
+			script.println("<script>");
+			script.println("alert('file error')");
+			script.println("</script>");
 		}
     }
 

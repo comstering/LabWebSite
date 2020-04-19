@@ -120,31 +120,31 @@ public class UserDAO {
 	}
 	
 	public boolean checkAuthority(String userAuthority) {    // 권한 확인
-//		try {
-//			authority = new Properties();
-//			fis_authority = new FileInputStream("/volume1/Security/LabWebSite/authority.properties");
-//			authority.load(new BufferedInputStream(fis_authority));
-//			
-//			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
+		try {
+			authority = new Properties();
+			fis_authority = new FileInputStream("/volume1/Security/LabWebSite/authority.properties");
+			authority.load(new BufferedInputStream(fis_authority));
+			
+			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
 			// 권한 확인: 테스트환경
-			if(XSS.prevention(userAuthority).equals("zWhhvAqRxVNg1cgomXiQew==")) {
+//			if(XSS.prevention(userAuthority).equals("zWhhvAqRxVNg1cgomXiQew==")) {
 				return true;
 			} else {
 				return false;
 			}
-//		} catch (FileNotFoundException e) {
-//			System.err.println("UserDAO checkAuthority FileNotFoundException error");
-//		} catch (IOException e) {
-//			System.err.println("UserDAO checkAuthority IOException error");
-//		} finally {
-//			try {
-//				if(fis_authority != null) {
-//					fis_authority.close();
-//				}
-//			} catch (IOException e) {
-//				System.err.println("UserDAO checkAuthority close IOException error");
-//			}
-//		}
-//		return false;
+		} catch (FileNotFoundException e) {
+			System.err.println("UserDAO checkAuthority FileNotFoundException error");
+		} catch (IOException e) {
+			System.err.println("UserDAO checkAuthority IOException error");
+		} finally {
+			try {
+				if(fis_authority != null) {
+					fis_authority.close();
+				}
+			} catch (IOException e) {
+				System.err.println("UserDAO checkAuthority close IOException error");
+			}
+		}
+		return false;
 	}
 }

@@ -64,7 +64,7 @@
 					%>
 					<div class="col-md-4">
 						<div class="card mb-4 shadow-sm">
-							<img src="<%= fileDAO.getPath() %>Contest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%">
+							<img src="/filepath<%= fileDAO.getPath() %>Contest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%">
 							<div class="card-body">
 								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">

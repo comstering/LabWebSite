@@ -64,7 +64,7 @@
 				</div>
 				<div>
 				<div>
-					<form method="post" action="<%= application.getContextPath() %>/fileUpload" enctype="multipart/form-data">
+					<form method="post" action="<%= application.getContextPath() %>/Write" enctype="multipart/form-data">
 						<table class="table table-striped table-sm">
 							<thead  class="table-info">
 								<tr>
@@ -93,7 +93,7 @@
 						</table>
 						<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
 						<hr>
-						첨부파일: <input multiple="multiple" type="file" id="file" name="file" accept="image/*"><br><br>
+						첨부파일: <input multiple="multiple" type="file" id="file" name="file" accept="image/*" required><br><br>
 						<input type="submit" class="btn btn-primary" value="글쓰기">
 					</form>
 				</div>
