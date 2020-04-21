@@ -4,8 +4,6 @@
 <%@ page import="Post.PostDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.File" %>
-<%@ page import="com.oreilly.servlet.multipart.DefaultFileRenamePolicy" %>
-<%@ page import="com.oreilly.servlet.MultipartRequest" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
 	if(session.getAttribute("userID") == null) {
@@ -24,7 +22,7 @@
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('권한이 없습니다.')");
-		script.println("location.href = '../Login/Login.jsp'");
+		script.println("history.back()");
 		script.println("</script>");
 		script.close();
 		return;

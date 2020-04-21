@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="User.UserDAO" %>
+<%@ page import="Board.CalendarDTO" %>
+<%@ page import="Board.CalendarDAO" %>
+<%@ page import="java.util.Calendar" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ page import="java.io.PrintWriter" %>
 <%
 	if(session.getAttribute("userID") == null) {
@@ -12,7 +16,6 @@
 		script.close();
 		return;
 	}
-
 	UserDAO userDAO = new UserDAO();
 	
 	if(!userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
@@ -31,6 +34,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width", initial-scale="1">
 <link rel="stylesheet" href="../StyleCSS/Base.css">
+<link rel="stylesheet" href="../StyleCSS/Calendar.css">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
@@ -49,7 +53,7 @@
 	<div class="container">
 		<div class="row">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="max-width: 200px">
-				<h4 style="text-align: center;">ACTIVITY</h4>
+				<h4 style="text-align: center;">BOARD</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
 						<script src="../jsFolder/Submenu.js">
@@ -60,44 +64,25 @@
 			<main role="main" class="col-md-9 px-4" style="max-width: 72%">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">게시판 글쓰기</h1>
+					<h1 class="h2">일정</h1>
 				</div>
-				<div>
-				<div>
-					<form method="post" action="<%= application.getContextPath() %>/Write" enctype="multipart/form-data">
-						<table class="table table-striped table-sm">
-							<thead  class="table-info">
-								<tr>
-									<td style="width: 250px">
-										<div class="input-group mb-1">
-											<div class="input-group-prepend">
-												<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
-											</div>
-											<select class="custom-select" id="inputGroupSelect01" name="category">
-												<option selected value="UnivContest">교내공모전</option>
-												<option value="Contest">교외공모전</option>
-												<option value="Institute">학술대회</option>
-												<option value="Event">행사</option>
-												<option value="Meeting">모임</option>
-											</select>
-										</div>
-									</td>
-									<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" required></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
-								</tr>
-							</tbody>
-						</table>
-						<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
-						<hr>
-						첨부파일: <input multiple="multiple" type="file" id="file" name="file" accept="image/*" required><br><br>
-						<input type="submit" class="btn btn-primary" value="글쓰기">
-					</form>
-				</div>
-			</div>
+				<form method="post" action="regAction.jsp">
+					<div class="form-group row">
+						<label class="col-2 col-form-label">일정내용</label>
+						<input class="form-control col-7" name="content" type="text" required>
+					</div>
+					<div class="form-group row">
+						<label class="col-1 col-form-label">시작</label>
+						<div class="col-5">
+							<input class="form-control" name="startDate" type="date" required>						
+						</div>
+						<label class="col-1 col-form-label">종료</label>
+						<div class="col-5">
+							<input class="form-control" name="endDate" type="date" required>
+						</div>
+					</div>
+					<input type="submit" class="btn btn-primary" value="일정등록">
+				</form>
 			</main>
 		</div>
 	</div>

@@ -43,7 +43,7 @@
 					<h1 class="h2">일정</h1>
 				</div>
 				<div class="text-right">
-					<a href="#" class="btn btn-info">일정등록</a>
+					<a href="registration.jsp" class="btn btn-info">일정등록</a>
 				</div>
 				<%
 					Calendar start_day = Calendar.getInstance();

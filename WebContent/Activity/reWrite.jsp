@@ -19,7 +19,7 @@
 		PrintWriter script = response.getWriter();
 		script.println("<script>");
 		script.println("alert('권한이 없습니다.')");
-		script.println("location.href = '../Login/Login.jsp'");
+		script.println("history.back()");
 		script.println("</script>");
 		script.close();
 		return;
@@ -67,7 +67,6 @@
 						request.setCharacterEncoding("UTF-8");
 						String category = XSS.prevention(request.getParameter("category"));
 						int ID = Integer.parseInt(XSS.prevention(request.getParameter("id")));
-						System.out.println("title: " + request.getParameter("title"));
 						String title = XSS.prevention(request.getParameter("title"));
 						String content = XSS.prevention(request.getParameter("content").replaceAll("<br>", "\r\n"));
 					%>
