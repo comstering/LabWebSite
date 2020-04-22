@@ -88,40 +88,76 @@
 							<%
 									for(int j = 0; j < list.size(); j++) {
 										if(list.get(j).getStart_month() != (start_day.get(Calendar.MONTH) + 1)) {
-											continue;
-										}
-										int start = list.get(j).getStart_day();
-										int end = list.get(j).getEnd_day();
-										String content = list.get(j).getContent();
-										if(i == start) {
-											if(start == end) {
+											int end = list.get(j).getEnd_day();
+											String content = list.get(j).getContent();
+											if(i == 1) {
+												if(end <= 8-sday) {
 							%>
-      							<div class="event bg-success"><%= content %></div>
+								<div class="event all-day end bg-secondary" style="width: <%= end %>00%"><%= content %></div>
 							<%
-											} else if(day % 7 == 0) {
+												} else if(end > 8 - sday) {
 							%>
-								<div class="event all-day begin bg-success"><%= content %></div>
+								<div class="event all-day bg-secondary" style="width: <%= 8-sday %>00%; border-radius: 0 0 0 0;"><%= content %></div>
 							<%
+												}
 											} else {
-												if((end - start + 1) <= (8 - (day % 7))) {
+												if(day % 7 == 1) {
+													if(end <= i + 6 && end >= i) {
 							%>
-								<div class="event all-day bg-success" style="width: <%= end - start + 1 %>00%"><%= content %></div>
+								<div class="event all-day end bg-secondary" style="width: <%= end - i + 1 %>00%;"><%= content %></div>
 							<%
-												} else {
+													} else if(end > i + 6) {
 							%>
-								<div class="event all-day begin bg-success" style="width: <%= 8 - day % 7 %>00%"><%= content %></div>
+								<div class="event all-day bg-secondary" style="width: <%= 7 %>00%; border-radius: 0 0 0 0;"><%= content %></div>
+							<%
+													}
+												}
+											}
+										} else if(list.get(j).getEnd_month() != (start_day.get(Calendar.MONTH) + 1)) {
+											int start = list.get(j).getStart_day();
+											String content = list.get(j).getContent();
+											int start_end = end_day.get(Calendar.DATE) - start + 1;
+											if(start_end <= end_day.get(Calendar.DAY_OF_WEEK)) {
+												if(i == start) {
+							%>
+								<div class="event all-day begin bg-secondary" style="width: <%= start_end %>00%"><%= content %></div>
 							<%
 												}
 											}
-										} else if(day % 7 == 1) {
-											if(i > start && end >= i && end < i + 7) {
+										} else {
+											int start = list.get(j).getStart_day();
+											int end = list.get(j).getEnd_day();
+											String content = list.get(j).getContent();
+											if(i == start) {
+												if(start == end) {
 							%>
-								<div class="event all-day end bg-success" style="width: <%= end - i + 1 %>00%"><%= content %></div>
+      							<div class="event bg-secondary"><%= content %></div>
 							<%
-											} else if(start < i && end >= i + 7) {
+												} else if(day % 7 == 0) {
 							%>
-								<div class="event all-day bg-success" style="width: <%= 7 %>00%; border-radius: 0 0 0 0;"><%= content %></div>
+								<div class="event all-day begin bg-secondary"><%= content %></div>
 							<%
+												} else {
+													if((end - start + 1) <= (8 - (day % 7))) {
+							%>
+								<div class="event all-day bg-secondary" style="width: <%= end - start + 1 %>00%"><%= content %></div>
+							<%
+													} else {
+							%>
+								<div class="event all-day begin bg-secondary" style="width: <%= 8 - day % 7 %>00%"><%= content %></div>
+							<%
+													}
+												}
+											} else if(day % 7 == 1) {
+												if(i > start && end >= i && end < i + 7) {
+							%>
+								<div class="event all-day end bg-secondary" style="width: <%= end - i + 1 %>00%"><%= content %></div>
+							<%
+												} else if(start < i && end >= i + 7) {
+							%>
+								<div class="event all-day bg-secondary" style="width: <%= 7 %>00%; border-radius: 0 0 0 0;"><%= content %></div>
+							<%
+												}
 											}
 										}
 									}
