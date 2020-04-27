@@ -1,8 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="User.UserDAO" %>
+<%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
+<%@ page import="java.util.ArrayList" %>
 <%
 	if(session.getAttribute("userID") == null) {
 		PrintWriter script = response.getWriter();
@@ -71,7 +73,9 @@
 						String content = XSS.prevention(request.getParameter("content").replaceAll("<br>", "\r\n"));
 					%>
 					<div>
-						<form method="post" action="reWriteAction.jsp?category=<%= category %>&id=<%= ID %>" enctype="multipart/form.data">
+						<form method="post" action="<%= application.getContextPath() %>/ReWrite" enctype="multipart/form-data">
+							<input type="hidden" name="category" value="<%= category %>">
+							<input type="hidden" name="ID" value="<%= ID %>">
 							<table class="table table-striped table-sm">
 								<thead  class="table-info">
 									<tr>
@@ -85,9 +89,31 @@
 									</tr>
 								</tbody>
 							</table>
+							<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
 							<%
-							//첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br/><br/>
+								FileDAO fileDAO = new FileDAO();
+								ArrayList<String> file = new ArrayList<String>();
+								file = fileDAO.getFile(category, ID);
+								if(file.size() > 0) {
 							%>
+								<hr>
+								첨부파일
+							<%
+									for(int i = 0; i < file.size(); i++) {
+										String[] fileNames = file.get(i).split(",");
+							%>
+							<div><%= fileNames[0] %></div>
+							<div class="form-check">
+								<input class="form-check-input" type="checkbox" name="del<%= i %>" value="del_<%= fileNames[0] %>" id="delCheck">
+								<label class="form-check-label" for="delCheck"> 삭제 </label>
+							</div>
+							<br>
+								<%
+										}
+									}
+								%>
+							<hr>
+							추가 첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br/><br/>
 							<input type="submit" class="btn btn-primary" value="글쓰기">
 						</form>
 					</div>

@@ -106,11 +106,11 @@
 			<div class="jumbotron col-md-6" style="padding: 2rem 1rem">
 				<div class="d-flex justify-content-between align-items-center">
 					<h2>Activity</h2>
-					<a class="btn btn-dark" href="../Activity/UnivContest.jsp">+더보기</a>
+					<a class="btn btn-dark" href="../Activity/Contest.jsp">+더보기</a>
 				</div>
 				<div class="row">
 					<%
-						list = postDAO.getList("UnivContest", 1);
+						list = postDAO.getList("Contest", 1);
 						if(list.size() == 0) {
 					%>
 					<div class="text-center">
@@ -121,16 +121,16 @@
 							FileDAO fileDAO = new FileDAO();
 							if(list.size() > 2) {
 								for(int i = 0; i < 2; i++) {
-									ArrayList<String> fileNames = fileDAO.getFile("UnivContest", list.get(i).getID());
+									ArrayList<String> fileNames = fileDAO.getFile("Contest", list.get(i).getID());
 					%>
 					<div class="col-md-6">
 						<div class="card mt-4 shadow-sm">
-							<img src="/filepath<%= fileDAO.getPath() %>UnivContest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
+							<img src="/filepath<%= fileDAO.getPath() %>Contest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
 								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="../Activity/view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a href="../Activity/view.jsp?category=Contest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
 									</div>
 									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>
@@ -141,16 +141,16 @@
 								}
 							} else {
 								for(int i = 0; i < list.size(); i++) {
-									ArrayList<String> fileNames = fileDAO.getFile("UnivContest", list.get(i).getID());
+									ArrayList<String> fileNames = fileDAO.getFile("Contest", list.get(i).getID());
 					%>
 					<div class="col-md-6">
 						<div class="card mt-4 shadow-sm">
-							<img src="/filepath<%= fileDAO.getPath() %>UnivContest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
+							<img src="/filepath<%= fileDAO.getPath() %>Contest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
 								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="../Activity/view.jsp?category=UnivContest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
+										<a href="../Activity/view.jsp?category=Contest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
 									</div>
 									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>

@@ -23,23 +23,23 @@ public class CalendarDAO {
 		dbConnector = new DBConnector();
 	}
 	
-	public ArrayList<CalendarDTO> getSchedule(int year, int month) {
+	public ArrayList<CalendarDTO> getSchedule(int year, int month) {    //  등록된 일정 가져오기
 		ArrayList<CalendarDTO> list = new ArrayList<CalendarDTO>();
 		sql = "select StartDate, EndDate, Content from Calendar where StartDate like ? or EndDate like ?";
 		conn = dbConnector.getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			if(month < 10) {
+			if(month < 10) {    //  월이 1자리일 때
 				pstmt.setString(1, year + "-0" + month + "%");
 				pstmt.setString(2, year + "-0" + month + "%");
-			} else {
+			} else {    //  월이 2자리일 때
 				pstmt.setString(1, year + "-" + month + "%");
 				pstmt.setString(2, year + "-" + month + "%");
 			}
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
-				String[] start = rs.getString(1).split("-");
-				String[] end = rs.getString(2).split("-");
+				String[] start = rs.getString(1).split("-");    //  시작 년월일 구분
+				String[] end = rs.getString(2).split("-");    //  끝 년월일 구분
 				String content = rs.getString(3);
 				CalendarDTO calDTO = new CalendarDTO(Integer.parseInt(start[1]),
 						Integer.parseInt(start[2]), Integer.parseInt(end[1]),
@@ -48,7 +48,7 @@ public class CalendarDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("CalendarDAO getSchedule SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -57,10 +57,10 @@ public class CalendarDAO {
 				System.err.println("CalendarDAO getSchedule close SQLException error");
 			}
 		}
-		return list;
+		return list;    //  일정 리스트 반환
 	}
 	
-	public int registration(String start, String end, String content) {
+	public int registration(String start, String end, String content) {    //  일정 등록
 		sql = "insert into Calendar(ID, StartDate, EndDate, Content) values(?, ?, ?, ?)";
 		conn = dbConnector.getConnection();
 		try {
@@ -73,7 +73,7 @@ public class CalendarDAO {
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("Calendar registrationSQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -81,6 +81,6 @@ public class CalendarDAO {
 				System.err.println("Calendar registration close SQLException error");
 			}
 		}
-		return -1;
+		return -1;    //  DB 오류
 	}
 }

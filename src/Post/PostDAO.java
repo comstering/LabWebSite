@@ -33,7 +33,7 @@ public class PostDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO getDate SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -58,7 +58,7 @@ public class PostDAO {
 			return 1;    //  첫번째 게시글일 경우
 		} catch (SQLException e) {
 			System.err.println("PostDAO getNext SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -70,7 +70,7 @@ public class PostDAO {
 		return -1;    //  DB 오류
 	}
 	
-	public int write(String category, String title, String writer, String content) {
+	public int write(String category, String title, String writer, String content) {    //  게시글 등록
 		String sql = "insert into " + XSS.prevention(category)
 			+ "(ID, Title, Writer, Date, ReWriter, ReDate, Content) values(?, ?, ?, ?, ?, ?, ?)";
 		conn = dbConnector.getConnection();
@@ -87,7 +87,7 @@ public class PostDAO {
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("PostDAO write SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -112,7 +112,7 @@ public class PostDAO {
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("PostDAO update SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -151,7 +151,7 @@ public class PostDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO delete SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -160,7 +160,7 @@ public class PostDAO {
 				System.err.println("PostDAO delete close SQLException error");
 			}
 		}
-		return -1;    //  ���� ���� ��
+		return -1;    //  DB 오류
 	}
 	
 	public ArrayList<PostDTO> getList(String category, int pageNumber) {    //  게시글 리스트 획득
@@ -188,7 +188,7 @@ public class PostDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO getList SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -206,18 +206,18 @@ public class PostDAO {
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
-			if(category.equals("Notice") || category.equals("Library")) {
+			if(category.equals("Notice") || category.equals("Library")) {    //  Board의 카테고리일 경우
 				pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 10);
-			} else {
+			} else {    //  Activity의 카테고리일 경우
 				pstmt.setInt(1, getNext(category) - (pageNumber - 1) * 6);
 			}
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if(rs.next()) {    //  다음 페이지가 있을 경우
 				return true;
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO nextPage SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -226,7 +226,7 @@ public class PostDAO {
 				System.err.println("PostDAO nextPage close SQLException error");
 			}
 		}
-		return false;    //  DB 오류
+		return false;    //  다음 페이지가 없을 경우, DB 오류
 	}
 
 	private int setCount(String category, int ID, int count) {    // 조회수 설정
@@ -242,7 +242,7 @@ public class PostDAO {
 		} catch (SQLException e) {
 			System.err.println("PostDAO setCount SQLException error");
 		}
-		return -1;
+		return -1;    //  DB 오류
 	}
 	private String setNewLine(String Content) {    //  view에서 줄바꿈 적용을 위한 함수
 		String newContent = Content.replaceAll("\r\n", "<br>");
@@ -263,7 +263,7 @@ public class PostDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO getPost SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -289,7 +289,7 @@ public class PostDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO getPost SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -298,9 +298,9 @@ public class PostDAO {
 				System.err.println("PostDAO getPost close SQLException error");
 			}
 		}
-		if(writer.equals(userID)) {
+		if(writer.equals(userID)) {    //  작성자일 경우
 			return true;
-		} else {
+		} else {    //  작성자와 다를 경우
 			return false;
 		}
 	}

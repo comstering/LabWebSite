@@ -74,8 +74,8 @@
 												<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
 											</div>
 											<select class="custom-select" id="inputGroupSelect01" name="category">
-												<option selected value="UnivContest">교내공모전</option>
-												<option value="Contest">교외공모전</option>
+												<option selected value="Contest">교외공모전</option>
+												<option value="UnivContest">교내공모전</option>
 												<option value="Institute">학술대회</option>
 												<option value="Event">행사</option>
 												<option value="Meeting">모임</option>

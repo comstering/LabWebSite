@@ -1,6 +1,7 @@
 package Security;
 
 public class XSS {
+	//  XSS 예방
 	public static String prevention(String weak) {
 		weak = weak.replaceAll("<", "&li;");
 		weak = weak.replaceAll(">", "&gt;");

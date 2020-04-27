@@ -52,7 +52,7 @@ public class UserDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("PostDAO getDate SQLExceptoin error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -79,7 +79,7 @@ public class UserDAO {
 			return pstmt.executeUpdate();    //  회원가입 성공
 		} catch(SQLException e) {
 			System.err.println("UserDAO join SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -107,7 +107,7 @@ public class UserDAO {
 			return "error,ID";    // 아이디 오류
 		} catch(SQLException e) {
 			System.err.println("UserDAO login SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -126,8 +126,6 @@ public class UserDAO {
 			authority.load(new BufferedInputStream(fis_authority));
 			
 			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
-			// 권한 확인: 테스트환경
-//			if(XSS.prevention(userAuthority).equals("zWhhvAqRxVNg1cgomXiQew==")) {
 				return true;
 			} else {
 				return false;
@@ -136,7 +134,7 @@ public class UserDAO {
 			System.err.println("UserDAO checkAuthority FileNotFoundException error");
 		} catch (IOException e) {
 			System.err.println("UserDAO checkAuthority IOException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(fis_authority != null) {
 					fis_authority.close();

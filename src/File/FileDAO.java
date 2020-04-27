@@ -50,13 +50,10 @@ public class FileDAO {
 				System.err.println("FileDAO getPath close IOException error");
 			}
 		}
-		return "error";
-		
-		//테스트 환경
-//		return "D:/Programming/test/";
+		return "error";    //  경로 오류
 	}
 	
-	public int upload(String category, int BoardID, String fileName, String fileRealName) {
+	public int upload(String category, int BoardID, String fileName, String fileRealName) {    //  파일 업로드
 		sql = "insert into "+ category +"File(BoardID, FileName, FileRealName) value (?, ?, ?)";
 		conn = dbConnector.getConnection();
 		try {
@@ -67,7 +64,7 @@ public class FileDAO {
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("FileDAO upload SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -79,7 +76,7 @@ public class FileDAO {
 		return -1;
 	}
 	
-	public ArrayList<String> getFile(String category, int BoardID) {
+	public ArrayList<String> getFile(String category, int BoardID) {    //  파일 불러오기
 		sql = "select FileName, FileRealName from " + category + "File where BoardID = ? and Available = 1";
 		conn = dbConnector.getConnection();
 		ArrayList<String> file = new ArrayList<String>();
@@ -92,7 +89,7 @@ public class FileDAO {
 			}
 		} catch (SQLException e) {
 			System.err.println("FileDAO getFile SQLException error");
-		} finally {
+		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
@@ -103,5 +100,26 @@ public class FileDAO {
 		}
 		
 		return file;
+	}
+	
+	public int delete(String category, int BoardID, String FileName) {    //  파일 삭제
+		sql = "update " + category + "File set Available = 0 where BoardID = ? and FileName = ?";
+		conn = dbConnector.getConnection();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, BoardID);
+			pstmt.setString(2, FileName);
+			return pstmt.executeUpdate();
+		} catch (SQLException e) {
+			System.err.println("FileDAO delete SQLException error");
+		} finally {    //  자원 해제
+			try {
+				if(conn != null) {conn.close();}
+				if(pstmt != null) {pstmt.close();}
+			} catch(SQLException e) {
+				System.err.println("FiletDAO delete close SQLException error");
+			}
+		}
+		return -1;    //  DB 오류
 	}
 }

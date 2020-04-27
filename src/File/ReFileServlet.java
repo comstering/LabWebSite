@@ -21,16 +21,16 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import Post.PostDAO;
 
 /**
- * Servlet implementation class FileServlet
+ * Servlet implementation class ReFileServlet
  */
-@WebServlet("/Write")    //  글작성
-public class FileServlet extends HttpServlet {
+@WebServlet("/ReWrite")    //  글 수정
+public class ReFileServlet extends HttpServlet {
 	private FileDAO fileDAO = new FileDAO();
 	private int MAX_SIZE = 1024 * 1024 * 100;
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html; charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
@@ -39,26 +39,33 @@ public class FileServlet extends HttpServlet {
 		String directory = "/volume1" + fileDAO.getPath();
         File attachesDir = new File(directory);
         
-        DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
-        fileItemFactory.setRepository(attachesDir);
-        fileItemFactory.setSizeThreshold(MAX_SIZE);
-        ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
+        DiskFileItemFactory reFileItemFactory = new DiskFileItemFactory();
+        reFileItemFactory.setRepository(attachesDir);
+        reFileItemFactory.setSizeThreshold(MAX_SIZE);
+        ServletFileUpload reFileUpload = new ServletFileUpload(reFileItemFactory);
         StringBuilder sb = new StringBuilder("");
 		try {
-            List<FileItem> items = fileUpload.parseRequest(request);
+            List<FileItem> items = reFileUpload.parseRequest(request);
 			
             ArrayList<String> fileNames = new ArrayList<String>();
             ArrayList<String> fileSysNames = new ArrayList<String>();
             String category = null;
             int count = 1;
             for (FileItem item : items) {
-                if (item.isFormField()) {    //  파일이 아닌 input
+                if (item.isFormField()) {    //  파일이 아닌 input value
+        			script.println("<script>");
+        			script.println("console.log('" + item.toString() + "')");
+        			script.println("</script>");
                 	if(count == 1) {
                 		category = item.getString("utf-8");
                 	}
                 	sb.append(item.getString("utf-8"));
                     sb.append("-");
-                } else {    //  파일 input
+                } else {    //  파일  input
+        			script.println("<script>");
+        			script.println("console.log('" + item.toString() + "')");
+        			script.println("console.log('" + item.getSize() + "')");
+        			script.println("</script>");
                 	String overlap = UUID.randomUUID().toString();
                     if (item.getSize() > 0) {
                         String separator = File.separator;
@@ -73,21 +80,30 @@ public class FileServlet extends HttpServlet {
                 }
                 count++;
             }
-            //  게시글 카테고리, 제목, 내용, 작성자 구분
+            //  게시글 번호, 제목, 내용, 수정자 구분
             String[] value = sb.toString().substring(0, sb.toString().lastIndexOf("-")).split("-");
+            if(value.length > 5) {
+            	for(int i = 5; i < value.length; i++) {
+            		String[] delFile = value[i].split("_");
+                	fileDAO.delete(value[0], Integer.parseInt(value[1]), delFile[1]);
+            	}
+            }
             
             PostDAO postDAO = new PostDAO();
-            int result = postDAO.write(value[0], value[1], value[3], value[2]);    //  DB에 작성
+            //  게시글 업데이트
+            int result = postDAO.update(value[0], Integer.parseInt(value[1]), value[2], value[4], value[3]);
+            
             if(result == 1) {
                 for(int i = 0; i < fileNames.size(); i++) {
-                	fileDAO.upload(value[0], postDAO.getNext(value[0]) - 1, fileNames.get(i), fileSysNames.get(i));
+                	fileDAO.upload(value[0], Integer.parseInt(value[1]), fileNames.get(i), fileSysNames.get(i));
                 }
             }
 
             script.println("<script>");
-            if(category.equals("Notice") || category.equals("Library")) {    //  Board일 경우
+            if(category.equals("Notice") || category.equals("Library")) {
         		script.println("location.href = '../LabWebSite/Board/"+ category +".jsp'");
-            } else {    //  Activity일 경우
+            } else {
+
         		script.println("location.href = '../LabWebSite/Activity/"+ category +".jsp'");
             }
     		script.println("</script>");
@@ -95,16 +111,16 @@ public class FileServlet extends HttpServlet {
     		return;
             
 		} catch (FileUploadException e) {
-			System.err.println("FileServlet FileUploadexception error");
+			System.err.println("ReFileServlet FileUploadException error");
 			script.println("<script>");
-			script.println("alert('fileupload error')");
+			script.println("alert('FileUpload error')");
 			script.println("</script>");
 		} catch (Exception e) {
-			System.err.println("FileServlet Exception error write");
+			System.err.println("ReFileServlet Exception error write");
 			script.println("<script>");
-			script.println("alert('file error')");
+			script.println("alert('refile error')");
 			script.println("</script>");
 		}
-    }
+	}
 
 }

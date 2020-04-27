@@ -54,6 +54,7 @@ public class downloadAction extends HttpServlet {
 			sos.write(b, 0, data);
 		}
 		
+		//  자원 해제
 		sos.flush();
 		sos.close();
 		fis.close();

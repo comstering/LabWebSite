@@ -16,7 +16,7 @@
 						<a class="nav-link" href="../Project/Project.jsp">PROJECT</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="../Activity/UnivContest.jsp">ACTIVITY</a>
+						<a class="nav-link" href="../Activity/Contest.jsp">ACTIVITY</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="../Board/Notice.jsp">BOARD</a>
@@ -64,7 +64,7 @@
 	<div class="container d-flex flex-column flex-md-row justify-content-between">
 		<a class="py-2 d-md-inline-block" href="../Introduction/NSLab.jsp">INTRODUCTION</a>
 		<a class="py-2 d-md-inline-block" href="../Project/Project.jsp">PROJECT</a>
-		<a class="py-2 d-md-inline-block" href="../Activity/UnivContest.jsp">ACTIVITY</a>
+		<a class="py-2 d-md-inline-block" href="../Activity/Contest.jsp">ACTIVITY</a>
 		<a class="py-2 d-md-inline-block" href="../Board/Notice.jsp">BOARD</a>
 	</div>
 </nav>
