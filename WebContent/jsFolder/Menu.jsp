@@ -7,7 +7,7 @@
 			<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="navbar-collapse collapse show" id="navbarColor01" style>
+			<div class="navbar-collapse collapse" id="navbarColor01" style>
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
 						<a class="nav-link" href="../Introduction/NSLab.jsp">INTRODUCTION</a>

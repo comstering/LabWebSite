@@ -46,7 +46,7 @@ public class PostDAO {
 	}
 
 	public int getNext(String category) {    //  게시판 저장시 게시글 번호 획득
-		String sql = "select ID from " + XSS.prevention(category) + " order by ID desc";
+		String sql = "select ID from " + category + " order by ID desc";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
 		try {
@@ -71,7 +71,7 @@ public class PostDAO {
 	}
 	
 	public int write(String category, String title, String writer, String content) {    //  게시글 등록
-		String sql = "insert into " + XSS.prevention(category)
+		String sql = "insert into " + category
 			+ "(ID, Title, Writer, Date, ReWriter, ReDate, Content) values(?, ?, ?, ?, ?, ?, ?)";
 		conn = dbConnector.getConnection();
 		PreparedStatement pstmt = null;
@@ -79,9 +79,9 @@ public class PostDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, getNext(category));
 			pstmt.setString(2, XSS.prevention(title));
-			pstmt.setString(3, XSS.prevention(writer));
+			pstmt.setString(3, writer);
 			pstmt.setString(4, getDate());
-			pstmt.setString(5, XSS.prevention(writer));
+			pstmt.setString(5, writer);
 			pstmt.setString(6, getDate());
 			pstmt.setString(7, XSS.prevention(content));
 			return pstmt.executeUpdate();
@@ -105,7 +105,7 @@ public class PostDAO {
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, XSS.prevention(title));
-			pstmt.setString(2, XSS.prevention(writer));
+			pstmt.setString(2, writer);
 			pstmt.setString(3, getDate());
 			pstmt.setString(4, XSS.prevention(content));
 			pstmt.setInt(5, id);
@@ -244,9 +244,9 @@ public class PostDAO {
 		}
 		return -1;    //  DB 오류
 	}
-	private String setNewLine(String Content) {    //  view에서 줄바꿈 적용을 위한 함수
-		String newContent = Content.replaceAll("\r\n", "<br>");
-		return newContent;
+	
+	private String setNewLine(String content) {    //  view에서 줄바꿈, space 적용을 위한 함수
+		return content.replaceAll("\r\n", "<br>").replaceAll(" ", "&nbsp;");
 	}
 	
 	public PostDTO getPost(String category, int ID) {    //  게시글 확인

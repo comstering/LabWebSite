@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="User.UserDAO" %>
+<%@ page import="Post.*" %>
 <%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.io.PrintWriter" %>
@@ -65,8 +66,10 @@
 						request.setCharacterEncoding("UTF-8");
 						String category = XSS.prevention(request.getParameter("category"));
 						int ID = Integer.parseInt(XSS.prevention(request.getParameter("id")));
-						String title = XSS.prevention(request.getParameter("title"));
-						String content = XSS.prevention(request.getParameter("content").replaceAll("<br>", "\r\n"));
+						PostDAO postDAO = new PostDAO();
+						PostDTO postDTO = postDAO.getPost(category, ID);
+						String title = postDTO.getTitle();
+						String content = postDTO.getContent().replaceAll("<br>", "\r\n");
 					%>
 					<div>
 						<form method="post" action="<%= application.getContextPath() %>/ReWrite" enctype="multipart/form-data">
