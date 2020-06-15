@@ -72,7 +72,7 @@
 					<h2>공지사항</h2>
 					<a class="btn btn-dark" href="../Board/Notice.jsp">+더보기</a>
 				</div>
-				<table class="table table-striped table-sm mt-4">
+				<table class="table table-striped table-sm mt-4" style="table-layout: fixed;">
 					<tbody>
 						<%
 							PostDAO postDAO = new PostDAO();
@@ -87,7 +87,7 @@
 								for(int i = 0; i < list.size(); i++) {
 						%>					
 							<tr>
-								<td class="pl-3"><a href="../Board/view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
+								<td class="pl-3 abb"><a href="../Board/view.jsp?category=Notice&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
 								<td><%= list.get(i).getDate().substring(0,11) %></td>
 							</tr>
 						<%
@@ -122,7 +122,7 @@
 						<div class="card mt-4 shadow-sm">
 							<img src="/filepath<%= fileDAO.getPath() %>Contest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
-								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
+								<p class="card-text abb"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<a href="../Activity/view.jsp?category=Contest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
@@ -142,7 +142,7 @@
 						<div class="card mt-4 shadow-sm">
 							<img src="/filepath<%= fileDAO.getPath() %>Contest/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%" height=210>
 							<div class="card-body">
-								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
+								<p class="card-text abb"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<a href="../Activity/view.jsp?category=Contest&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>

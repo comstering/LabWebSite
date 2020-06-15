@@ -62,7 +62,7 @@
 						script.println("history.back()");
 						script.println("</script>");
 					}
-					if(ID == 0) {
+					if(ID < 1) {
 						PrintWriter script = response.getWriter();
 						script.println("<script>");
 						script.println("alert('유효하지 않은 글입니다.')");

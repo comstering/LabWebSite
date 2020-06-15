@@ -54,13 +54,14 @@ public class FileDAO {
 	}
 	
 	public int upload(String category, int BoardID, String fileName, String fileRealName) {    //  파일 업로드
-		sql = "insert into "+ category +"File(BoardID, FileName, FileRealName) value (?, ?, ?)";
+		sql = "insert into PostFile(Category, BoardID, FileName, FileRealName) value (?, ?, ?, ?)";
 		conn = dbConnector.getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, BoardID);
-			pstmt.setString(2, fileName);
-			pstmt.setString(3, fileRealName);
+			pstmt.setString(1, category);
+			pstmt.setInt(2, BoardID);
+			pstmt.setString(3, fileName);
+			pstmt.setString(4, fileRealName);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("FileDAO upload SQLException error");
@@ -77,12 +78,13 @@ public class FileDAO {
 	}
 	
 	public ArrayList<String> getFile(String category, int BoardID) {    //  파일 불러오기
-		sql = "select FileName, FileRealName from " + category + "File where BoardID = ? and Available = 1";
+		sql = "select FileName, FileRealName from PostFile where Category=? and BoardID = ? and Available = 1";
 		conn = dbConnector.getConnection();
 		ArrayList<String> file = new ArrayList<String>();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, BoardID);
+			pstmt.setString(1, category);
+			pstmt.setInt(2, BoardID);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				file.add(rs.getString(1) + "," + rs.getString(2));
@@ -103,12 +105,13 @@ public class FileDAO {
 	}
 	
 	public int delete(String category, int BoardID, String FileName) {    //  파일 삭제
-		sql = "update " + category + "File set Available = 0 where BoardID = ? and FileName = ?";
+		sql = "update PostFile set Available = 0 where Category=? and BoardID = ? and FileName = ?";
 		conn = dbConnector.getConnection();
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, BoardID);
-			pstmt.setString(2, FileName);
+			pstmt.setString(1, category);
+			pstmt.setInt(2, BoardID);
+			pstmt.setString(3, FileName);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {
 			System.err.println("FileDAO delete SQLException error");

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="Post.PostDTO" %>
 <%@ page import="Post.PostDAO" %>
 <%@ page import="File.FileDAO" %>
@@ -62,12 +63,12 @@
 						<div class="card mb-4 shadow-sm">
 							<img src="/filepath<%= fileDAO.getPath() %>Institute/<%= fileNames.get(0).substring(fileNames.get(0).lastIndexOf(",") + 1, fileNames.get(0).length()) %>" class="bd-placeholder-img card-img-top" width="100%">
 							<div class="card-body">
-								<p class="card-text" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"><%= list.get(i).getTitle() %></p>
+								<p class="card-text abb"><%= list.get(i).getTitle() %></p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
 										<a href="view.jsp?category=Institute&ID=<%= list.get(i).getID() %>" type="button" class="btn btn-sm btn-outline-secondary">View</a>
 									</div>
-									<small class="text-muted"><%= list.get(i).getDate().substring(0,11) %></small>
+									<small class="text-muted abb"><%= list.get(i).getDate().substring(0,11) %></small>
 								</div>
 							</div>
 						</div>
@@ -89,9 +90,16 @@
 				<%
 					}
 				%>
+				<%
+					UserDAO userDAO = new UserDAO();
+					if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+				%>
 				<div class="text-right">
 					<a href="write.jsp" class="btn btn-primary">글쓰기</a>
 				</div>
+				<%
+					}
+				%>
 			</main>
 		</div>
 	</div>

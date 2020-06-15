@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="Board.CalendarDTO" %>
 <%@ page import="Board.CalendarDAO" %>
 <%@ page import="java.util.Calendar" %>
@@ -38,9 +39,17 @@
 				pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">일정</h1>
 				</div>
+				<%
+					UserDAO userDAO = new UserDAO();
+					if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+				%>
 				<div class="text-right">
 					<a href="registration.jsp" class="btn btn-info">일정등록</a>
 				</div>
+				<%
+					}
+				%>
+				
 				<%
 					Calendar start_day = Calendar.getInstance();
 					Calendar end_day = Calendar.getInstance();

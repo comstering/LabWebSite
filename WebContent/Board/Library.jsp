@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="User.UserDAO" %>
 <%@ page import="Post.PostDTO" %>
 <%@ page import="Post.PostDAO" %>
 <%@ page import="java.util.ArrayList" %>
@@ -46,14 +47,14 @@
 				pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">자료실</h1>
 				</div>
-				<table class="table table-striped table-sm">
+				<table class="table table-striped table-sm" style="table-layout: fixed;">
 					<thead class="table-info">
 						<tr>
-							<th style="background-color #eee; text-align: center;">번호</th>
-							<th style="background-color #eee; text-align: center;">제목</th>
-							<th style="background-color #eee; text-align: center;">작성자</th>
-							<th style="background-color #eee; text-align: center;">등록일</th>
-							<th style="background-color #eee; text-align: center;">조회수</th>
+							<th class="abb" style="background-color #eee; text-align: center;">번호</th>
+							<th class="abb" width="45%" style="background-color #eee; text-align: center;">제목</th>
+							<th class="abb" style="background-color #eee; text-align: center;">작성자</th>
+							<th class="abb" style="background-color #eee; text-align: center;">등록일</th>
+							<th class="abb" style="background-color #eee; text-align: center;">조회수</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -70,11 +71,11 @@
 								for(int i = 0; i < list.size(); i++) {
 						%>
 						<tr>
-							<td style="background-color #eee; text-align: center;"><%= list.get(i).getID() %></td>
-							<td style="background-color #eee; text-align: center;"><a href="view.jsp?category=Library&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
-							<td style="background-color #eee; text-align: center;"><%= list.get(i).getWriter() %></td>
-							<td style="background-color #eee; text-align: center;"><%= list.get(i).getDate().substring(0,11) %></td>
-							<td style="background-color #eee; text-align: center;"><%= list.get(i).getCount() %></td>
+							<td class="abb" style="background-color #eee; text-align: center;"><%= list.get(i).getID() %></td>
+							<td class="abb" style="background-color #eee; text-align: center;"><a href="view.jsp?category=Library&ID=<%= list.get(i).getID() %>"><%= list.get(i).getTitle() %></a></td>
+							<td class="abb" style="background-color #eee; text-align: center;"><%= list.get(i).getWriter() %></td>
+							<td class="abb" style="background-color #eee; text-align: center;"><%= list.get(i).getDate().substring(0,11) %></td>
+							<td class="abb" style="background-color #eee; text-align: center;"><%= list.get(i).getCount() %></td>
 						</tr>
 						<%
 								}
@@ -94,9 +95,16 @@
 				<%
 					}
 				%>
+				<%
+					UserDAO userDAO = new UserDAO();
+					if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+				%>
 				<div class="text-right">
 					<a href="write.jsp" class="btn btn-primary">글쓰기</a>
 				</div>
+				<%
+					}
+				%>
 			</main>
 		</div>
 	</div>
