@@ -46,7 +46,7 @@ public class CalendarDAO {
 						Integer.parseInt(end[2]), content);
 				list.add(calDTO);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("CalendarDAO getSchedule SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -70,8 +70,8 @@ public class CalendarDAO {
 			pstmt.setString(2, start);
 			pstmt.setString(3, end);
 			pstmt.setString(4, content);
-			return pstmt.executeUpdate();
-		} catch (SQLException e) {
+			return pstmt.executeUpdate();    //  정상 등록
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("Calendar registrationSQLException error");
 		} finally {    //  자원 해제
 			try {

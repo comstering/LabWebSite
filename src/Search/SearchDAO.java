@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import DBConnect.DBConnector;
-import Post.PostDTO;
 import Security.XSS;
 
 public class SearchDAO {
@@ -22,7 +21,7 @@ public class SearchDAO {
 		dbConnector = new DBConnector();
 	}
 	
-	public ArrayList<SearchDTO> searchPost(String searchString) {
+	public ArrayList<SearchDTO> searchPost(String searchString) {    //  자료 검색
 		String sql = "select Category, ID, Title, Content from Post "
 				+ "where (Title like ? or Content like ?) and Available=1";
 		conn = dbConnector.getConnection();
@@ -33,11 +32,11 @@ public class SearchDAO {
 			pstmt.setString(1, "%" + XSS.prevention(searchString) + "%");
 			pstmt.setString(2, "%" + XSS.prevention(searchString) + "%");
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while(rs.next()) {    //  검색결과 저장
 				SearchDTO searchDTO = new SearchDTO(rs.getString(1), rs.getInt(2), rs.getString(3), rs.getString(4));
 				list.add(searchDTO);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("SearchDAO searchPost SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {

@@ -32,7 +32,7 @@ public class UserDAO {
 		dbConnector = new DBConnector();
 	}
 	
-	private String hashPassword(String plainPassword) {
+	private String hashPassword(String plainPassword) {    //  비밀번호 해쉬 암호화
 		return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
 	}
 	
@@ -48,9 +48,9 @@ public class UserDAO {
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
-				return rs.getString(1);
+				return rs.getString(1);    //  DB 시간 반환
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO getDate SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -77,7 +77,7 @@ public class UserDAO {
 			pstmt.setString(7, XSS.prevention(user.getUserAuthority()));
 			pstmt.setString(8, getDate());
 			return pstmt.executeUpdate();    //  회원가입 성공
-		} catch(SQLException e) {
+		} catch(SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("UserDAO join SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -105,7 +105,7 @@ public class UserDAO {
 				}
 			}
 			return "error,ID";    // 아이디 오류
-		} catch(SQLException e) {
+		} catch(SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("UserDAO login SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -126,23 +126,21 @@ public class UserDAO {
 			authority.load(new BufferedInputStream(fis_authority));
 			
 			if(XSS.prevention(userAuthority).equals(authority.getProperty("admin"))) {
-				return true;
+				return true;    //  관리자일 경우
 			} else {
-				return false;
+				return false;    //  관리자가 아닐 경우
 			}
-		} catch (FileNotFoundException e) {
+		} catch (FileNotFoundException e) {    //  예외처리, 대응부재 제거
 			System.err.println("UserDAO checkAuthority FileNotFoundException error");
 		} catch (IOException e) {
 			System.err.println("UserDAO checkAuthority IOException error");
 		} finally {    //  자원 해제
 			try {
-				if(fis_authority != null) {
-					fis_authority.close();
-				}
+				if(fis_authority != null) {fis_authority.close();}
 			} catch (IOException e) {
 				System.err.println("UserDAO checkAuthority close IOException error");
 			}
 		}
-		return false;
+		return false;    //  관리자가 아닐 경우
 	}
 }

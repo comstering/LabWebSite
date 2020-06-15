@@ -1,15 +1,15 @@
 package Post;
 
 public class PostDTO {
-	private String category;
-	private int id;
-	private String title;
-	private String writer;
-	private String date;
-	private String reWriter;
-	private String reDate;
-	private String content;
-	private int count;
+	private String category;    //  카테고리
+	private int id;    //  게시글 번호
+	private String title;    //  제목
+	private String writer;    //  작성자
+	private String date;    //  작성날짜
+	private String reWriter;    //  수정자
+	private String reDate;    //  수정날짜
+	private String content;    //  내용
+	private int count;    //  조회수
 	
 	public String getCategory() {
 		return category;

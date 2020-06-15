@@ -1,11 +1,11 @@
 package Board;
 
 public class CalendarDTO {
-	private int start_month;
-	private int start_day;
-	private int end_month;
-	private int end_day;
-	private String content;
+	private int start_month;    //  시작 달
+	private int start_day;    //  시작 일
+	private int end_month;    //  끝나는 달
+	private int end_day;    //  끝나는 일
+	private String content;    //  일정 내용
 	
 	public int getStart_month() {
 		return start_month;

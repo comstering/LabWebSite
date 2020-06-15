@@ -20,15 +20,15 @@ public class downloadAction extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String category = request.getParameter("category");
-		String fileRealName = request.getParameter("file");
-		String fileName = request.getParameter("fileName");
+		String category = request.getParameter("category");    //  카테고리
+		String fileRealName = request.getParameter("file");    //  시스템에 저장된 파일이름
+		String fileName = request.getParameter("fileName");    //  다운로드 시 저장될 파일명
 		
 		//  파일 경로
 		FileDAO fileDAO = new FileDAO();
 		String directory = "/volume1" + fileDAO.getPath() + category + "/";
 		
-		File file = new File(directory + fileRealName);
+		File file = new File(directory + fileRealName);    //  파일 가져오기
 		
 		String mimeType = getServletContext().getMimeType(file.toString());
 		if(mimeType == null) {

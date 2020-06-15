@@ -31,7 +31,7 @@ public class PostDAO {
 			if(rs.next()) {
 				return rs.getString(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO getDate SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -57,7 +57,7 @@ public class PostDAO {
 				return rs.getInt(1) + 1;    //  DB에 저장되어 있는 게시글번호 + 1
 			}
 			return 1;    //  첫번째 게시글일 경우
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO getNext SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -86,7 +86,7 @@ public class PostDAO {
 			pstmt.setString(7, getDate());
 			pstmt.setString(8, XSS.prevention(content));
 			return pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO write SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -112,7 +112,7 @@ public class PostDAO {
 			pstmt.setString(5, category);
 			pstmt.setInt(6, id);
 			return pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO update SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -155,7 +155,7 @@ public class PostDAO {
 				pstmt2.setInt(2, id);
 				return pstmt2.executeUpdate();    //  삭제 성공시
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO delete SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -188,12 +188,12 @@ public class PostDAO {
 				pstmt.setInt(3, 6);
 			}
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while(rs.next()) {    //  게시글 리스트 추가
 				PostDTO postDTO = new PostDTO(category, rs.getInt(1), rs.getString(2), rs.getString(3),
 						rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
 				list.add(postDTO);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO getList SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -223,7 +223,7 @@ public class PostDAO {
 			if(rs.next()) {    //  다음 페이지가 있을 경우
 				return true;
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO nextPage SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -248,7 +248,7 @@ public class PostDAO {
 			pstmt.setInt(3, ID);
 			pstmt.executeUpdate();
 			return count;
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO setCount SQLException error");
 		}
 		return -1;    //  DB 오류
@@ -269,11 +269,11 @@ public class PostDAO {
 			pstmt.setString(1, category);
 			pstmt.setInt(2, ID);
 			rs = pstmt.executeQuery();
-			if(rs.next()) {
+			if(rs.next()) {    //  게시글 정보 반환
 				return new PostDTO(category, rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4),
 						rs.getString(5), rs.getString(6), setNewLine(rs.getString(7)), setCount(category, ID, rs.getInt(8) + 1));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  에외처리, 대응부재 제거
 			System.err.println("PostDAO getPost SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
@@ -300,7 +300,7 @@ public class PostDAO {
 			if(rs.next()) {
 				writer = rs.getString(1);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("PostDAO getPost SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {

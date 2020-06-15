@@ -43,7 +43,7 @@ public class DBConnector {
 			key.load(new BufferedInputStream(fis_key));
 			
 			dbPassword = AES.aesDecryption(password.getProperty("password"), key.getProperty("key"));
-		} catch (FileNotFoundException e) { //예외처리, 대응부재 제거
+		} catch (FileNotFoundException e) {    //예외처리, 대응부재 제거
 			System.err.println("DBConnector FileNotFoundException error");
 		} catch (IOException e) {
 			System.err.println("DBConnector IOException error");
@@ -61,23 +61,19 @@ public class DBConnector {
 			System.err.println("DBConnector BadPaddingException error");
 		} finally {    //  자원 해제
 			try {
-				if(fis_password != null) {
-					fis_password.close();
-				}
-				if(fis_key != null) {
-					fis_key.close();
-				}
+				if(fis_password != null) {fis_password.close();}
+				if(fis_key != null) {fis_key.close();}
 			} catch (IOException e) {
 				System.err.println("DBConnector close IOException error");
 			}
 		}
 	}
 	
-	public Connection getConnection() {
+	public Connection getConnection() {    //  Connection 객체 반환
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			return DriverManager.getConnection(dbURL, dbID, dbPassword);
-		} catch (ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {    //  예외처리, 대응부재 제거
 			System.err.println("DBConnector getConnection ClassNotFoundException error");
 		} catch (SQLException e) {
 			System.err.println("DBConnector getConnection SQLException error");

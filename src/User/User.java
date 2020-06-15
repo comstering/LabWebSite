@@ -16,13 +16,13 @@ import javax.crypto.NoSuchPaddingException;
 import Security.AES;
 
 public class User {
-	private String userID;
-	private String userPassword;
-	private String userName;
-	private String userPhoneNumber;
-	private String userEmail;
-	private String userGender;
-	private String userAuthority;
+	private String userID;    //  ì•„ì´ë””
+	private String userPassword;    //  íŒ¨ìŠ¤ì›Œë“œ
+	private String userName;    //  ì´ë¦„
+	private String userPhoneNumber;    //  ì „í™”ë²ˆí˜¸
+	private String userEmail;    //  ì´ë©”ì¼
+	private String userGender;    //  ì„±ë³„
+	private String userAuthority;    //  ê¶Œí•œ
 	
 	private Properties key;
 	private FileInputStream fis_key;
@@ -66,17 +66,15 @@ public class User {
 	public String getUserAuthority() {
 		String authority = null;
 		try {
-			//  key °¡Á®¿À±â
-//			key = new Properties();
-//			fis_key = new FileInputStream("/volume1/Security/key.properties");
-//			key.load(new BufferedInputStream(fis_key));
+			//  key ê°€ì ¸ì˜¤ê¸°
+			key = new Properties();
+			fis_key = new FileInputStream("/volume1/Security/key.properties");
+			key.load(new BufferedInputStream(fis_key));
 
-			//  ±ÇÇÑ È¹µæ
-//			authority = AES.aesEncryption(this.userAuthority, key.getProperty("key"));
-			//  ±ÇÇÑ È¹µæ: Å×½ºÆ®È¯°æ
-			authority = AES.aesEncryption(this.userAuthority, "secucomstering!#");
-//		} catch (FileNotFoundException e) { //¿¹¿ÜÃ³¸® ,´ëÀÀºÎÀç Á¦°Å
-//			System.err.println("User FileNotFoundException error");
+			//  ê¶Œí•œ ì•”í˜¸í™”
+			authority = AES.aesEncryption(this.userAuthority, key.getProperty("key"));
+		} catch (FileNotFoundException e) {    //  ì˜ˆì™¸ì²˜ë¦¬, ëŒ€ì‘ë¶€ì¬ ì œê±°
+			System.err.println("User FileNotFoundException error");
 		} catch (IOException e) {
 			System.err.println("User IOException error");
 		} catch (InvalidKeyException e) {
@@ -91,11 +89,9 @@ public class User {
 			System.err.println("User IllegalBlockSizeException error");
 		} catch (BadPaddingException e) {
 			System.err.println("User BadPaddingException error");
-		} finally {    //  ÀÚ¿ø ÇØÁ¦
+		} finally {    //  ìì›í•´ì œ
 			try {
-				if(fis_key != null) {
-					fis_key.close();
-				}
+				if(fis_key != null) {fis_key.close();}
 			} catch (IOException e) {
 				System.err.println("User close IOException error");
 			}

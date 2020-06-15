@@ -14,14 +14,19 @@ import java.util.Properties;
 import DBConnect.DBConnector;
 
 public class FileDAO {
+	//  DB 연결변수
 	private DBConnector dbConnector;
 	private Connection conn;
 	
+	//  SQL 질의 변수
 	private String sql;
 	private PreparedStatement pstmt;
 	
+	//  파일 저장경로 Properties를 위한 변수
 	private Properties path;
 	private FileInputStream fis_path;
+	
+	//  SQL 질의 결과 저장 변수
 	private ResultSet rs;
 	
 	
@@ -29,15 +34,14 @@ public class FileDAO {
 		dbConnector = new DBConnector();
 	}
 	
-	public String getPath() {
+	public String getPath() {    //  파일 저장경로 불러오기
 		try {
-			//  파일 저장경로 불러오기
 			path = new Properties();
 			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
 			path.load(new BufferedInputStream(fis_path));
 			
 			return path.getProperty("path");
-		} catch (FileNotFoundException e) { //  예외처리, 대응부재 제거
+		} catch (FileNotFoundException e) {    //  예외처리, 대응부재 제거
 			System.err.println("FileDAO getPath FileNotFoundException error");
 		} catch (IOException e) {
 			System.err.println("FileDAO getPath IOException error");
@@ -63,7 +67,7 @@ public class FileDAO {
 			pstmt.setString(3, fileName);
 			pstmt.setString(4, fileRealName);
 			return pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("FileDAO upload SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -89,7 +93,7 @@ public class FileDAO {
 			while(rs.next()) {
 				file.add(rs.getString(1) + "," + rs.getString(2));
 			}
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("FileDAO getFile SQLException error");
 		} finally {    //  자원 해제
 			try {
@@ -113,7 +117,7 @@ public class FileDAO {
 			pstmt.setInt(2, BoardID);
 			pstmt.setString(3, FileName);
 			return pstmt.executeUpdate();
-		} catch (SQLException e) {
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("FileDAO delete SQLException error");
 		} finally {    //  자원 해제
 			try {

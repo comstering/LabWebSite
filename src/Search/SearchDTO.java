@@ -1,10 +1,10 @@
 package Search;
 
 public class SearchDTO {
-	private String category;
-	private int id;
-	private String title;
-	private String content;
+	private String category;    //  카테고리
+	private int id;    //  게시글 번호
+	private String title;    //  제목
+	private String content;    //  내용
 	
 	public String getCategory() {
 		return category;

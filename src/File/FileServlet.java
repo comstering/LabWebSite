@@ -26,7 +26,27 @@ import Post.PostDAO;
 @WebServlet("/Write")    //  글작성
 public class FileServlet extends HttpServlet {
 	private FileDAO fileDAO = new FileDAO();
-	private int MAX_SIZE = 1024 * 1024 * 100;
+	private int MAX_SIZE = 1024 * 1024 * 100;    //  업로드 파일 최대 사이즈
+	
+	private boolean fileCheck(String fileName) {    //  파일 업로드 화이트리스트
+		if(imageFileCheck(fileName) && !fileName.endsWith(".zip") && !fileName.endsWith(".hwp") &&
+    			!fileName.endsWith(".pdf") && !fileName.endsWith(".txt") && !fileName.endsWith(".docx") &&
+    			!fileName.endsWith(".xml") && !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls") &&
+    			!fileName.endsWith(".pptx") && !fileName.endsWith(".ppt") && !fileName.endsWith(".show")) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean imageFileCheck(String fileName) {    //  이미지 파일 업로드 화이트 리스트
+		if(!fileName.endsWith(".jpg") && !fileName.endsWith(".png") &&
+    			!fileName.endsWith(".bmp") && !fileName.endsWith(".rle") &&
+    			!fileName.endsWith(".dib") && !fileName.endsWith(".gif") &&
+    			!fileName.endsWith(".tiff") && !fileName.endsWith(".raw")) {
+			return true;
+    	}
+		return false;
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -36,7 +56,7 @@ public class FileServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		PrintWriter script = response.getWriter();
-		String directory = "/volume1" + fileDAO.getPath();
+		String directory = "/volume1" + fileDAO.getPath();    //  파일 저장 경로
         File attachesDir = new File(directory);
         
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory();
@@ -45,10 +65,10 @@ public class FileServlet extends HttpServlet {
         ServletFileUpload fileUpload = new ServletFileUpload(fileItemFactory);
         StringBuilder sb = new StringBuilder("");
 		try {
-            List<FileItem> items = fileUpload.parseRequest(request);
+            List<FileItem> items = fileUpload.parseRequest(request);    //  form에서 넘어오는 item
 			
-            ArrayList<String> fileNames = new ArrayList<String>();
-            ArrayList<String> fileSysNames = new ArrayList<String>();
+            ArrayList<String> fileNames = new ArrayList<String>();    //  파일명
+            ArrayList<String> fileSysNames = new ArrayList<String>();    //  시스템에 저장될 실제 파일명
             String category = null;
             int count = 1;
             for (FileItem item : items) {
@@ -64,11 +84,21 @@ public class FileServlet extends HttpServlet {
                         String separator = File.separator;
                         int index =  item.getName().lastIndexOf(separator);
                         String fileName = item.getName().substring(index  + 1);
-                        String fileSysName = overlap + "_" + fileName;
-                        File uploadFile = new File(directory + category + separator + fileSysName);
+                        //  화이트리스트에 등록된 확장자가 아닐 경우 업로드하지 않음
+                        if(category.equals("Notice") || category.equals("Library")) {    //  Board의 카테고리일 경우
+                        	if(fileCheck(fileName)) {
+                        		continue;
+                        	}
+                        } else {    //  Activity의 카테고리일 경우
+                        	if(imageFileCheck(fileName)) {
+                        		continue;
+                        	}
+                        }
+                        String fileSysName = overlap + "_" + fileName;    //  시스템에 저장될 파일명 중복방지
+                        File uploadFile = new File(directory + category + separator + fileSysName);    //  파일 업로드
                         item.write(uploadFile);
-                        fileNames.add(fileName);
-                        fileSysNames.add(fileSysName);
+                        fileNames.add(fileName);    //  파일명
+                        fileSysNames.add(fileSysName);    //  시스템에 저장될 실제 파일명
                     }
                 }
                 count++;
@@ -85,9 +115,9 @@ public class FileServlet extends HttpServlet {
             }
 
             script.println("<script>");
-            if(category.equals("Notice") || category.equals("Library")) {    //  Board일 경우
+            if(category.equals("Notice") || category.equals("Library")) {    //  Board의 카테고리일 경우
         		script.println("location.href = '../LabWebSite/Board/"+ category +".jsp'");
-            } else {    //  Activity일 경우
+            } else {    //  Activity의 카테고리일 경우
         		script.println("location.href = '../LabWebSite/Activity/"+ category +".jsp'");
             }
     		script.println("</script>");
