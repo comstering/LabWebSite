@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ page import="Project.*" %>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +35,34 @@
 				pt-3 pb-2 mb-3 border-bottom">
 					<h1 class="h2">프로젝트</h1>
 				</div>
+				<%
+					ProjectDAO projectDAO = new ProjectDAO();
+					int[] yearList = projectDAO.yearList();
+					for(int i = 0; i < yearList.length; i++) {
+						ArrayList<ProjectDTO> list = projectDAO.getProject(yearList[i]);
+				%>
+				<div class="my-3 p-3 bg-light rounded shadow-sm">
+					<h6 class="pb-2 mb-0"><%= yearList[i] %></h6>
+					<div class="media text-muted pt-3">
+						<div class="media-body pb-3 mb-0 small lh-125">
+					<%
+						for(int j = 0; j < list.size(); j++) {
+					%>
+							<div class="pb-2">
+								<div class="d-flex justify-content-between align-items-center w-100">
+									<strong class="text-gray-dark"><%= list.get(j).getTitle() %></strong>
+								</div>
+								<span class="d-block"><%= list.get(j).getContent() %></span>
+							</div>
+					<%
+						}
+					%>
+						</div>
+					</div>
+				</div>
+				<%
+					}
+				%>
 			</main>
 		</div>
 	</div>

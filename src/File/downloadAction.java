@@ -50,6 +50,7 @@ public class downloadAction extends HttpServlet {
 		byte b[] = new byte[1024];
 		int data = 0;
 		
+		//  파일 다운로드
 		while((data = (fis.read(b, 0, b.length))) != -1) {
 			sos.write(b, 0, data);
 		}
