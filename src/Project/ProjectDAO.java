@@ -17,7 +17,7 @@ public class ProjectDAO {
 	private ResultSet rs;
 	
 	public ProjectDAO() {
-		dbConnector = new DBConnector();
+		dbConnector = DBConnector.getInstance();
 	}
 	
 	private int yearCount() {    //  프로젝트 년도 수 획득

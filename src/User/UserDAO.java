@@ -29,7 +29,7 @@ public class UserDAO {
 	private FileInputStream fis_authority;
 	
 	public UserDAO() {
-		dbConnector = new DBConnector();
+		dbConnector = DBConnector.getInstance();
 	}
 	
 	private String hashPassword(String plainPassword) {    //  비밀번호 해쉬 암호화

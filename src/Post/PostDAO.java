@@ -18,7 +18,7 @@ public class PostDAO {
 	private ResultSet rs;
 	
 	public PostDAO() {
-		dbConnector = new DBConnector();
+		dbConnector = DBConnector.getInstance();
 	}
 	
 	private String getDate() {    //  게시글 등록 서버 시간 획득

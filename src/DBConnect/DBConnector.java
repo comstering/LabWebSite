@@ -19,6 +19,13 @@ import javax.crypto.NoSuchPaddingException;
 import Security.AES;
 
 public class DBConnector {
+	
+	private static DBConnector instance = new DBConnector();
+	
+	public static DBConnector getInstance() {
+		return instance;
+	}
+	
 	//  DB 접속 변수
 	private String dbURL = "jdbc:mysql://localhost:3307/LabWebSite?serverTimezone=UTC";
 	private String dbID = "comstering";

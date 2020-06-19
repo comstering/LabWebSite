@@ -18,7 +18,7 @@ public class SearchDAO {
 	private ResultSet rs;
 	
 	public SearchDAO() {
-		dbConnector = new DBConnector();
+		dbConnector = DBConnector.getInstance();
 	}
 	
 	public ArrayList<SearchDTO> searchPost(String searchString) {    //  자료 검색

@@ -20,7 +20,7 @@ public class CalendarDAO {
 	private ResultSet rs;
 	
 	public CalendarDAO() {
-		dbConnector = new DBConnector();
+		dbConnector = DBConnector.getInstance();
 	}
 	
 	public ArrayList<CalendarDTO> getSchedule(int year, int month) {    //  등록된 일정 가져오기

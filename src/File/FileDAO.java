@@ -31,7 +31,7 @@ public class FileDAO {
 	
 	
 	public FileDAO() {
-		dbConnector = new DBConnector();
+		dbConnector = DBConnector.getInstance();
 	}
 	
 	public String getPath() {    //  파일 저장경로 불러오기
