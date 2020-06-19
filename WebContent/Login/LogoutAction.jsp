@@ -5,7 +5,7 @@
  	session.invalidate();    //  모든 세션정보 삭제
  	PrintWriter script = response.getWriter();
 	script.println("<script>");
-	script.println("history.back()");
+	script.println("location.href='../index.jsp'");
 	script.println("</script>");
 	script.close();
 	return;
