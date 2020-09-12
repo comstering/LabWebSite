@@ -55,38 +55,25 @@
 			<main role="main" class="col-md-9 px-4" style="max-width: 72%">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center
 				pt-3 pb-2 mb-3 border-bottom">
-					<h1 class="h2">게시판 글쓰기</h1>
+					<h1 class="h2">프로젝트 등록</h1>
 				</div>
 				<div>
-				<div>
-						<form method="post" action="<%= application.getContextPath() %>/Write" enctype="multipart/form-data">
+					<div>
+						<form method="post" action="<%= application.getContextPath() %>/AddProject">
 							<table class="table table-striped table-sm">
 								<thead  class="table-info">
 									<tr>
-										<td style="width: 250px">
-											<div class="input-group mb-1">
-												<div class="input-group-prepend">
-													<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
-												</div>
-												<select class="custom-select" id="inputGroupSelect01" name="category">
-													<option selected value="Notice">공지사항</option>
-													<option value="Library">자료실</option>
-												</select>
-											</div>
-										</td>
-										<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" required></td>
+										<td style="width: 250px"><input type="text" class="form-control" placeholder="년도" name="year" maxlength="4" required></td>
+										<td><input type="text" class="form-control" placeholder="프로젝트 제목" name="title" maxlength="50" required></td>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
+										<td colspan="2"><textarea class="form-control" placeholder="프로젝트 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
 									</tr>
 								</tbody>
 							</table>
-							<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
-							<hr>
-							첨부파일: <input multiple="multiple" type="file" id="file" name="file"><br><br>
-							<input type="submit" class="btn btn-primary" value="글쓰기">
+							<input type="submit" class="btn btn-primary" value="추가하기">
 						</form>
 					</div>
 				</div>

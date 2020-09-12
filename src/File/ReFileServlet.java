@@ -25,9 +25,29 @@ import Post.PostDAO;
  */
 @WebServlet("/ReWrite")    //  글 수정
 public class ReFileServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	private FileDAO fileDAO = new FileDAO();
 	private int MAX_SIZE = 1024 * 1024 * 100;
-
+	
+	private boolean fileCheck(String fileName) {    //  파일 업로드 화이트리스트
+		if(imageFileCheck(fileName) && !fileName.endsWith(".zip") && !fileName.endsWith(".hwp") &&
+    			!fileName.endsWith(".pdf") && !fileName.endsWith(".txt") && !fileName.endsWith(".docx") &&
+    			!fileName.endsWith(".xml") && !fileName.endsWith(".xlsx") && !fileName.endsWith(".xls") &&
+    			!fileName.endsWith(".pptx") && !fileName.endsWith(".ppt") && !fileName.endsWith(".show")) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean imageFileCheck(String fileName) {    //  이미지 파일 업로드 화이트 리스트
+		if(!fileName.endsWith(".jpg") && !fileName.endsWith(".png") &&
+    			!fileName.endsWith(".bmp") && !fileName.endsWith(".rle") &&
+    			!fileName.endsWith(".dib") && !fileName.endsWith(".gif") &&
+    			!fileName.endsWith(".tiff") && !fileName.endsWith(".raw")) {
+			return true;
+    	}
+		return false;
+	}
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -62,20 +82,20 @@ public class ReFileServlet extends HttpServlet {
                 	sb.append(item.getString("utf-8"));
                     sb.append("-");
                 } else {    //  파일  input
-        			script.println("<script>");
-        			script.println("console.log('" + item.toString() + "')");
-        			script.println("console.log('" + item.getSize() + "')");
-        			script.println("</script>");
                 	String overlap = UUID.randomUUID().toString();
                     if (item.getSize() > 0) {
-                        String separator = File.separator;
-                        int index =  item.getName().lastIndexOf(separator);
-                        String fileName = item.getName().substring(index  + 1);
-                        String fileSysName = overlap + "_" + fileName;
-                        File uploadFile = new File(directory + category + separator + fileSysName);
-                        item.write(uploadFile);
-                        fileNames.add(fileName);
-                        fileSysNames.add(fileSysName);
+                    	String separator = File.separator;
+                    	int index =  item.getName().lastIndexOf(separator);
+                    	String fileName = item.getName().substring(index  + 1);
+                    	//  화이트리스트에 등록된 확장자가 아닐 경우 업로드하지 않음
+                    	if(fileCheck(fileName)) {    //  화이트리스트 체크
+                    		continue;
+                    	}
+                    	String fileSysName = overlap + "_" + fileName;
+                    	File uploadFile = new File(directory + category + separator + fileSysName);
+                    	item.write(uploadFile);
+                    	fileNames.add(fileName);
+                    	fileSysNames.add(fileSysName);
                     }
                 }
                 count++;
@@ -115,11 +135,13 @@ public class ReFileServlet extends HttpServlet {
 			script.println("<script>");
 			script.println("alert('FileUpload error')");
 			script.println("</script>");
+    		script.close();
 		} catch (Exception e) {
 			System.err.println("ReFileServlet Exception error write");
 			script.println("<script>");
 			script.println("alert('refile error')");
 			script.println("</script>");
+    		script.close();
 		}
 	}
 

@@ -71,68 +71,68 @@
 					</h1>
 				</div>
 				<div>
-				<div>
-					<%
-						UserDAO userDAO = new UserDAO();
-						if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
-					%>
+					<div>
+						<%
+							UserDAO userDAO = new UserDAO();
+							if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+						%>
 						<div class="text-right">
 							<a href="reWrite.jsp?category=<%= category %>&id=<%= ID %>" class="btn btn-secondary">글수정</a>
 							<a href="delete.jsp?category=<%= category %>&id=<%= ID %>" class="btn btn-danger">글삭제</a>
 						</div>
-					<%
-						}
-					%>
-					<table class="table table-striped">
-						<thead  class="table-info">
-							<tr>
-								<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td style="width: 20%";>등록일</td>
-								<td><%= postDTO.getDate() %></td>
-							</tr>
-							<tr>
-								<td style="width: 20%";>작성자</td>
-								<td><%= postDTO.getWriter() %></td>
-							</tr>
-							<tr>
-								<td style="width: 20%";>최종 수정일</td>
-								<td><%= postDTO.getReDate() %></td>
-							</tr>
-							<tr>
-								<td style="width: 20%";>최종 수정자</td>
-								<td><%= postDTO.getReWriter() %></td>
-							</tr>
-							<tr>
-								<td style="width: 20%";>조회수</td>
-								<td><%= postDTO.getCount() %></td>
-							</tr>
-							<tr>
-								<td colspan="2" class="text-center"><br>
-									<div>
-										<%
-											FileDAO fileDAO = new FileDAO();
-											ArrayList<String> fileNames = fileDAO.getFile(category, ID);
-											for(int i = 0; i < fileNames.size(); i++) {
-										%>
-										<img src="/filepath<%= fileDAO.getPath() %><%= category %>/<%= fileNames.get(i).substring(fileNames.get(i).lastIndexOf(",") + 1, fileNames.get(i).length()) %>" height=350>
-										<%
-											}
-										%>
-									</div>
-									<br><br>
-									<div>
-										<%= postDTO.getContent() %>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+						<%
+							}
+						%>
+						<table class="table table-striped">
+							<thead  class="table-info">
+								<tr>
+									<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td style="width: 20%";>등록일</td>
+									<td><%= postDTO.getDate() %></td>
+								</tr>
+								<tr>
+									<td style="width: 20%";>작성자</td>
+									<td><%= postDTO.getWriter() %></td>
+								</tr>
+								<tr>
+									<td style="width: 20%";>최종 수정일</td>
+									<td><%= postDTO.getReDate() %></td>
+								</tr>
+								<tr>
+									<td style="width: 20%";>최종 수정자</td>
+									<td><%= postDTO.getReWriter() %></td>
+								</tr>
+								<tr>
+									<td style="width: 20%";>조회수</td>
+									<td><%= postDTO.getCount() %></td>
+								</tr>
+								<tr>
+									<td colspan="2" class="text-center"><br>
+										<div>
+											<%
+												FileDAO fileDAO = new FileDAO();
+												ArrayList<String> fileNames = fileDAO.getFile(category, ID);
+												for(int i = 0; i < fileNames.size(); i++) {
+											%>
+											<img src="/filepath<%= fileDAO.getPath() %><%= category %>/<%= fileNames.get(i).substring(fileNames.get(i).lastIndexOf(",") + 1, fileNames.get(i).length()) %>" height=350>
+											<%
+												}
+											%>
+										</div>
+										<br><br>
+										<div>
+											<%= postDTO.getContent() %>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
 			</main>
 		</div>
 	</div>

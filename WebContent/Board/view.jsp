@@ -79,7 +79,7 @@
 					</h1>
 				</div>
 				<div>
-				<div>
+					<div>
 					<%
 						UserDAO userDAO = new UserDAO();
 						if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
@@ -91,65 +91,65 @@
 					<%
 						}
 					%>
-					<table class="table table-striped">
-						<thead  class="table-info">
-							<tr>
-								<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td class="text-center">등록일</td>
-								<td><%= postDTO.getDate() %></td>
-							</tr>
-							<tr>
-								<td class="text-center">작성자</td>
-								<td><%= postDTO.getWriter() %></td>
-							</tr>
-							<tr>
-								<td class="text-center">최종 수정일</td>
-								<td><%= postDTO.getReDate() %></td>
-							</tr>
-							<tr>
-								<td class="text-center">최종 수정자</td>
-								<td><%= postDTO.getReWriter() %></td>
-							</tr>
-							<tr>
-								<td class="text-center">조회수</td>
-								<td><%= postDTO.getCount() %></td>
-							</tr>
-							<tr>
-								<td class="text-center"">첨부파일</td>
-								<td>
-								<%
-									FileDAO fileDAO = new FileDAO();
-									ArrayList<String> file = new ArrayList<String>();
-									file = fileDAO.getFile(category, ID);
-									if(file.size() > 0) {
-										for(int i = 0; i < file.size(); i++) {
-											String[] fileNames = file.get(i).split(",");
-								%>
-								<a style="" href="<%= application.getContextPath() %>/downloadAction?
-									category=<%= category %>&file=<%= java.net.URLEncoder.encode(fileNames[1], "UTF-8") %>
-									&fileName=<%= java.net.URLEncoder.encode(fileNames[0], "UTF-8")%>">
-									<%= fileNames[0] %></a><br>
-								<%
+						<table class="table table-striped">
+							<thead  class="table-info">
+								<tr>
+									<th class="text-center" colspan="2"><%= postDTO.getTitle() %></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-center">등록일</td>
+									<td><%= postDTO.getDate() %></td>
+								</tr>
+								<tr>
+									<td class="text-center">작성자</td>
+									<td><%= postDTO.getWriter() %></td>
+								</tr>
+								<tr>
+									<td class="text-center">최종 수정일</td>
+									<td><%= postDTO.getReDate() %></td>
+								</tr>
+								<tr>
+									<td class="text-center">최종 수정자</td>
+									<td><%= postDTO.getReWriter() %></td>
+								</tr>
+								<tr>
+									<td class="text-center">조회수</td>
+									<td><%= postDTO.getCount() %></td>
+								</tr>
+								<tr>
+									<td class="text-center"">첨부파일</td>
+									<td>
+									<%
+										FileDAO fileDAO = new FileDAO();
+										ArrayList<String> file = new ArrayList<String>();
+										file = fileDAO.getFile(category, ID);
+										if(file.size() > 0) {
+											for(int i = 0; i < file.size(); i++) {
+												String[] fileNames = file.get(i).split(",");
+									%>
+									<a style="" href="<%= application.getContextPath() %>/downloadAction?
+										category=<%= category %>&file=<%= java.net.URLEncoder.encode(fileNames[1], "UTF-8") %>
+										&fileName=<%= java.net.URLEncoder.encode(fileNames[0], "UTF-8")%>">
+										<%= fileNames[0] %></a><br>
+									<%
+											}
+										} else {
+									%>
+									첨부파일이 없습니다.
+									<%		
 										}
-									} else {
-								%>
-								첨부파일이 없습니다.
-								<%		
-									}
-								%>
-								</td>
-							</tr>
-							<tr>
-								<td colspan="2"><br><%= postDTO.getContent() %></td>
-							</tr>
-						</tbody>
-					</table>
+									%>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2"><br><%= postDTO.getContent() %></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-			</div>
 			</main>
 		</div>
 	</div>

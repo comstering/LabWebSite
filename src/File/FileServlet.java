@@ -25,6 +25,7 @@ import Post.PostDAO;
  */
 @WebServlet("/Write")    //  글작성
 public class FileServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
 	private FileDAO fileDAO = new FileDAO();
 	private int MAX_SIZE = 1024 * 1024 * 100;    //  업로드 파일 최대 사이즈
 	
@@ -80,26 +81,20 @@ public class FileServlet extends HttpServlet {
                     sb.append("-");
                 } else {    //  파일 input
                 	String overlap = UUID.randomUUID().toString();
-                    if (item.getSize() > 0) {
-                        String separator = File.separator;
-                        int index =  item.getName().lastIndexOf(separator);
-                        String fileName = item.getName().substring(index  + 1);
-                        //  화이트리스트에 등록된 확장자가 아닐 경우 업로드하지 않음
-                        if(category.equals("Notice") || category.equals("Library")) {    //  Board의 카테고리일 경우
-                        	if(fileCheck(fileName)) {
-                        		continue;
-                        	}
-                        } else {    //  Activity의 카테고리일 경우
-                        	if(imageFileCheck(fileName)) {
-                        		continue;
-                        	}
-                        }
-                        String fileSysName = overlap + "_" + fileName;    //  시스템에 저장될 파일명 중복방지
-                        File uploadFile = new File(directory + category + separator + fileSysName);    //  파일 업로드
-                        item.write(uploadFile);
-                        fileNames.add(fileName);    //  파일명
-                        fileSysNames.add(fileSysName);    //  시스템에 저장될 실제 파일명
-                    }
+                	if (item.getSize() > 0) {
+                		String separator = File.separator;
+                		int index =  item.getName().lastIndexOf(separator);
+                		String fileName = item.getName().substring(index  + 1);
+                		//  화이트리스트에 등록된 확장자가 아닐 경우 업로드하지 않음
+                		if(fileCheck(fileName)) {    //  화이트리스트 체크
+                			continue;
+                		}
+                		String fileSysName = overlap + "_" + fileName;    //  시스템에 저장될 파일명 중복방지
+                		File uploadFile = new File(directory + category + separator + fileSysName);    //  파일 업로드
+                		item.write(uploadFile);
+                		fileNames.add(fileName);    //  파일명
+                		fileSysNames.add(fileSysName);    //  시스템에 저장될 실제 파일명
+                	}
                 }
                 count++;
             }
@@ -129,11 +124,13 @@ public class FileServlet extends HttpServlet {
 			script.println("<script>");
 			script.println("alert('fileupload error')");
 			script.println("</script>");
+    		script.close();
 		} catch (Exception e) {
 			System.err.println("FileServlet Exception error write");
 			script.println("<script>");
 			script.println("alert('file error')");
 			script.println("</script>");
+    		script.close();
 		}
     }
 

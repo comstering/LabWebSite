@@ -24,6 +24,7 @@ public class PostDAO {
 	private String getDate() {    //  게시글 등록 서버 시간 획득
 		String sql = "select now()";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -48,6 +49,7 @@ public class PostDAO {
 	public int getNext(String category) {    //  게시판 저장시 게시글 번호 획득
 		String sql = "select ID from Post where Category=? order by ID desc";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -74,6 +76,7 @@ public class PostDAO {
 	public int write(String category, String title, String writer, String content) {    //  게시글 등록
 		String sql = "insert into Post(Category, ID, Title, Writer, Date, ReWriter, ReDate, Content) values(?, ?, ?, ?, ?, ?, ?, ?)";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -102,6 +105,7 @@ public class PostDAO {
 	public int update(String category, int id, String title, String writer, String content) {    //  게시글 수정
 		String sql = "update Post set Title=?, ReWriter=?, ReDate=?, Content=? where Category=? and ID=?";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -129,6 +133,7 @@ public class PostDAO {
 		String sql = "select ID from Post where Category=? and Available=0";
 		String filesql = "update PostFile set Available = 0 where Category=? and BoardID=?";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		PreparedStatement filepstmt = null;
 		try {
@@ -176,6 +181,7 @@ public class PostDAO {
 				+ "order by ID desc limit ?";
 		conn = dbConnector.getConnection();
 		ArrayList<PostDTO> list = new ArrayList<PostDTO>();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -210,6 +216,7 @@ public class PostDAO {
 	public boolean nextPage(String category, int pageNumber) {    // 게시글 리스트 다음 페이지 확인
 		String sql = "select * from Post where Category=? and ID < ? and Available = 1";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -240,6 +247,7 @@ public class PostDAO {
 	private int setCount(String category, int ID, int count) {    // 조회수 설정
 		String sql = "update Post set Count = ? where Category=? and ID = ?";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -263,6 +271,7 @@ public class PostDAO {
 				+ "from Post pi join User ui on ui.id = pi.Writer join User u on u.id = pi.ReWriter "
 				+ "where pi.Category=? and  pi.ID=?";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -291,6 +300,7 @@ public class PostDAO {
 		String sql = "select Writer from Post where Category=? and ID = ?";
 		String writer = "";
 		conn = dbConnector.getConnection();
+		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);

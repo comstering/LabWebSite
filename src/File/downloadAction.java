@@ -21,6 +21,8 @@ public class downloadAction extends HttpServlet {
 		String category = request.getParameter("category");    //  카테고리
 		String fileRealName = request.getParameter("file");    //  시스템에 저장된 파일이름
 		String fileName = request.getParameter("fileName");    //  다운로드 시 저장될 파일명
+		fileName = fileName.replaceAll("../", "/");
+		
 		
 		//  파일 경로
 		FileDAO fileDAO = new FileDAO();

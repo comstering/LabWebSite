@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="Project.*" %>
+<%@ page import="Project.ProjectDTO" %>
+<%@ page import="Project.ProjectDAO" %>
+<%@ page import="User.UserDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -36,10 +38,18 @@
 					<h1 class="h2">프로젝트</h1>
 				</div>
 				<%
+					UserDAO userDAO = new UserDAO();
+					if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+				%>
+				<div class="text-right">
+					<a href="add.jsp" class="btn btn-primary">추가하기</a>
+				</div>
+				<%
+					}
 					ProjectDAO projectDAO = new ProjectDAO();
 					int[] yearList = projectDAO.yearList();
 					for(int i = 0; i < yearList.length; i++) {
-						ArrayList<ProjectDTO> list = projectDAO.getProject(yearList[i]);
+						ArrayList<ProjectDTO> list = projectDAO.getProjectList(yearList[i]);
 				%>
 				<div class="my-3 p-3 bg-light rounded shadow-sm">
 					<h6 class="pb-2 mb-0"><%= yearList[i] %></h6>
@@ -48,11 +58,23 @@
 					<%
 						for(int j = 0; j < list.size(); j++) {
 					%>
-							<div class="pb-2">
-								<div class="d-flex justify-content-between align-items-center w-100">
-									<strong class="text-gray-dark"><%= list.get(j).getTitle() %></strong>
+							<div class="pb-2 row">
+								<div class="col-md-9">
+									<div class="d-flex justify-content-between align-items-center w-100">
+										<strong class="text-gray-dark"><%= list.get(j).getTitle() %></strong>
+									</div>
+									<span class="d-block"><%= list.get(j).getContent() %></span>
 								</div>
-								<span class="d-block"><%= list.get(j).getContent() %></span>
+					<%
+							if((session.getAttribute("userID") != null) && userDAO.checkAuthority((String)session.getAttribute("userAuthority"))) {
+					%>
+								<div class="col-md-3">
+									<a href="revise.jsp?year=<%= yearList[i] %>&ID=<%= list.get(j).getID() %>" class="btn btn-secondary">수정</a>
+									<a href="#" class="btn btn-danger">삭제</a>
+								</div>
+					<%
+							}
+					%>
 							</div>
 					<%
 						}

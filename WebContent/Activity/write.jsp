@@ -59,41 +59,41 @@
 					<h1 class="h2">게시판 글쓰기</h1>
 				</div>
 				<div>
-				<div>
-					<form method="post" action="<%= application.getContextPath() %>/Write" enctype="multipart/form-data">
-						<table class="table table-striped table-sm">
-							<thead  class="table-info">
-								<tr>
-									<td style="width: 250px">
-										<div class="input-group mb-1">
-											<div class="input-group-prepend">
-												<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
+					<div>
+						<form method="post" action="<%= application.getContextPath() %>/Write" enctype="multipart/form-data">
+							<table class="table table-striped table-sm">
+								<thead  class="table-info">
+									<tr>
+										<td style="width: 250px">
+											<div class="input-group mb-1">
+												<div class="input-group-prepend">
+													<label class="input-group-text" for="inputGroupSelect01">카테고리</label>
+												</div>
+												<select class="custom-select" id="inputGroupSelect01" name="category">
+													<option selected value="Contest">교외공모전</option>
+													<option value="UnivContest">교내공모전</option>
+													<option value="Institute">학술대회</option>
+													<option value="Event">행사</option>
+													<option value="Meeting">모임</option>
+												</select>
 											</div>
-											<select class="custom-select" id="inputGroupSelect01" name="category">
-												<option selected value="Contest">교외공모전</option>
-												<option value="UnivContest">교내공모전</option>
-												<option value="Institute">학술대회</option>
-												<option value="Event">행사</option>
-												<option value="Meeting">모임</option>
-											</select>
-										</div>
-									</td>
-									<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" required></td>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
-								</tr>
-							</tbody>
-						</table>
-						<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
-						<hr>
-						첨부파일: <input multiple="multiple" type="file" id="file" name="file" accept="image/*" required><br><br>
-						<input type="submit" class="btn btn-primary" value="글쓰기">
-					</form>
+										</td>
+										<td><input type="text" class="form-control" placeholder="글 제목" name="title" maxlength="50" required></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td colspan="2"><textarea class="form-control" placeholder="글 내용" name="content" maxlength="4096" style="height: 450px;" required></textarea></td>
+									</tr>
+								</tbody>
+							</table>
+							<input type="hidden" id="writer" name="writer" value="<%= (String)session.getAttribute("userID") %>">
+							<hr>
+							첨부파일: <input multiple="multiple" type="file" id="file" name="file" accept="image/*" required><br><br>
+							<input type="submit" class="btn btn-primary" value="글쓰기">
+						</form>
+					</div>
 				</div>
-			</div>
 			</main>
 		</div>
 	</div>
