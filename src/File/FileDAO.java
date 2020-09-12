@@ -39,7 +39,6 @@ public class FileDAO {
 			path = new Properties();
 			fis_path = new FileInputStream("/volume1/Security/LabWebSite/path.properties");
 			path.load(new BufferedInputStream(fis_path));
-			
 			return path.getProperty("path");
 		} catch (FileNotFoundException e) {    //  예외처리, 대응부재 제거
 			System.err.println("FileDAO getPath FileNotFoundException error");

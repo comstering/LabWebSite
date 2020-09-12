@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="User.UserDAO" %>
-<%@ page import="Post.PostDTO" %>
-<%@ page import="Post.PostDAO" %>
+<%@ page import="Post.*" %>
 <%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.util.ArrayList" %>
@@ -91,23 +90,23 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td style="width: 20%";>등록일</td>
+									<td style="width: 20%">등록일</td>
 									<td><%= postDTO.getDate() %></td>
 								</tr>
 								<tr>
-									<td style="width: 20%";>작성자</td>
+									<td style="width: 20%">작성자</td>
 									<td><%= postDTO.getWriter() %></td>
 								</tr>
 								<tr>
-									<td style="width: 20%";>최종 수정일</td>
+									<td style="width: 20%">최종 수정일</td>
 									<td><%= postDTO.getReDate() %></td>
 								</tr>
 								<tr>
-									<td style="width: 20%";>최종 수정자</td>
+									<td style="width: 20%">최종 수정자</td>
 									<td><%= postDTO.getReWriter() %></td>
 								</tr>
 								<tr>
-									<td style="width: 20%";>조회수</td>
+									<td style="width: 20%">조회수</td>
 									<td><%= postDTO.getCount() %></td>
 								</tr>
 								<tr>

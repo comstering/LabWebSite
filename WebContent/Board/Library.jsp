@@ -3,6 +3,7 @@
 <%@ page import="User.UserDAO" %>
 <%@ page import="Post.PostDTO" %>
 <%@ page import="Post.PostDAO" %>
+<%@ page import="Security.XSS" %>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -41,7 +42,7 @@
 				<%
 					int pageNumber = 1;
 					if(request.getParameter("pageNumber") != null) {
-						pageNumber = Integer.parseInt(request.getParameter("pageNumber"));
+						pageNumber = Integer.parseInt(XSS.prevention(request.getParameter("pageNumber")));
 					}
 				%>
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center

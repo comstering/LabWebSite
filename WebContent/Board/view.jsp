@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ page import="User.UserDAO" %>
-<%@ page import="Post.PostDTO" %>
-<%@ page import="Post.PostDAO" %>
+<%@ page import="Post.*" %>
 <%@ page import="File.FileDAO" %>
 <%@ page import="Security.XSS" %>
 <%@ page import="java.util.ArrayList" %>
@@ -119,7 +118,7 @@
 									<td><%= postDTO.getCount() %></td>
 								</tr>
 								<tr>
-									<td class="text-center"">첨부파일</td>
+									<td class="text-center">첨부파일</td>
 									<td>
 									<%
 										FileDAO fileDAO = new FileDAO();

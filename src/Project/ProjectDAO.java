@@ -148,14 +148,14 @@ public class ProjectDAO {
 			}
 			return 1;    //  첫번째 게시글일 경우
 		} catch (SQLException e) {    //  예외처리, 대응부재 제거
-			System.err.println("PostDAO getNext SQLExceptoin error");
+			System.err.println("ProjectDAO getYearNextID SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
 				if(rs != null) {rs.close();}
 			} catch(SQLException e) {
-				System.err.println("PostDAO getNext close SQLException error");
+				System.err.println("ProjectDAO getYearNextID close SQLException error");
 			}
 		}
 		return -1;    //  DB 오류
@@ -186,18 +186,25 @@ public class ProjectDAO {
 		return -1;    //  DB 오류
 	}
 	
-	public int reviseProject(int year, String title, int newYear, String newTitle, String newContent) {    //  프로젝트 수정
-		String sql = "update Project set Year = ?, Title = ?, Content = ? where Year = ? and Title = ?";
+	public int reviseProject(int year, int id, int newYear, String title, String content) {    //  프로젝트 수정
+		String sql = "update Project set Year = ?, ID = ?, Title = ?, Content = ? where Year = ? and ID = ?";
 		conn = dbConnector.getConnection();
 		
 		PreparedStatement pstmt = null;
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, newYear);
-			pstmt.setString(2, XSS.prevention(newTitle));
-			pstmt.setString(3, XSS.prevention(newContent));
-			pstmt.setInt(4, year);
-			pstmt.setString(5, XSS.prevention(title));
+			int ID = 0;
+			if(year == newYear) {
+				ID = id;
+			} else {
+				ID = getYearNextID(newYear);
+			}
+			pstmt.setInt(2, ID);
+			pstmt.setString(3, XSS.prevention(title));
+			pstmt.setString(4, XSS.prevention(content));
+			pstmt.setInt(5, year);
+			pstmt.setInt(6, id);
 			return pstmt.executeUpdate();
 		} catch (SQLException e) {    //  예외처리, 대응부재 제거
 			System.err.println("ProjectDAO reviseProject SQLExceptoin error");
@@ -207,6 +214,44 @@ public class ProjectDAO {
 				if(pstmt != null) {pstmt.close();}
 			} catch(SQLException e) {
 				System.err.println("ProjectDAO reviseProject close SQLException error");
+			}
+		}
+		return -1;    //  DB 오류
+	}
+	
+	public int deleteProject(int year, int id) {    //  프로젝트 삭제
+		String sql = "select ID from Project where Year = ? and Available = 0";
+		conn = dbConnector.getConnection();
+		
+		PreparedStatement pstmt = null;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, year);
+			rs = pstmt.executeQuery();
+			PreparedStatement pstmt2 = null;
+			if(rs.next()) {    //  삭제된 파일이 있을 경우
+				int delID = rs.getInt(1) - 1;
+				sql = "update Project set ID=?, Available=0 where Year=? and ID=?";
+				pstmt2 = conn.prepareStatement(sql);
+				pstmt2.setInt(1, delID);
+				pstmt2.setInt(2, year);
+				pstmt2.setInt(3, id);
+				return pstmt2.executeUpdate();    //  삭제 성공시
+			} else {    //  삭제된 파일이 없을 경우
+				sql = "update Project set ID=-1, Available=0 where Year=? and ID=?";
+				pstmt2 = conn.prepareStatement(sql);
+				pstmt2.setInt(1, year);
+				pstmt2.setInt(2, id);
+				return pstmt2.executeUpdate();    //  삭제 성공시
+			}
+		} catch (SQLException e) {    //  예외처리, 대응부재 제거
+			System.err.println("ProjectDAO deleteProject SQLExceptoin error");
+		} finally {    //  자원 해제
+			try {
+				if(conn != null) {conn.close();}
+				if(pstmt != null) {pstmt.close();}
+			} catch(SQLException e) {
+				System.err.println("ProjectDAO deleteProject close SQLException error");
 			}
 		}
 		return -1;    //  DB 오류

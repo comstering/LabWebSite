@@ -30,9 +30,6 @@ public class AddProject extends HttpServlet {
 		int result = projectDAO.addProject(year, title, content);
 
 		PrintWriter script = response.getWriter();
-		script.println("<script>");
-		script.println("console.log('" + result + "')");
-		script.println("</script>");
 		if(result == 1) {
 			script.println("<script>");
 			script.println("alert('추가에 성공했습니다.')");

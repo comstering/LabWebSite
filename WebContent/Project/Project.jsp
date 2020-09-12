@@ -70,7 +70,7 @@
 					%>
 								<div class="col-md-3">
 									<a href="revise.jsp?year=<%= yearList[i] %>&ID=<%= list.get(j).getID() %>" class="btn btn-secondary">수정</a>
-									<a href="#" class="btn btn-danger">삭제</a>
+									<a href="delete.jsp?year=<%= yearList[i] %>&ID=<%= list.get(j).getID() %>" class="btn btn-danger">삭제</a>
 								</div>
 					<%
 							}

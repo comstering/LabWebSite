@@ -44,7 +44,7 @@
 	<div class="container">
 		<div class="row">
 			<nav class="col-md-2 d-none d-md-block bg-light sidebar" style="max-width: 200px">
-				<h4 style="text-align: center;">BOARD</h4>
+				<h4 style="text-align: center;">Project</h4>
 				<div class="sidebar-stick">
 					<ul class="nav flex-column" style="text-align: center;">
 						<script src="../jsFolder/Submenu.js">

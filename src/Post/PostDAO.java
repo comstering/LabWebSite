@@ -142,7 +142,7 @@ public class PostDAO {
 			filepstmt.setInt(2, id);
 			filepstmt.executeUpdate();
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setNString(1, category);
+			pstmt.setString(1, category);
 			rs = pstmt.executeQuery();
 			PreparedStatement pstmt2 = null;
 			if(rs.next()) {    //  삭제된 파일이 있을 경우
