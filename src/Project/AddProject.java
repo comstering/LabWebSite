@@ -25,6 +25,7 @@ public class AddProject extends HttpServlet {
 		int year = Integer.parseInt(request.getParameter("year"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		content = content.replaceAll("\r\n", " ");
 
 		ProjectDAO projectDAO = new ProjectDAO();
 		int result = projectDAO.addProject(year, title, content);

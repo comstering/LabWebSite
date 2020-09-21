@@ -27,6 +27,7 @@ public class ReviseProject extends HttpServlet {
 		int newYear = Integer.parseInt(request.getParameter("newYear"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
+		content = content.replaceAll("\r\n", " ");
 
 		ProjectDAO projectDAO = new ProjectDAO();
 		int result = projectDAO.reviseProject(year, id, newYear, title, content);
