@@ -126,7 +126,7 @@ public class PostDAO {
 				System.err.println("PostDAO update close SQLException error");
 			}
 		}
-		return -1;
+		return -1;    //  DB 오류
 	}
 	
 	public int delete(String category, int id) {    //  게시글 삭제

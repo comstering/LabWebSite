@@ -36,7 +36,7 @@ public class UserDAO {
 		return BCrypt.hashpw(plainPassword, BCrypt.gensalt());
 	}
 	
-	private boolean checkPass(String plainPassword, String hashedPassword) {
+	private boolean checkPass(String plainPassword, String hashedPassword) {    //  비밀번호 확인
 		return BCrypt.checkpw(plainPassword, hashedPassword);
 	}
 	
@@ -51,18 +51,19 @@ public class UserDAO {
 				return rs.getString(1);    //  DB 시간 반환
 			}
 		} catch (SQLException e) {    //  예외처리, 대응부재 제거
-			System.err.println("PostDAO getDate SQLExceptoin error");
+			System.err.println("UserDAO getDate SQLExceptoin error");
 		} finally {    //  자원 해제
 			try {
 				if(conn != null) {conn.close();}
 				if(pstmt != null) {pstmt.close();}
 				if(rs != null) {rs.close();}
 			} catch(SQLException e) {
-				System.err.println("PostDAO getDate close SQLException error");
+				System.err.println("UserDAO getDate close SQLException error");
 			}
 		}
 		return "";    //  DB 오류
 	}
+	
 	public int join(User user) {    // 회원가입
 		sql = "insert into User (ID, Password, Name, PhoneNumber, Email, Gender, Authority, Date) values(?,?,?,?,?,?,?,?)";
 		conn = dbConnector.getConnection();
